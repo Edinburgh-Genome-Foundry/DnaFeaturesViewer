@@ -12,4 +12,5 @@ setup(name='dna_features_viewer',
     long_description=open('README.rst').read(),
     license='see LICENSE.txt',
     keywords="",
-    packages= find_packages(exclude='docs'))
+    packages= find_packages(exclude='docs'),
+    install_requires=["matplotlib"])

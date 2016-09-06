@@ -6,25 +6,24 @@ features, e.g. from GenBank or Gff files, using the plotting library Matplotlib:
 
 Dna Features Viewer is fairly minimal (<200 lines of code) but can display sequences with lots
 of overlapping features and long labels, without getting too messy.
-It also plays nicely with biopython.
+It also plays nicely with Biopython.
 
 
 Installation
 --------------
 
-dna_features_viewer can be installed by unzipping the source code in one directory and using this command: ::
+Dna Features Viewer can be installed by unzipping the source code in one directory and using this command: ::
 
     sudo python setup.py install
 
-You can also try to install it directly from the Python Package Index with this command: ::
+PIP install is coming soon !
 
-    sudo pip dna_features_viewer install
+Contribute
+-----------
 
-    Contribute
-    -----------
-    Dna Features Viewer is an open-source software originally written by Zulko
-    at the Edinburgh Genome Foundry and released under the MIT licence.
-    Everyone is welcome to contribute !
+Dna Features Viewer is an open-source software originally written by Zulko
+at the Edinburgh Genome Foundry and released under the MIT licence.
+Everyone is welcome to contribute !
 
 Examples of use
 ----------------
@@ -58,7 +57,6 @@ using Dna Features Viewer:
 
 As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
-
 ::
     import matplotlib.pyplot as plt
     from dna_features_viewer import GraphicRecord

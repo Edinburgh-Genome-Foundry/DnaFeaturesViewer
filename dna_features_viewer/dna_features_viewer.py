@@ -1,58 +1,31 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import itertools as itt
-from matplotlib.colors import colorConverter
-import numpy as np
-
-def lighten(color, factor=1, luminosity=None):
-    res = np.array(colorConverter.to_rgb(color))
-    if luminosity is not None:
-        if luminosity == 1:
-            return (1, 1, 1)
-        l = res.sum() / 3.0
-        factor = (luminosity - l) / (1.0 - luminosity)
-    return (factor + res) / (factor + 1)
-
-
-class Graph:
-
-    def __init__(self, nodes, edges):
-        self.nodes = nodes
-        self.neighbors = {n: [] for n in nodes}
-        for n1, n2 in edges:
-            self.neighbors[n1].append(n2)
-            self.neighbors[n2].append(n1)
-
-
-def compute_features_levels(features):
-    edges = [
-        (f1, f2)
-        for f1, f2 in itt.combinations(features, 2)
-        if f1.overlaps_with(f2)
-    ]
-    graph = Graph(features, edges)
-    levels = {
-        n: None
-        for n in graph.nodes
-    }
-    for node in sorted(graph.nodes, key=lambda f: -f.length):
-        level = 0
-        while any([levels[n] == level
-                   for n in graph.neighbors[node]]):
-            level += 1
-        levels[node] = level
-    return levels
-
-
-def get_text_box(text, margin=0):
-    renderer = text.axes.figure.canvas.get_renderer()
-    bbox = text.get_window_extent(renderer)
-    bbox_data = bbox.transformed(text.axes.transData.inverted())
-    x1, y1, x2, y2 = bbox_data.get_points().flatten()
-    return [x1 - margin, y1 - margin, x2 + margin, y2 + margin]
+from .utils import change_luminosity, get_text_box, compute_features_levels
 
 
 class GraphicFeature:
+    """Genetic Feature to be plotted.
+
+    Parameters
+    ----------
+
+    start, end
+      Coordinates of the feature in the final sequence.
+
+    strand
+      Directionality of the feature. can be +1/-1/0 for direct sense,
+      anti-sense, or no directionality.
+
+    label
+      Short descriptive text associated and plotted with the feature
+
+    color
+      Color of the feature, any Matplotlib-compatible format is accepted,
+      such as "white", "w", "#ffffff", (1,1,1), etc.
+
+    data
+      Any other keyword is kept into the feature.data[] dictionary.
+    """
 
     def __init__(self, start=None, end=None, strand=None,
                  label=None, color="#000080", **data):
@@ -64,6 +37,8 @@ class GraphicFeature:
         self.data = data
 
     def overlaps_with(self, other):
+        """Return True iff the feature's location overlaps with feature `other`
+        """
         loc1, loc2 = (self.start, self.end), (other.start, other.end)
         loc1, loc2 = sorted(loc1), sorted(loc2)
         loc1, loc2 = sorted([loc1, loc2], key=lambda loc: loc[0])
@@ -71,47 +46,73 @@ class GraphicFeature:
 
     @property
     def length(self):
+        """Return the length of the feature (end-start)"""
         return abs(self.end - self.start)
 
     @property
     def x_center(self):
+        """Return the x-center of the feature, (start+end)/2"""
         return 0.5 * (self.start + self.end)
 
     @staticmethod
     def from_biopython_feature(feature, color=None, label=None):
+        """Create a GraphicalFeature from a Biopython.Feature object."""
         return GraphicFeature(start=feature.location.start,
                               end=feature.location.end,
                               strand=feature.location.strand,
                               color=color, label=label)
 
     def create_patch(self, level):
+        """Create an Arrow Matplotlib patch with the feature's coordinates.
+
+        The Arrow points in the direction of the feature's strand.
+        If the feature has no direction (strand==0), the returned patch will
+        simply be a rectangle.
+
+        The x-coordinates of the patch are determined by the feature's
+        `start` and `end` while the y-coordinates are determined by the `level`
+        """
         x1, x2 = self.start, self.end
         if self.strand == -1:
             x1, x2 = x2, x1
         head_length = 5 if self.strand in (-1, 1) else 0
-        return mpatches.FancyArrowPatch(
-            [x1, level], [x2, level],
-            arrowstyle=mpatches.ArrowStyle.Simple(
-                head_width=14, tail_width=14, head_length=head_length
-            ), shrinkA=0.0, shrinkB=0.0,
-            facecolor=self.color
-        )
+        arrowstyle = mpatches.ArrowStyle.Simple(head_width=14,
+                                                tail_width=14,
+                                                head_length=head_length)
+        return mpatches.FancyArrowPatch([x1, level], [x2, level],
+                                        shrinkA=0.0, shrinkB=0.0,
+                                        arrowstyle=arrowstyle,
+                                        facecolor=self.color)
 
     def annotate(self, ax, level):
-        text = ax.text(self.x_center, level, self.label,
-                       horizontalalignment="center",
-                       verticalalignment="center",
-                       bbox=dict(boxstyle="round",
-                                 fc=lighten(self.color, luminosity=0.95),
-                                 ec="0.5", lw=1)
-                       )
-        x1, y1, x2, y2 = get_text_box(text)
-        padding = 0.1 * abs(self.end - self.start)
-        x1, x2 = x1 - padding, x2 + padding
+        """Create a Matplotlib Text with the feature's label.
+
+        The x-coordinates of the text are determined by the feature's
+        `x_center` while the y-coordinates are determined by the `level`.
+
+        The text is horizontally and vertically centered.
+
+        The Arrow points in the direction of the feature's strand.
+        If the feature has no direction (strand==0), the returned patch will
+        simply be a rectangle.
+
+        The x-coordinates of the patch are determined by the feature's
+        `start` and `end` while the y-coordinates are determined by the `level`
+        """
+        bg_color = change_luminosity(self.color, luminosity=0.95)
+        text = ax.text(
+            self.x_center, level, self.label,
+            horizontalalignment="center",
+            verticalalignment="center",
+            bbox=dict(boxstyle="round", fc=bg_color, ec="0.5", lw=1)
+        )
+        margin = 0.1 * abs(self.end - self.start)
+        x1, y1, x2, y2 = get_text_box(text, margin=margin)
         overflowing = (x1 < self.start) or (x2 > self.end)
         return text, overflowing, (x1, x2)
 
     def plot(self, ax, level=0):
+        """Plot the feature's Matplotlib patch on a Matplotlib ax."""
         ax.add_patch(self.create_patch(level=level))
 
     def __repr__(self):
@@ -119,12 +120,28 @@ class GraphicFeature:
 
 
 class GraphicRecord:
+    """Set of Genetic Features of a same DNA sequence, to be plotted together.
+
+    Parameters
+    ----------
+
+    sequence_length
+      Length of the DNA sequence, in number of nucleotides
+
+    features
+      list of GraphicalFeature objects.
+    """
 
     def __init__(self, sequence_length, features):
         self.features = features
         self.sequence_length = sequence_length
 
     def plot(self, ax=None, fig_width=8):
+        """Plot all the features in the same Matplotlib ax
+
+        `fig_width` represents the width in inches of the final figure (if
+        no `ax` parameter is attributed).
+        """
         levels = compute_features_levels(self.features)
         max_level = max(levels.values())
         auto_figure_height = ax is None
@@ -163,6 +180,29 @@ class GraphicRecord:
     @staticmethod
     def from_biopython_record(record, features_filter=None,
                               fun_color=None, fun_label=None):
+        """Create a new GraphicRecord from a BioPython Record object.
+
+        Parameters
+        ----------
+
+        record
+          A BioPython Record object
+
+        features_filter
+          A function (biofeature->bool) where biofeature is a Biopython Feature
+          object found in the record, and bool (True/False) indicates whether
+          the feature should be kept (True) of discarded (False).
+
+        fun_color
+          A function (biofeature->color) where biofeature is a Biopython
+          Feature object found in the record, and color is any
+          Matplotlib-compatible color format.
+
+        fun_label
+            A function (biofeature->label) where biofeature is a Biopython
+            Feature object found in the record, and label is a description
+            extracted from the feature.
+        """
         if fun_color is None:
             fun_color = lambda a: None
         if fun_label is None:
