@@ -10,6 +10,13 @@ features, e.g. from GenBank or Gff files, using the plotting library Matplotlib:
 Dna Features Viewer is fairly minimal (<200 lines of code) but can display sequences with lots
 of overlapping features and long labels, without getting too messy. The plots can be output to many different formats (PNG, JPEG, SVG, PDF).
 
+License
+---------
+
+Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
+<http://edinburgh-genome-foundry.github.io/home.html>`_ by `Zulko <https://github.com/Zulko>`_
+and released under the MIT licence.
+Everyone is welcome to contribute !
 
 Installation
 --------------
@@ -22,12 +29,7 @@ Dna Features Viewer can be installed by unzipping the source code in one directo
 
 PIP install is coming soon !
 
-Contribute
------------
 
-Dna Features Viewer is an open-source software originally written by Zulko
-at the Edinburgh Genome Foundry and released under the MIT licence.
-Everyone is welcome to contribute !
 
 Examples of use
 ----------------
@@ -49,7 +51,7 @@ In this first example we define features "by hand":
     ]
     record = GraphicRecord(sequence_length=1000, features=features)
     record.plot(fig_width=5)
-   
+
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
     :align: center
 
@@ -97,7 +99,7 @@ other sequences statistics, such as the local GC content:
 
     # Resize the figure
     fig.set_size_inches(figure_width, 2 + 0.4*(max_y+2))
-    
+
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png
     :align: center
 
@@ -106,4 +108,3 @@ As a bonus, here is what to expect when you feed it with a pathologically annota
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/example_overloaded.png
     :align: center
-
