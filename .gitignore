@@ -42,5 +42,3 @@ nosetests.xml
 # Pipy codes
 
 .pypirc
-
-*.png
