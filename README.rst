@@ -12,7 +12,9 @@ It also plays nicely with Biopython.
 Installation
 --------------
 
-Dna Features Viewer can be installed by unzipping the source code in one directory and using this command: ::
+Dna Features Viewer can be installed by unzipping the source code in one directory and using this command:
+
+.. code:: python
 
     sudo python setup.py install
 
@@ -29,7 +31,9 @@ Examples of use
 ----------------
 
 In this first example we define features "by hand":
-::
+
+.. code:: python
+
     from dna_features_viewer import GraphicFeature, GraphicRecord
     features=[
         GraphicFeature(start=0, end=20, strand=+1, color="#ffd700",
@@ -43,11 +47,15 @@ In this first example we define features "by hand":
     ]
     record = GraphicRecord(sequence_length=1000, features=features)
     record.plot(fig_width=5)
-
+   
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
+   :align: center
 
 Here is how you parse a GenBank file using BioPython and display the features
 using Dna Features Viewer:
-::
+
+.. code:: python
+
     from dna_features_viewer import GraphicRecord
     from Bio import SeqIO
     with open("./plasmid.gb", "r") as f:
@@ -55,11 +63,14 @@ using Dna Features Viewer:
     graphic_record = GraphicRecord.from_biopython_record(record)
     graphic_record.plot(fig_width=10)
 
-
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
+   :align: center
 
 As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
-::
+
+.. code:: python
+
     import matplotlib.pyplot as plt
     from dna_features_viewer import GraphicRecord
     from Bio import SeqIO
@@ -85,3 +96,13 @@ other sequences statistics, such as the local GC content:
 
     # Resize the figure
     fig.set_size_inches(figure_width, 2 + 0.4*(max_y+2))
+    
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png
+   :align: center
+
+Dna Features Viewer is pretty minimal in terms of features but easily extensible since it uses Matplotlib as a backend.
+As a bonus, here is what to expect when you feed it with a pathologically annotated Genbank file:
+
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/example_overloaded.png
+   :align: center
+
