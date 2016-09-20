@@ -34,6 +34,10 @@ PIP install is coming soon !
 Examples of use
 ----------------
 
+
+Defining the features by hand
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 In this first example we define features "by hand":
 
 .. code:: python
@@ -55,6 +59,11 @@ In this first example we define features "by hand":
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
     :align: center
 
+
+
+Reading the features from a GenBank file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a GenBank file:
 
 .. code:: python
@@ -68,6 +77,9 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
     :align: center
+
+Displaying the features along with other plots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
@@ -104,6 +116,10 @@ other sequences statistics, such as the local GC content:
     :align: center
 
 Dna Features Viewer is pretty minimal in terms of features but easily extensible since it uses Matplotlib as a backend.
+
+Bonus
+~~~~~~
+
 As a bonus, here is what to expect when you feed it with a pathologically annotated Genbank file:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/example_overloaded.png
