@@ -49,7 +49,7 @@ In this first example we define features "by hand":
     record.plot(fig_width=5)
    
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
-   :align: center
+    :align: center
 
 Here is how you parse a GenBank file using BioPython and display the features
 using Dna Features Viewer:
@@ -64,7 +64,7 @@ using Dna Features Viewer:
     graphic_record.plot(fig_width=10)
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
-   :align: center
+    :align: center
 
 As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
@@ -98,11 +98,11 @@ other sequences statistics, such as the local GC content:
     fig.set_size_inches(figure_width, 2 + 0.4*(max_y+2))
     
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png
-   :align: center
+    :align: center
 
 Dna Features Viewer is pretty minimal in terms of features but easily extensible since it uses Matplotlib as a backend.
 As a bonus, here is what to expect when you feed it with a pathologically annotated Genbank file:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/example_overloaded.png
-   :align: center
+    :align: center
 
