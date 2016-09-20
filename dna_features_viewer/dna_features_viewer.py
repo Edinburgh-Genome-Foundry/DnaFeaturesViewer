@@ -2,6 +2,15 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from .utils import change_luminosity, get_text_box, compute_features_levels
 
+try:
+    from Bio.Seq import Seq
+    from Bio.SeqRecord import SeqRecord
+    from Bio.SeqFeature import FeatureLocation, SeqFeature
+    from Bio.Alphabet import DNAAlphabet
+    BIOPYTHON_AVAILABLE = True
+except ImportError:
+    BIOPYTHON_AVAILABLE = False
+
 
 class GraphicFeature:
     """Genetic Feature to be plotted.
@@ -26,6 +35,7 @@ class GraphicFeature:
     data
       Any other keyword is kept into the feature.data[] dictionary.
     """
+    feature_type = "feature"
 
     def __init__(self, start=None, end=None, strand=None,
                  label=None, color="#000080", **data):
@@ -136,7 +146,7 @@ class GraphicRecord:
         self.features = features
         self.sequence_length = sequence_length
 
-    def plot(self, ax=None, fig_width=8):
+    def plot(self, ax=None, fig_width=8, draw_line=True, with_ruler=True):
         """Plot all the features in the same Matplotlib ax
 
         `fig_width` represents the width in inches of the final figure (if
@@ -149,9 +159,10 @@ class GraphicRecord:
             fig, ax = plt.subplots(1, figsize=(fig_width, 2 * max_level))
             ax.set_ylim(-1, max_level + 1),
             ax.set_xlim(0, self.sequence_length)
-        ax.axis("off")
         ax.set_xlim(0, self.sequence_length)
         ax.set_ylim(-1, max_level + 1)
+        if draw_line:
+            ax.axhline(0, zorder=-1000, c="k")
         overflowing_annotations = []
         for feature, level in levels.items():
             feature.plot(ax=ax, level=level)
@@ -173,6 +184,14 @@ class GraphicRecord:
             yy = [new_y, feature.data["feature_level"]]
             ax.plot(xx, yy, c="#cccccc", lw=1, zorder=-1000,)
         ax.set_ylim(-1, max_y + 1)
+
+        if with_ruler: # only display the xaxis ticks
+            ax.set_frame_on(False)
+            ax.yaxis.set_visible(False)
+            ax.xaxis.tick_bottom()
+        else: # don't display anything
+            ax.axis("off")
+
         if auto_figure_height:
             ax.figure.set_size_inches(fig_width, 1.5 + 0.37 * max_y)
         return ax, max_y
@@ -221,3 +240,24 @@ class GraphicRecord:
         ]
         return GraphicRecord(sequence_length=len(record.seq),
                              features=features)
+
+    def to_biopython_record(self):
+        """
+        Example
+        -------
+        from Bio import SeqIO
+        gr_record = GraphicRecord(features=features, sequence_length=len(seq),
+                                  sequence=seq)
+        bio_record = gr_record.to_biopython_record()
+        with open("example.gb", "w+") as f:
+            SeqIO.write(record, f, "genbank")
+        """
+        if not BIOPYTHON_AVAILABLE:
+            raise ImportError(".to_biopython_record requires Biopython")
+        features = [
+            SeqFeature(FeatureLocation(f.start, f.end, f.strand),
+                       type=f.feature_type, qualifiers={"label": f.label})
+            for f in self.features
+        ]
+        sequence = Seq(self.data["sequence"], alphabet=DNAAlphabet())
+        return SeqRecord(sequence=sequence, features=features)

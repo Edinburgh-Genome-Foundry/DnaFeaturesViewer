@@ -1,6 +1,6 @@
 from dna_features_viewer import GraphicFeature, GraphicRecord
 features=[
-    GraphicFeature(start=0, end=20, strand=+1, color="#ffd700",
+    GraphicFeature(start=5, end=20, strand=+1, color="#ffd700",
                    label="Small feature"),
     GraphicFeature(start=20, end=500, strand=+1, color="#ffcccc",
                    label="Gene 1 with a very long name"),

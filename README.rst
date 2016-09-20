@@ -55,6 +55,8 @@ using Dna Features Viewer:
     graphic_record = GraphicRecord.from_biopython_record(record)
     graphic_record.plot(fig_width=10)
 
+
+
 As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
 ::
@@ -70,7 +72,7 @@ other sequences statistics, such as the local GC content:
     with open("./plasmid.gb", "r") as f:
         record = SeqIO.read(f, "genbank")
     graphic_record = GraphicRecord.from_biopython_record(record)
-    _, max_y = graphic_record.plot(ax=ax1)
+    _, max_y = graphic_record.plot(ax=ax1m , with_ruler=False)
 
     # Plot the local GC content
     def plot_local_gc_content(record, window_size, ax):
