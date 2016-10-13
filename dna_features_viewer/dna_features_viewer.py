@@ -126,7 +126,8 @@ class GraphicFeature:
         ax.add_patch(self.create_patch(level=level))
 
     def __repr__(self):
-        return "GF(%(label)s, %(start)d-%(end)d (%(strand)d))" % self.__dict__
+        return (("GF(%(label)s, %(start)d-%(end)d " % self.__dict__) +
+                (")" if self.strand is None else "(%d))" % self.strand))
 
 
 class GraphicRecord:
@@ -153,7 +154,7 @@ class GraphicRecord:
         no `ax` parameter is attributed).
         """
         levels = compute_features_levels(self.features)
-        max_level = max(levels.values())
+        max_level = 1 if (levels == {}) else max(1, max(levels.values()))
         auto_figure_height = ax is None
         if ax is None:
             fig, ax = plt.subplots(1, figsize=(fig_width, 2 * max_level))
@@ -185,11 +186,11 @@ class GraphicRecord:
             ax.plot(xx, yy, c="#cccccc", lw=1, zorder=-1000,)
         ax.set_ylim(-1, max_y + 1)
 
-        if with_ruler: # only display the xaxis ticks
+        if with_ruler:  # only display the xaxis ticks
             ax.set_frame_on(False)
             ax.yaxis.set_visible(False)
             ax.xaxis.tick_bottom()
-        else: # don't display anything
+        else:  # don't display anything
             ax.axis("off")
 
         if auto_figure_height:
@@ -236,6 +237,7 @@ class GraphicRecord:
                 label=fun_label(feature)
             )
             for feature in record.features
+            if feature.location is not None
             if features_filter(feature)
         ]
         return GraphicRecord(sequence_length=len(record.seq),

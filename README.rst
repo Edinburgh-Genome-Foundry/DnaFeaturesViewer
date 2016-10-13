@@ -15,19 +15,23 @@ License
 
 Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
 <http://edinburgh-genome-foundry.github.io/home.html>`_ by `Zulko <https://github.com/Zulko>`_
-and released under the MIT licence.
+and `released on Github <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer>`_ under the MIT licence.
 Everyone is welcome to contribute !
 
 Installation
 --------------
+
+If you have PIP installed, just type in a terminal:
+
+.. code:: python
+
+    (sudo) pip install dna_features_viewer
 
 Dna Features Viewer can be installed by unzipping the source code in one directory and using this command:
 
 .. code:: python
 
     sudo python setup.py install
-
-PIP install is coming soon !
 
 
 
