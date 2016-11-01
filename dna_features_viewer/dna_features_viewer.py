@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from .utils import change_luminosity, get_text_box, compute_features_levels
+import numpy as np
 
 try:
     from Bio.Seq import Seq
@@ -269,8 +270,7 @@ class GraphicRecord:
             if feature.location is not None
             if features_filter(feature)
         ]
-        return cls(sequence_length=len(record.seq),
-                             features=features)
+        return cls(sequence_length=len(record.seq), features=features)
 
     def to_biopython_record(self):
         """
@@ -294,12 +294,6 @@ class GraphicRecord:
         return SeqRecord(sequence=sequence, features=features)
 
 
-import matplotlib.patches as mpatches
-from dna_features_viewer import GraphicRecord
-import matplotlib.pyplot as plt
-import numpy as np
-
-
 class ArrowWedge(mpatches.Wedge):
 
     def __init__(self, center, radius, theta1, theta2, width, direction=+1,
@@ -314,7 +308,7 @@ class ArrowWedge(mpatches.Wedge):
     def _recompute_path(self):
 
         if not self.direction in [-1, +1]:
-            return Wedge._recompute_path(self)
+            return mpatches.Wedge._recompute_path(self)
 
         theta1, theta2 = self.theta1, self.theta2
         arrow_angle = min(5, abs(theta2 - theta1) / 2)
@@ -387,7 +381,7 @@ class CircularGraphicRecord(GraphicRecord):
         else:  # don't display anything
             ax.axis("off")
 
-        ax.set_xlim(-self.radius,self.radius)
+        ax.set_xlim(-self.radius, self.radius)
         ax.set_aspect("equal")
 
     def finalize_ax(self, ax, features_levels, annotation_levels,
@@ -400,11 +394,11 @@ class CircularGraphicRecord(GraphicRecord):
         xmax = -xmin
         ax.set_xlim(xmin, xmax)
         ax.set_ylim(ymin, ymax)
-        ratio = 1.0*(ymax - ymin)/(xmax - xmin)
+        ratio = 1.0 * (ymax - ymin) / (xmax - xmin)
 
         if auto_figure_height:
             fig_width = ax.figure.get_size_inches()[0]
-            ax.figure.set_size_inches(fig_width, fig_width *ratio)
+            ax.figure.set_size_inches(fig_width, fig_width * ratio)
 
     def plot_feature(self, ax, feature, level):
         a_start = self.position_to_angle(feature.start)
