@@ -256,7 +256,12 @@ class GraphicRecord:
         if fun_color is None:
             fun_color = lambda a: None
         if fun_label is None:
-            fun_label = lambda f: f.type
+            def fun_label(f):
+                result = f.qualifiers.get("label", f.type)
+                if isinstance(result, list):
+                    return result[0]
+                else:
+                    return result
         if features_filter is None:
             features_filter = lambda a: True
 
