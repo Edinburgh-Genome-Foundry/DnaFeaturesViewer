@@ -199,7 +199,6 @@ class GraphicRecord:
         margin = 0.05*fig_width
         x1, y1, x2, y2 = get_text_box(text, margin=margin)
         overflowing = (x1 < feature.start) or (x2 > feature.end)
-        print x1, x2, feature.label
         return text, overflowing, (x1, x2)
 
     def plot(self, ax=None, fig_width=8, draw_line=True, with_ruler=True,
@@ -230,7 +229,6 @@ class GraphicRecord:
                         start=x1, end=x2, feature=feature,
                         text=text, feature_level=level
                     ))
-        print overflowing_annotations
         annotations_levels = compute_features_levels(overflowing_annotations)
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
@@ -240,7 +238,6 @@ class GraphicRecord:
             text.set_position((x, new_y))
             fx, fy = self.coordinates_in_plot(feature.data["feature"].x_center,
                                               feature.data["feature_level"])
-            print fx, fy
             ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
 
         self.finalize_ax(ax, max(features_levels.values()),
