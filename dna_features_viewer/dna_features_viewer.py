@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from .utils import change_luminosity, get_text_box, compute_features_levels
 import numpy as np
+from copy import deepcopy
 
 try:
     from Bio.Seq import Seq
@@ -44,8 +45,15 @@ class GraphicFeature:
         self.end = end
         self.strand = strand
         self.label = label
-        self.color = "#000080" if color is None else color
+        self.color = color
         self.data = data
+
+    def split_in_two(self, x_coord=0):
+        copy1 = deepcopy(self)
+        copy2 = deepcopy(self)
+        copy1.end = x_coord
+        copy2.start = x_coord + 1
+        return copy1, copy2
 
     def overlaps_with(self, other):
         """Return True iff the feature's location overlaps with feature `other`
@@ -112,7 +120,7 @@ class GraphicRecord:
 
         ax.set_xlim(0, self.sequence_length)
 
-    def plot_feature(self, ax, feature, level):
+    def plot_feature(self, ax, feature, level, linewidth=1.0):
         """Create an Arrow Matplotlib patch with the feature's coordinates.
 
         The Arrow points in the direction of the feature's strand.
@@ -123,6 +131,7 @@ class GraphicRecord:
         `start` and `end` while the y-coordinates are determined by the `level`
         """
         x1, x2 = feature.start, feature.end
+
         if feature.strand == -1:
             x1, x2 = x2, x1
         head_length = 5 if feature.strand in (-1, 1) else 0
@@ -132,12 +141,30 @@ class GraphicRecord:
         patch = mpatches.FancyArrowPatch([x1, level], [x2, level],
                                          shrinkA=0.0, shrinkB=0.0,
                                          arrowstyle=arrowstyle,
-                                         facecolor=feature.color, zorder=0)
+                                         facecolor=feature.color, zorder=0,
+                                         linewidth=linewidth)
         ax.add_patch(patch)
         return patch
 
     def coordinates_in_plot(self, x, level):
         return (x, level * self.feature_level_width)
+
+    def split_overflowing_features_circularly(self):
+        new_features = []
+        for f in self.features:
+            if f.start < 0 < f.end:
+                f1, f2 = f.split_in_two(-1)
+                f1.start, f1.end = (f1.start + self.sequence_length,
+                                    f1.end + self.sequence_length)
+                new_features += [f1, f2]
+            elif f.start < self.sequence_length < f.end:
+                f1, f2 = f.split_in_two(self.sequence_length)
+                f2.start, f2.end = (f2.start - self.sequence_length,
+                                    f2.end - self.sequence_length)
+                new_features += [f1, f2]
+            else:
+                new_features.append(f)
+        self.features = new_features
 
     def annotate_feature(self, ax, feature, level, fontsize=11,
                          box_linewidth=1, box_color=None):
@@ -167,9 +194,12 @@ class GraphicRecord:
             fontsize=fontsize,
             zorder=2
         )
-        margin = 0.1 * abs(feature.end - feature.start)
+
+        fig_width = ax.figure.get_size_inches()[0]
+        margin = 0.05*fig_width
         x1, y1, x2, y2 = get_text_box(text, margin=margin)
         overflowing = (x1 < feature.start) or (x2 > feature.end)
+        print x1, x2, feature.label
         return text, overflowing, (x1, x2)
 
     def plot(self, ax=None, fig_width=8, draw_line=True, with_ruler=True,
@@ -200,7 +230,7 @@ class GraphicRecord:
                         start=x1, end=x2, feature=feature,
                         text=text, feature_level=level
                     ))
-
+        print overflowing_annotations
         annotations_levels = compute_features_levels(overflowing_annotations)
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
@@ -210,6 +240,7 @@ class GraphicRecord:
             text.set_position((x, new_y))
             fx, fy = self.coordinates_in_plot(feature.data["feature"].x_center,
                                               feature.data["feature_level"])
+            print fx, fy
             ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
 
         self.finalize_ax(ax, max(features_levels.values()),
@@ -254,16 +285,18 @@ class GraphicRecord:
             extracted from the feature.
         """
         if fun_color is None:
-            fun_color = lambda a: None
+            def fun_color(feature):
+                return None
         if fun_label is None:
-            def fun_label(f):
-                result = f.qualifiers.get("label", f.type)
+            def fun_label(feature):
+                result = feature.qualifiers.get("label", feature.type)
                 if isinstance(result, list):
                     return result[0]
                 else:
                     return result
         if features_filter is None:
-            features_filter = lambda a: True
+            def features_filter(feature):
+                return True
 
         features = [
             GraphicFeature.from_biopython_feature(
@@ -362,7 +395,7 @@ class ArrowWedge(mpatches.Wedge):
 class CircularGraphicRecord(GraphicRecord):
 
     def __init__(self, sequence_length, features, top_position=0,
-                 feature_level_width=0.2, annotation_level_width=0.2):
+                 feature_level_width=0.2, annotation_level_width=0.25):
 
         self.radius = 1.0
         self.sequence_length = sequence_length

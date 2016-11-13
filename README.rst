@@ -64,6 +64,13 @@ In this first example we define features "by hand":
     :align: center
 
 
+If we replace `GraphicRecord` by `CircularGraphicRecord` in the code above we obtain
+a circular plot of the construct:
+
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png
+    :align: center
+
+
 
 Reading the features from a GenBank file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
