@@ -7,8 +7,11 @@ features, e.g. from GenBank or Gff files, using the plotting library Matplotlib:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
     :align: center
 
-Dna Features Viewer is fairly minimal (<200 lines of code) but can display sequences with lots
-of overlapping features and long labels, without getting too messy. The plots can be output to many different formats (PNG, JPEG, SVG, PDF).
+Dna Features Viewer is meant to automatically produce simple and clear plots even
+for sequences with lots of overlapping features and long labels.
+The plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g.
+for report generation or LIMS interfaces.
+
 
 License
 ---------
