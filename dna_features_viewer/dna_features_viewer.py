@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from .utils import change_luminosity, get_text_box, compute_features_levels
+from .utils import (change_luminosity, get_text_box,
+                    compute_features_levels,
+                    get_feature_label)
 import numpy as np
 from copy import deepcopy
 
@@ -40,13 +42,16 @@ class GraphicFeature:
     feature_type = "feature"
 
     def __init__(self, start=None, end=None, strand=None,
-                 label=None, color="#000080", **data):
+                 label=None, color="#000080", thickness=14, linewidth=1.0,
+                 **data):
         self.start = start
         self.end = end
         self.strand = strand
         self.label = label
         self.color = color
         self.data = data
+        self.thickness = thickness
+        self.linewidth = linewidth
 
     def split_in_two(self, x_coord=0):
         copy1 = deepcopy(self)
@@ -74,12 +79,12 @@ class GraphicFeature:
         return 0.5 * (self.start + self.end)
 
     @staticmethod
-    def from_biopython_feature(feature, color=None, label=None):
+    def from_biopython_feature(feature, **props):
         """Create a GraphicalFeature from a Biopython.Feature object."""
         return GraphicFeature(start=feature.location.start,
                               end=feature.location.end,
                               strand=feature.location.strand,
-                              color=color, label=label)
+                              **props)
 
     def __repr__(self):
         return (("GF(%(label)s, %(start)d-%(end)d " % self.__dict__) +
@@ -134,15 +139,16 @@ class GraphicRecord:
 
         if feature.strand == -1:
             x1, x2 = x2, x1
-        head_length = 5 if feature.strand in (-1, 1) else 0
-        arrowstyle = mpatches.ArrowStyle.Simple(head_width=14,
-                                                tail_width=14,
+        head_length = 5 if feature.strand in (-1, 1) else 0.001
+        arrowstyle = mpatches.ArrowStyle.Simple(head_width=feature.thickness,
+                                                tail_width=feature.thickness,
                                                 head_length=head_length)
-        patch = mpatches.FancyArrowPatch([x1, level], [x2, level],
+        y = self.feature_level_width * level
+        patch = mpatches.FancyArrowPatch([x1, y], [x2, y],
                                          shrinkA=0.0, shrinkB=0.0,
                                          arrowstyle=arrowstyle,
                                          facecolor=feature.color, zorder=0,
-                                         linewidth=linewidth)
+                                         linewidth=feature.linewidth)
         ax.add_patch(patch)
         return patch
 
@@ -150,6 +156,8 @@ class GraphicRecord:
         return (x, level * self.feature_level_width)
 
     def split_overflowing_features_circularly(self):
+        """Split the features that overflow over the edge for circular
+        constructs (inplace)."""
         new_features = []
         for f in self.features:
             if f.start < 0 < f.end:
@@ -195,33 +203,35 @@ class GraphicRecord:
             zorder=2
         )
 
-        fig_width = ax.figure.get_size_inches()[0]
-        margin = 0.05*fig_width
+        figure_width = ax.figure.get_size_inches()[0]
+        margin = 0.05*figure_width
         x1, y1, x2, y2 = get_text_box(text, margin=margin)
         overflowing = (x1 < feature.start) or (x2 > feature.end)
         return text, overflowing, (x1, x2)
 
-    def plot(self, ax=None, fig_width=8, draw_line=True, with_ruler=True,
+    def plot(self, ax=None, figure_width=8, draw_line=True, with_ruler=True,
              fontsize=11, box_linewidth=1, box_color=None,
-             annotate_inline=False):
+             annotate_inline=False, level_offset=0):
         """Plot all the features in the same Matplotlib ax
 
-        `fig_width` represents the width in inches of the final figure (if
+        `figure_width` represents the width in inches of the final figure (if
         no `ax` parameter is attributed).
         """
         features_levels = compute_features_levels(self.features)
+        for f in features_levels:
+            features_levels[f] += level_offset
         max_level = (1 if (features_levels == {}) else
                      max(1, max(features_levels.values())))
         auto_figure_height = ax is None
         if ax is None:
-            fig, ax = plt.subplots(1, figsize=(fig_width, 2 * max_level))
+            fig, ax = plt.subplots(1, figsize=(figure_width, 2 * max_level))
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         overflowing_annotations = []
         for feature, level in features_levels.items():
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is not None:
                 text, overflowing, (x1, x2) = self.annotate_feature(
-                    ax=ax, feature=feature, level=level,
+                    ax=ax, feature=feature, level=level, fontsize=fontsize,
                     box_linewidth=box_linewidth, box_color=box_color
                 )
                 if overflowing or not annotate_inline:
@@ -230,6 +240,8 @@ class GraphicRecord:
                         text=text, feature_level=level
                     ))
         annotations_levels = compute_features_levels(overflowing_annotations)
+        # for f in annotations_levels:
+        #     annotations_levels[f] += level_offset
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
             x, y = text.get_position()
@@ -241,6 +253,7 @@ class GraphicRecord:
             ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
 
         self.finalize_ax(ax, max(features_levels.values()),
+                         0 if len(annotations_levels)==0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
         return ax
@@ -252,12 +265,12 @@ class GraphicRecord:
                 self.annotation_level_width * (annotations_levels + 1))
         ax.set_ylim(-1, ymax)
         if auto_figure_height:
-            fig_width = ax.figure.get_size_inches()[0]
-            ax.figure.set_size_inches(fig_width, 1.5 + 0.37 * ymax)
+            figure_width = ax.figure.get_size_inches()[0]
+            ax.figure.set_size_inches(figure_width, 1.5 + 0.37 * ymax)
 
     @classmethod
     def from_biopython_record(cls, record, features_filter=None,
-                              fun_color=None, fun_label=None):
+                              features_properties=None):
         """Create a new GraphicRecord from a BioPython Record object.
 
         Parameters
@@ -271,7 +284,7 @@ class GraphicRecord:
           object found in the record, and bool (True/False) indicates whether
           the feature should be kept (True) of discarded (False).
 
-        fun_color
+        features_properties
           A function (biofeature->color) where biofeature is a Biopython
           Feature object found in the record, and color is any
           Matplotlib-compatible color format.
@@ -281,25 +294,15 @@ class GraphicRecord:
             Feature object found in the record, and label is a description
             extracted from the feature.
         """
-        if fun_color is None:
-            def fun_color(feature):
-                return None
-        if fun_label is None:
-            def fun_label(feature):
-                result = feature.qualifiers.get("label", feature.type)
-                if isinstance(result, list):
-                    return result[0]
-                else:
-                    return result
+        if features_properties is None:
+            def features_properties(feature):
+                return dict(color="#7245dc", label=get_feature_label(feature))
         if features_filter is None:
             def features_filter(feature):
                 return True
-
         features = [
             GraphicFeature.from_biopython_feature(
-                feature,
-                color=fun_color(feature),
-                label=fun_label(feature)
+                feature, **features_properties(feature)
             )
             for feature in record.features
             if feature.location is not None
@@ -432,8 +435,8 @@ class CircularGraphicRecord(GraphicRecord):
         ratio = 1.0 * (ymax - ymin) / (xmax - xmin)
 
         if auto_figure_height:
-            fig_width = ax.figure.get_size_inches()[0]
-            ax.figure.set_size_inches(fig_width, fig_width * ratio)
+            figure_width = ax.figure.get_size_inches()[0]
+            ax.figure.set_size_inches(figure_width, figure_width * ratio)
 
     def plot_feature(self, ax, feature, level):
         a_start = self.position_to_angle(feature.start)
@@ -456,3 +459,57 @@ class CircularGraphicRecord(GraphicRecord):
         rad_angle = np.deg2rad(angle)
         return np.array([r * np.cos(rad_angle),
                          r * np.sin(rad_angle) - self.radius])
+
+class BiopythonTranslator:
+
+    def __init__(self, features_filters=(), features_properties=None):
+        self.features_filters = features_filters
+        self.features_properties = features_properties
+
+    @staticmethod
+    def compute_feature_color(feature):
+        return feature.qualifiers.get("color", "#7245dc")
+
+    def compute_filtered_features(self, features):
+        return [f for f in features
+                if all([fl(f) for fl in self.features_filters])]
+
+    @staticmethod
+    def compute_feature_label(feature):
+        """Gets the 'label' of the feature."""
+        result = feature.type
+        for key in ["label", "source", "locus_tag", "note"]:
+            if key in feature.qualifiers:
+                result = feature.qualifiers[key]
+        if isinstance(result, list):
+            return "-".join(result)
+        else:
+            return result
+
+    def translate_feature(self, feature):
+        properties = dict(label=self.compute_feature_label(feature),
+                          color=self.compute_feature_color(feature))
+        if self.features_properties is not None:
+            other_properties = self.features_properties(feature)
+        properties.update(other_properties)
+        return GraphicFeature(start=feature.location.start,
+                              end=feature.location.end,
+                              strand=feature.location.strand,
+                              **properties)
+
+    def translate_record(self, record, grecord_class=None):
+        """Create a new GraphicRecord from a BioPython Record object.
+
+        Parameters
+        ----------
+
+        record
+          A BioPython Record object
+        """
+        if grecord_class is None:
+            grecord_class = GraphicRecord
+        return grecord_class(sequence_length=len(record.seq), features=[
+            self.translate_feature(feature)
+            for feature in self.compute_filtered_features(record.features)
+            if feature.location is not None
+        ])

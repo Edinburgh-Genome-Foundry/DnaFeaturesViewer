@@ -93,3 +93,14 @@ def compute_features_levels(features):
             level += 1
         levels[node] = level
     return levels
+
+def get_feature_label(feature):
+    """Gets the 'label' of the feature."""
+    result = feature.type
+    for key in ["label", "source", "locus_tag", "note"]:
+        if key in feature.qualifiers:
+            result = feature.qualifiers[key]
+    if isinstance(result, list):
+        return "-".join(result)
+    else:
+        return result
