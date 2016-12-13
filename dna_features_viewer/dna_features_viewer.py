@@ -491,6 +491,8 @@ class BiopythonTranslator:
                           color=self.compute_feature_color(feature))
         if self.features_properties is not None:
             other_properties = self.features_properties(feature)
+        else:
+            other_properties = {}
         properties.update(other_properties)
         return GraphicFeature(start=feature.location.start,
                               end=feature.location.end,
