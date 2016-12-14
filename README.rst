@@ -42,8 +42,8 @@ Examples of use
 ----------------
 
 
-Defining the features by hand
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Basic plots
+~~~~~~~~~~~~
 
 In this first example we define features "by hand":
 
@@ -82,12 +82,11 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
 
 .. code:: python
 
-    from dna_features_viewer import GraphicRecord
+    from dna_features_viewer import BiopythonTranslator
     from Bio import SeqIO
-    with open("./plasmid.gb", "r") as f:
-        record = SeqIO.read(f, "genbank")
-    graphic_record = GraphicRecord.from_biopython_record(record)
-    graphic_record.plot(fig_width=10)
+    record = SeqIO.read("example_sequence.gb", "genbank")
+    graphic_record = BiopythonTranslator().translate_record(record)
+    ax, _ = graphic_record.plot(figure_width=10)
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
     :align: center
