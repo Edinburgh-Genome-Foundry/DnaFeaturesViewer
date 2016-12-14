@@ -23,6 +23,5 @@ def plot_local_gc_content(record, window_size, ax):
 plot_local_gc_content(record, window_size=50, ax=ax2)
 
 # Resize the figure to the right height
-
 fig.tight_layout()
 fig.savefig("with_plot.png")
