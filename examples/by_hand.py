@@ -20,12 +20,12 @@ features=[
 
 # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
 record = GraphicRecord(sequence_length=1000, features=features)
-ax = record.plot(fig_width=5)
+ax, _ = record.plot(figure_width=5)
 ax.figure.savefig("by_hand.png")
 
 
 # PLOT AND EXPORT A CIRCULAR VIEW OF THE CONSTRUCT
 circular_rec = CircularGraphicRecord(sequence_length=1000, features=features)
-ax2 = circular_rec.plot(fig_width=4)
+ax2, _ = circular_rec.plot(figure_width=4)
 ax2.figure.tight_layout()
 ax2.figure.savefig("by_hand_circular.png", bbox_inches="tight")

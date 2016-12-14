@@ -240,8 +240,6 @@ class GraphicRecord:
                         text=text, feature_level=level
                     ))
         annotations_levels = compute_features_levels(overflowing_annotations)
-        # for f in annotations_levels:
-        #     annotations_levels[f] += level_offset
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
             x, y = text.get_position()
@@ -253,10 +251,10 @@ class GraphicRecord:
             ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
 
         self.finalize_ax(ax, max(features_levels.values()),
-                         0 if len(annotations_levels)==0 else
+                         0 if len(annotations_levels) == 0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
-        return ax
+        return ax, annotations_levels
 
     def finalize_ax(self, ax, features_levels, annotations_levels,
                     auto_figure_height=False):
@@ -267,48 +265,6 @@ class GraphicRecord:
         if auto_figure_height:
             figure_width = ax.figure.get_size_inches()[0]
             ax.figure.set_size_inches(figure_width, 1.5 + 0.37 * ymax)
-
-    @classmethod
-    def from_biopython_record(cls, record, features_filter=None,
-                              features_properties=None):
-        """Create a new GraphicRecord from a BioPython Record object.
-
-        Parameters
-        ----------
-
-        record
-          A BioPython Record object
-
-        features_filter
-          A function (biofeature->bool) where biofeature is a Biopython Feature
-          object found in the record, and bool (True/False) indicates whether
-          the feature should be kept (True) of discarded (False).
-
-        features_properties
-          A function (biofeature->color) where biofeature is a Biopython
-          Feature object found in the record, and color is any
-          Matplotlib-compatible color format.
-
-        fun_label
-            A function (biofeature->label) where biofeature is a Biopython
-            Feature object found in the record, and label is a description
-            extracted from the feature.
-        """
-        if features_properties is None:
-            def features_properties(feature):
-                return dict(color="#7245dc", label=get_feature_label(feature))
-        if features_filter is None:
-            def features_filter(feature):
-                return True
-        features = [
-            GraphicFeature.from_biopython_feature(
-                feature, **features_properties(feature)
-            )
-            for feature in record.features
-            if feature.location is not None
-            if features_filter(feature)
-        ]
-        return cls(sequence_length=len(record.seq), features=features)
 
     def to_biopython_record(self):
         """
@@ -482,7 +438,7 @@ class BiopythonTranslator:
             if key in feature.qualifiers:
                 result = feature.qualifiers[key]
         if isinstance(result, list):
-            return "-".join(result)
+            return "|".join(result)
         else:
             return result
 
