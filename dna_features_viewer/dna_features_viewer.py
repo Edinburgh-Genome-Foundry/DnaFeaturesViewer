@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from .utils import (change_luminosity, get_text_box,
-                    compute_features_levels,
-                    get_feature_label)
+                    compute_features_levels)
 import numpy as np
 from copy import deepcopy
 
