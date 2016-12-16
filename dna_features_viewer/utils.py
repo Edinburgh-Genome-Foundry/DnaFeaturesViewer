@@ -93,3 +93,17 @@ def compute_features_levels(features):
             level += 1
         levels[node] = level
     return levels
+
+def bokeh_feature_patch(self, start, end, strand, width=0.3, level=0, **kw):
+    hw = width/2.0
+    x1, x2 = (start, end) if (strand >=0) else (end, start)
+    if strand >= 0:
+        head_base = max(x1, x2 - max(.025*self.sequence_length, .025*(x2-x1)))
+    else:
+        head_base = min(x1, x2 + max(.025*self.sequence_length, .025*(x1-x2)))
+    result = dict(
+        xs= [x1, x1, head_base, x2, head_base, x1],
+        ys= [e + level for e in [-hw, hw, hw, 0, -hw, -hw]]
+    )
+    result.update(kw)
+    return result

@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from .utils import change_luminosity, get_text_box, compute_features_levels
+from .utils import (change_luminosity, get_text_box, compute_features_levels,
+                    bokeh_feature_patch)
 import numpy as np
 
 try:
@@ -11,6 +12,15 @@ try:
     BIOPYTHON_AVAILABLE = True
 except ImportError:
     BIOPYTHON_AVAILABLE = False
+
+try:
+    from bokeh.io import output_notebook
+    from bokeh.plotting import figure, show, ColumnDataSource
+    from bokeh.models import Range1d, TapTool, OpenURL, HoverTool
+    BOKEH_AVAILABLE = True
+except:
+    BOKEH_AVAILABLE = False
+import pandas as pd
 
 
 class GraphicFeature:
@@ -202,6 +212,7 @@ class GraphicRecord:
                     ))
 
         annotations_levels = compute_features_levels(overflowing_annotations)
+        labels_data = {}
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
             x, y = text.get_position()
@@ -211,11 +222,14 @@ class GraphicRecord:
             fx, fy = self.coordinates_in_plot(feature.data["feature"].x_center,
                                               feature.data["feature_level"])
             ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
-
+            labels_data[feature.data["feature"]] = dict(
+                feature_y=fy,
+                annotation_y=new_y
+            )
         self.finalize_ax(ax, max(features_levels.values()),
                          max(annotations_levels.values()),
                          auto_figure_height)
-        return ax
+        return ax, labels_data
 
     def finalize_ax(self, ax, features_levels, annotations_levels,
                     auto_figure_height=False):
@@ -292,6 +306,61 @@ class GraphicRecord:
         ]
         sequence = Seq(self.data["sequence"], alphabet=DNAAlphabet())
         return SeqRecord(sequence=sequence, features=features)
+
+
+
+
+
+    def plot_with_bokeh(self, fig_width=5):
+        if not BOKEH_AVAILABLE:
+            raise ImportError("This function requires Bokeh installed.")
+        ax, plot_data = self.plot(fig_width=fig_width)
+        width, height = [int(100*e) for e in ax.figure.get_size_inches()]
+        plt.close(ax.figure)
+        max_y = max([data["annotation_y"] for f, data in plot_data.items()])
+
+        hover = HoverTool(tooltips="@hover_html")
+        p = figure(plot_width=width, plot_height=height,
+                   tools=[hover, "xpan,xwheel_zoom,reset,resize,tap"],
+                   x_range=Range1d(0, self.sequence_length),
+                   y_range=Range1d(-1, max_y+1))
+        p.patches(
+            xs='xs', ys='ys', color='color', line_color="#000000",
+            source=ColumnDataSource(pd.DataFrame.from_records([
+                bokeh_feature_patch(
+                    self, feature.start, feature.end, feature.strand,
+                    level=pdata["feature_y"], color=feature.color,
+                    hover_html=(feature.html if hasattr(feature, "html") else
+                                feature.label)
+                )
+                for feature, pdata in plot_data.items()
+            ]))
+        )
+        p.text(
+            x='x', y='y', text='text', text_align="center",
+            text_font_size='10',  text_font="arial", text_font_style="normal",
+            source=ColumnDataSource(pd.DataFrame.from_records([
+                dict(x=feature.x_center, y=pdata["annotation_y"],
+                     text=feature.label, color=feature.color)
+                for feature, pdata in plot_data.items()
+            ]))
+        )
+        p.segment(
+            x0='x0', x1='x1', y0='y0', y1='y1', line_width=0.5,
+            color="#000000",
+            source=ColumnDataSource(pd.DataFrame.from_records([
+                dict(x0=feature.x_center, x1=feature.x_center,
+                     y0=pdata["annotation_y"], y1=pdata["feature_y"])
+                for feature, pdata in plot_data.items()
+            ]))
+        )
+
+        p.yaxis.visible = False
+        p.outline_line_color = None
+        p.grid.grid_line_color = None
+        p.toolbar.logo = None
+
+        return p
 
 
 class ArrowWedge(mpatches.Wedge):
