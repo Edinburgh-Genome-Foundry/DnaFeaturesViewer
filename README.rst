@@ -82,14 +82,12 @@ It is also possible to generate interactive (browser-based) plots by using ``plo
 Reading the features from a GenBank file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a GenBank file:
+DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:
 
 .. code:: python
 
     from dna_features_viewer import BiopythonTranslator
-    from Bio import SeqIO
-    record = SeqIO.read("example_sequence.gb", "genbank")
-    graphic_record = BiopythonTranslator().translate_record(record)
+    graphic_record = BiopythonTranslator().translate_record("my_sequence.gb")
     ax, _ = graphic_record.plot(figure_width=10)
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
