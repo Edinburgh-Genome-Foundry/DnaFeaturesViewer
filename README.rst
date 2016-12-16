@@ -93,6 +93,9 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
     :align: center
 
+The class ``BiopythonTranslator`` determines how the genbank information is transformed into graphical features.
+It enables to chose which categories of features to plot, the color of the different features.
+
 Displaying the features along with other plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
