@@ -4,7 +4,7 @@ import matplotlib.patches as mpatches
 from .utils import (change_luminosity, get_text_box, compute_features_levels,
                     bokeh_feature_patch)
 import numpy as np
-from copy import deepcopy
+from .GraphicFeature import GraphicFeature
 
 try:
     from Bio.Seq import Seq
@@ -24,81 +24,6 @@ except:
 import pandas as pd
 
 
-class GraphicFeature:
-    """Genetic Feature to be plotted.
-
-    Parameters
-    ----------
-
-    start, end
-      Coordinates of the feature in the final sequence.
-
-    strand
-      Directionality of the feature. can be +1/-1/0 for direct sense,
-      anti-sense, or no directionality.
-
-    label
-      Short descriptive text associated and plotted with the feature
-
-    color
-      Color of the feature, any Matplotlib-compatible format is accepted,
-      such as "white", "w", "#ffffff", (1,1,1), etc.
-
-    data
-      Any other keyword is kept into the feature.data[] dictionary.
-    """
-    feature_type = "feature"
-
-    def __init__(self, start=None, end=None, strand=None,
-                 label=None, color="#000080", thickness=14, linewidth=1.0,
-                 **data):
-        self.start = start
-        self.end = end
-        self.strand = strand
-        self.label = label
-        self.color = color
-        self.data = data
-        self.thickness = thickness
-        self.linewidth = linewidth
-
-    def split_in_two(self, x_coord=0):
-        copy1 = deepcopy(self)
-        copy2 = deepcopy(self)
-        copy1.end = x_coord
-        copy2.start = x_coord + 1
-        return copy1, copy2
-
-    def overlaps_with(self, other):
-        """Return True iff the feature's location overlaps with feature `other`
-        """
-        loc1, loc2 = (self.start, self.end), (other.start, other.end)
-        loc1, loc2 = sorted(loc1), sorted(loc2)
-        loc1, loc2 = sorted([loc1, loc2], key=lambda loc: loc[0])
-        return loc1[1] > loc2[0]
-
-    @property
-    def length(self):
-        """Return the length of the feature (end-start)"""
-        return abs(self.end - self.start)
-
-    @property
-    def x_center(self):
-        """Return the x-center of the feature, (start+end)/2"""
-        return 0.5 * (self.start + self.end)
-
-    @staticmethod
-    def from_biopython_feature(feature, **props):
-        """Create a GraphicalFeature from a Biopython.Feature object."""
-        return GraphicFeature(start=feature.location.start,
-                              end=feature.location.end,
-                              strand=feature.location.strand,
-                              **props)
-
-    def __repr__(self):
-        return (("GF(%(label)s, %(start)d-%(end)d " % self.__dict__) +
-                (")" if self.strand is None else "(%d))" % self.strand))
-
-
 class GraphicRecord:
     """Set of Genetic Features of a same DNA sequence, to be plotted together.
 
@@ -110,6 +35,12 @@ class GraphicRecord:
 
     features
       list of GraphicalFeature objects.
+
+    feature_level_width
+      Width in inches of one "level" for feature arrows.
+
+    annotation_level_width
+      Width in inches of one "level" for feature annotations.
     """
 
     def __init__(self, sequence_length, features, feature_level_width=1,
@@ -266,7 +197,7 @@ class GraphicRecord:
                          0 if len(annotations_levels) == 0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
-        return ax, annotations_levels
+        return ax, labels_data
 
     def finalize_ax(self, ax, features_levels, annotations_levels,
                     auto_figure_height=False):
@@ -303,10 +234,19 @@ class GraphicRecord:
 
 
 
-    def plot_with_bokeh(self, fig_width=5):
+    def plot_with_bokeh(self, figure_width=5):
+        """Plot the graphic record using Bokeh.
+
+        Examples
+        --------
+
+        >>>
+
+
+        """
         if not BOKEH_AVAILABLE:
             raise ImportError("This function requires Bokeh installed.")
-        ax, plot_data = self.plot(fig_width=fig_width)
+        ax, plot_data = self.plot(figure_width=figure_width)
         width, height = [int(100*e) for e in ax.figure.get_size_inches()]
         plt.close(ax.figure)
         max_y = max([data["annotation_y"] for f, data in plot_data.items()])
@@ -322,7 +262,8 @@ class GraphicRecord:
                 bokeh_feature_patch(
                     self, feature.start, feature.end, feature.strand,
                     level=pdata["feature_y"], color=feature.color,
-                    hover_html=(feature.html if hasattr(feature, "html") else
+                    label=feature.label,
+                    hover_html=(feature.html if feature.html is not None else
                                 feature.label)
                 )
                 for feature, pdata in plot_data.items()
@@ -330,7 +271,7 @@ class GraphicRecord:
         )
         p.text(
             x='x', y='y', text='text', text_align="center",
-            text_font_size='10',  text_font="arial", text_font_style="normal",
+            text_font_size='12px',  text_font="arial", text_font_style="normal",
             source=ColumnDataSource(pd.DataFrame.from_records([
                 dict(x=feature.x_center, y=pdata["annotation_y"],
                      text=feature.label, color=feature.color)
@@ -416,6 +357,26 @@ class ArrowWedge(mpatches.Wedge):
 
 
 class CircularGraphicRecord(GraphicRecord):
+    """Set of Genetic Features of a same DNA sequence, to be plotted together.
+
+    Parameters
+    ----------
+
+    sequence_length
+      Length of the DNA sequence, in number of nucleotides
+
+    features
+      list of GraphicalFeature objects.
+
+    top_position
+      The index in the sequence that will end up at the top of the circle
+
+    feature_level_width
+      Width in inches of one "level" for feature arrows.
+
+    annotation_level_width
+      Width in inches of one "level" for feature annotations.
+    """
 
     def __init__(self, sequence_length, features, top_position=0,
                  feature_level_width=0.2, annotation_level_width=0.25):
@@ -482,59 +443,3 @@ class CircularGraphicRecord(GraphicRecord):
         rad_angle = np.deg2rad(angle)
         return np.array([r * np.cos(rad_angle),
                          r * np.sin(rad_angle) - self.radius])
-
-class BiopythonTranslator:
-
-    def __init__(self, features_filters=(), features_properties=None):
-        self.features_filters = features_filters
-        self.features_properties = features_properties
-
-    @staticmethod
-    def compute_feature_color(feature):
-        return feature.qualifiers.get("color", "#7245dc")
-
-    def compute_filtered_features(self, features):
-        return [f for f in features
-                if all([fl(f) for fl in self.features_filters])]
-
-    @staticmethod
-    def compute_feature_label(feature):
-        """Gets the 'label' of the feature."""
-        result = feature.type
-        for key in ["label", "source", "locus_tag", "note"]:
-            if key in feature.qualifiers:
-                result = feature.qualifiers[key]
-        if isinstance(result, list):
-            return "|".join(result)
-        else:
-            return result
-
-    def translate_feature(self, feature):
-        properties = dict(label=self.compute_feature_label(feature),
-                          color=self.compute_feature_color(feature))
-        if self.features_properties is not None:
-            other_properties = self.features_properties(feature)
-        else:
-            other_properties = {}
-        properties.update(other_properties)
-        return GraphicFeature(start=feature.location.start,
-                              end=feature.location.end,
-                              strand=feature.location.strand,
-                              **properties)
-
-    def translate_record(self, record, grecord_class=None):
-        """Create a new GraphicRecord from a BioPython Record object.
-
-        Parameters
-        ----------
-
-        record
-          A BioPython Record object
-        """
-        if grecord_class is None:
-            grecord_class = GraphicRecord
-        return grecord_class(sequence_length=len(record.seq), features=[
-            self.translate_feature(feature)
-            for feature in self.compute_filtered_features(record.features)
-            if feature.location is not None
-        ])

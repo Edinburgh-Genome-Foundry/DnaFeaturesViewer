@@ -2,6 +2,8 @@
 
 __all__ = ("GraphicRecord", "GraphicFeature")
 
-from .dna_features_viewer import *
+from .GraphicRecord import GraphicRecord, CircularGraphicRecord
+from .GraphicFeature import GraphicFeature
+from .BiopythonTranslator import BiopythonTranslator
 
 from .version import __version__

@@ -73,6 +73,10 @@ a circular plot of the construct:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png
     :align: center
 
+It is also possible to generate interactive (browser-based) plots by using `plot_with_bokeh` instead of `plot`:
+
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png
+    :align: center
 
 
 Reading the features from a GenBank file

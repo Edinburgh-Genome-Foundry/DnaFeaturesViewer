@@ -15,6 +15,7 @@ FEATURES             Location/Qualifiers
                      /ApEinfo_fwdcolor="#f7977a"
                      /ApEinfo_revcolor="#f7977a"
                      /label="BamHI site"
+                     /note="Remark: I really like BamHI"
      restriction_sitecomplement(3213..4163)
                      /ApEinfo_fwdcolor="#c4df9b"
                      /ApEinfo_revcolor="#c4df9b"
@@ -23,6 +24,7 @@ FEATURES             Location/Qualifiers
                      /ApEinfo_fwdcolor="#f7977a"
                      /ApEinfo_revcolor="#f7977a"
                      /label="EcorI site"
+                     /note="Site added because I like EcoRI"
      restriction_site958
                      /ApEinfo_fwdcolor="#8493ca"
                      /ApEinfo_revcolor="#8493ca"
@@ -47,6 +49,8 @@ FEATURES             Location/Qualifiers
                      /ApEinfo_fwdcolor="#82ca9d"
                      /ApEinfo_revcolor="#82ca9d"
                      /label="Gene kanR"
+                     /note="Kanamycin resistance marker"
+
      CDS             complement(333..1193)
                      /ApEinfo_fwdcolor="#fff79a"
                      /ApEinfo_revcolor="#fff79a"
