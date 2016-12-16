@@ -94,7 +94,9 @@ def compute_features_levels(features):
         levels[node] = level
     return levels
 
+
 def bokeh_feature_patch(self, start, end, strand, width=0.3, level=0, **kw):
+    """Return a dict with points coordinates of a Bokeh Feature arrow."""
     hw = width/2.0
     x1, x2 = (start, end) if (strand >=0) else (end, start)
     if strand >= 0:
