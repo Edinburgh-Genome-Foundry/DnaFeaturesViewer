@@ -3,14 +3,27 @@ from .GraphicFeature import  GraphicFeature
 from Bio import SeqIO
 
 class BiopythonTranslator:
+    """A translator from SeqRecords to dna_features_viewer GraphicRecord.
+
+    Parameters
+    ----------
+
+    features_filters
+      List of filters (some_biopython_feature) => True/False.
+      Only features passing all the filters are kept.
+
+    features_properties
+      A function (feature)=> properties_dict
+
+    """
+    default_feature_color = "#7245dc"
 
     def __init__(self, features_filters=(), features_properties=None):
         self.features_filters = features_filters
         self.features_properties = features_properties
 
-    @staticmethod
-    def compute_feature_color(feature):
-        return feature.qualifiers.get("color", "#7245dc")
+    def compute_feature_color(self, feature):
+        return feature.qualifiers.get("color", self.default_feature_color)
 
     def compute_filtered_features(self, features):
         return [f for f in features

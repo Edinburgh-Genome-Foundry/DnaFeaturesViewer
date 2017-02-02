@@ -193,7 +193,7 @@ class GraphicRecord:
                 feature_y=fy,
                 annotation_y=new_y
             )
-        self.finalize_ax(ax, max(features_levels.values()),
+        self.finalize_ax(ax, max([1] + list(features_levels.values())),
                          0 if len(annotations_levels) == 0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
