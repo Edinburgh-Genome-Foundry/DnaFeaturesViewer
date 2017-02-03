@@ -1,5 +1,5 @@
 from .GraphicRecord import GraphicRecord
-from .GraphicFeature import  GraphicFeature
+from .GraphicFeature import GraphicFeature
 from Bio import SeqIO
 
 class BiopythonTranslator:
