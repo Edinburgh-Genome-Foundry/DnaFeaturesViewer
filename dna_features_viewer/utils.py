@@ -23,9 +23,12 @@ def change_luminosity(color, luminosity=None, factor=1):
     if luminosity is not None:
         if luminosity == 1:
             return (1, 1, 1)
-        l = res.sum() / 3.0
+        l = 1.0*res.sum() / 3.0
         factor = (luminosity - l) / (1.0 - luminosity)
-    return (factor + res) / (factor + 1)
+    if factor == -1:
+        return numpy.array([1.0, 1.0, 1.0])
+    else:
+        return (factor + res) / (factor + 1)
 
 
 def get_text_box(text, margin=0):
