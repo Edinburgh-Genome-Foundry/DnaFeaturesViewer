@@ -304,7 +304,8 @@ class ArrowWedge(mpatches.Wedge):
         self.direction = direction
         self.radius = radius
         mpatches.Wedge.__init__(self, center, radius,
-                                theta1, theta2, width, **kwargs)
+                                theta1, theta2, width,
+                                **kwargs)
         self._recompute_path()
 
     def _recompute_path(self):
@@ -393,7 +394,8 @@ class CircularGraphicRecord(GraphicRecord):
 
         if draw_line:
             circle = mpatches.Circle(
-                (0, -self.radius), self.radius, facecolor='none')
+                (0, -self.radius), self.radius, facecolor='none',
+                edgecolor='k')
             ax.add_patch(circle)
         ax.axis("off")
         if with_ruler:  # only display the xaxis ticks
@@ -430,6 +432,7 @@ class CircularGraphicRecord(GraphicRecord):
         patch = ArrowWedge((0, -self.radius), r, a_start, a_end,
                            0.7 * self.feature_level_width,
                            direction=feature.strand,
+                           edgecolor='k',
                            facecolor=feature.color, zorder=1)
         ax.add_patch(patch)
 
