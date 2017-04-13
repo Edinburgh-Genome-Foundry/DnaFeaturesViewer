@@ -23,6 +23,14 @@ class BiopythonTranslator:
         self.features_properties = features_properties
 
     def compute_feature_color(self, feature):
+        """Compute a color for this feature.
+
+        If the feature has a ``color`` qualifier it will be used. Otherwise,
+        the classe's ``default_feature_color`` is used.
+
+        To change the behaviour, create a subclass of ``BiopythonTranslator``
+        and overwrite this method.
+        """
         return feature.qualifiers.get("color", self.default_feature_color)
 
     def compute_filtered_features(self, features):
@@ -31,7 +39,16 @@ class BiopythonTranslator:
 
     @staticmethod
     def compute_feature_label(feature):
-        """Gets the 'label' of the feature."""
+        """Gets the 'label' of the feature.
+
+        This method looks for the first non-empty qualifier of the feature
+        in this order ``label``, ``source``, ``locus_tag``, ``note``, which
+        means that you can provide a label with, for instance
+        ``feature.qualifiers['note'] = 'some note'``.
+
+        To change the behaviour, create a subclass of ``BiopythonTranslator``
+        and overwrite this method.
+        """
         result = feature.type
         for key in ["label", "source", "locus_tag", "note"]:
             if key in feature.qualifiers:
@@ -58,6 +75,7 @@ class BiopythonTranslator:
 
 
     def translate_feature(self, feature):
+        """Translate a Biopython feature into a Dna Features Viewer feature."""
         properties = dict(label=self.compute_feature_label(feature),
                           color=self.compute_feature_color(feature),
                           html=self.compute_feature_html(feature))

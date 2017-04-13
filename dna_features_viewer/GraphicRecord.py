@@ -135,9 +135,9 @@ class GraphicRecord:
             x, y, feature.label,
             horizontalalignment="center",
             verticalalignment="center",
-            bbox=dict(boxstyle="round", fc=bg_color if box_color is None
-                      else box_color, ec="0.5",
-                      lw=box_linewidth),
+            bbox=dict(boxstyle="round",
+                      fc=bg_color if box_color is None else box_color,
+                      ec="0.5", lw=box_linewidth),
             fontsize=fontsize,
             zorder=2
         )
