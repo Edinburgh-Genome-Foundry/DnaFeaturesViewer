@@ -21,7 +21,13 @@ try:
     BOKEH_AVAILABLE = True
 except:
     BOKEH_AVAILABLE = False
-import pandas as pd
+
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except:
+    PANDAS_AVAILABLE = False
+
 
 
 class GraphicRecord:
@@ -245,7 +251,9 @@ class GraphicRecord:
 
         """
         if not BOKEH_AVAILABLE:
-            raise ImportError("This function requires Bokeh installed.")
+            raise ImportError("``plot_with_bokeh`` requires Bokeh installed.")
+        if not PANDAS_AVAILABLE:
+            raise ImportError("``plot_with_bokeh`` requires Pandas installed.")
         ax, plot_data = self.plot(figure_width=figure_width)
         width, height = [int(100*e) for e in ax.figure.get_size_inches()]
         plt.close(ax.figure)
