@@ -1,14 +1,16 @@
+"""Basic tests to check that the main examples work."""
+
 import os
-from dna_features_viewer import (BiopythonTranslator, GraphicFeature,
-                                 GraphicRecord, CircularGraphicRecord)
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-
-
-example_genbank = os.path.join('tests', "example_sequence.gb")
+from dna_features_viewer import (BiopythonTranslator, GraphicFeature,
+                                 GraphicRecord, CircularGraphicRecord)
 from Bio import SeqIO
 import numpy as np
+
+example_genbank = os.path.join('tests', "example_sequence.gb")
+
 def test_by_hand(tmpdir):
     """Test building a GraphicRecord "by hand" """
     features = [
