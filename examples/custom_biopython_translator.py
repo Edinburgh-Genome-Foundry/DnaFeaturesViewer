@@ -5,6 +5,7 @@ class MyCustomTranslator(BiopythonTranslator):
 
     - Color terminators in green, CDS in blue, all other features in gold.
     - Do not display features that are restriction sites unless they are BamHI
+    - Do not display labels for restriction sites.
     - For CDS labels just write "CDS here" instead of the name of the gene.
 
     """

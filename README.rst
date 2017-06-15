@@ -157,6 +157,7 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 
         - Color terminators in green, CDS in blue, all other features in gold.
         - Do not display features that are restriction sites unless they are BamHI
+        - Do not display labels for restriction sites
         - For CDS labels just write "CDS here" instead of the name of the gene.
 
         """
@@ -191,5 +192,5 @@ instead of the default ``BiopythonTranslator``. Here is an example:
     ax.figure.tight_layout()
     ax.figure.savefig("custom_bopython_translator.png")
 
-    .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
-        :align: center
+.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
+    :align: center
