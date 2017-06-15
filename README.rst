@@ -66,7 +66,7 @@ In this first example we define features "by hand":
                        label="Gene 3")
     ]
     record = GraphicRecord(sequence_length=1000, features=features)
-    record.plot(fig_width=5)
+    record.plot(figure_width=5)
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
     :align: center
@@ -139,4 +139,8 @@ other sequences statistics, such as the local GC content:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png
     :align: center
 
-Dna Features Viewer is pretty minimal in terms of features but easily extensible since it uses Matplotlib as a backend.
+Custom biopython translators
+----------------------------
+
+Dna Features Viewer allows to define "themes" by using custom record translators
+instead of the default ``BiopythonTranslator``.

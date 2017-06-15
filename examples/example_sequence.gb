@@ -8,53 +8,34 @@ SOURCE      .
             .
 FEATURES             Location/Qualifiers
      restriction_site3686..3705
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="AarI site"
      restriction_site568..587
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="BamHI site"
                      /note="Remark: I really like BamHI"
-     restriction_sitecomplement(3213..4163)
-                     /ApEinfo_fwdcolor="#c4df9b"
-                     /ApEinfo_revcolor="#c4df9b"
+     CDS             complement(3213..4163)
                      /label="Gene aaCI"
      restriction_site1368..1387
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="EcorI site"
                      /note="Site added because I like EcoRI"
      restriction_site958
-                     /ApEinfo_fwdcolor="#8493ca"
-                     /ApEinfo_revcolor="#8493ca"
                      /label="AarI site"
-     restriction_site1411..1802
-                     /ApEinfo_fwdcolor="#7bcdc8"
-                     /ApEinfo_revcolor="#7bcdc8"
+     CDS             1411..1802
                      /label="Gene barK"
      restriction_site2168..2187
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="BamHI site"
      restriction_site2886..2905
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="EcorI site"
      restriction_site4486..4505
-                     /ApEinfo_fwdcolor="#f7977a"
-                     /ApEinfo_revcolor="#f7977a"
                      /label="AarI site"
      CDS             1835..2551
-                     /ApEinfo_fwdcolor="#82ca9d"
-                     /ApEinfo_revcolor="#82ca9d"
                      /label="Gene kanR"
                      /note="Kanamycin resistance marker"
-
      CDS             complement(333..1193)
-                     /ApEinfo_fwdcolor="#fff79a"
-                     /ApEinfo_revcolor="#fff79a"
                      /label="Gene aaCI"
+     promoter        1805..1834
+                     /label="kanR promoter"
+     terminator      2552..2602
+                     /label="kanR terminator"
 ORIGIN
         1 caaacgccta tcgttacgag aacctacaac cgagatacat atcgctacga acagttcaaa
        61 cctgatcttc ttgtctgttg aagtgcacct catcgttatc ttctggccct atctccttac

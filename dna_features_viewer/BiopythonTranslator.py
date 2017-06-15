@@ -11,6 +11,7 @@ class BiopythonTranslator:
     features_filters
       List of filters (some_biopython_feature) => True/False.
       Only features passing all the filters are kept.
+      This only works if you haven't redefined ``compute_filtered_features``
 
     features_properties
       A function (feature)=> properties_dict
