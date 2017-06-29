@@ -59,7 +59,7 @@ class GraphicRecord:
     def initialize_ax(self, ax, draw_line, with_ruler):
 
         if draw_line:
-            ax.axhline(0, zorder=-1000, c="k")
+            ax.plot([0, self.sequence_length], [0, 0], zorder=-1000, c="k")
 
         if with_ruler:  # only display the xaxis ticks
             ax.set_frame_on(False)
@@ -156,7 +156,7 @@ class GraphicRecord:
 
     def plot(self, ax=None, figure_width=8, draw_line=True, with_ruler=True,
              fontsize=11, box_linewidth=1, box_color=None,
-             annotate_inline=False, level_offset=0):
+             annotate_inline=False, level_offset=0, x_lim=None):
         """Plot all the features in the same Matplotlib ax
 
         `figure_width` represents the width in inches of the final figure (if
@@ -171,6 +171,9 @@ class GraphicRecord:
         if ax is None:
             fig, ax = plt.subplots(1, figsize=(figure_width, 2 * max_level))
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
+        if x_lim is not None:
+            ax.set_xlim(*x_lim)
+
         overflowing_annotations = []
         for feature, level in features_levels.items():
             self.plot_feature(ax=ax, feature=feature, level=level)
