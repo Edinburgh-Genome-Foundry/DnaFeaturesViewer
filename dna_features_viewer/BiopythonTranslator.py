@@ -18,6 +18,7 @@ class BiopythonTranslator:
 
     """
     default_feature_color = "#7245dc"
+    graphic_record_parameters = {}
 
     def __init__(self, features_filters=(), features_properties=None):
         self.features_filters = features_filters
@@ -113,4 +114,4 @@ class BiopythonTranslator:
             self.translate_feature(feature)
             for feature in self.compute_filtered_features(record.features)
             if feature.location is not None
-        ])
+        ], **self.graphic_record_parameters)
