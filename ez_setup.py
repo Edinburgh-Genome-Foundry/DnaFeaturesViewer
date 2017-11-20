@@ -1,4 +1,3 @@
-
 #!python
 """Bootstrap setuptools installation
 
