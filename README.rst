@@ -3,9 +3,7 @@
     <p align="center">
     <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/title.png" width="350">
     </p>
-
-Dna Features Viewer
-====================
+    <h1 align="center">Dna Features Viewer</h1>
 
 .. image:: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
    :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
