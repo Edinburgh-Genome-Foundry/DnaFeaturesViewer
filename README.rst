@@ -3,14 +3,13 @@
     <p align="center">
     <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/title.png" width="350">
     </p>
-    <h1 align="center">Dna Features Viewer</h1>
 
 .. image:: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
    :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
    :alt: Travis CI build status
 
 
-A Python library to visualize DNA features, e.g. from GenBank or Gff files:
+DNA Features Viewer is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
     :align: center
