@@ -8,6 +8,9 @@ Dna Features Viewer
    :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
    :alt: Travis CI build status
 
+.. image:: https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master
+   :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
+
 
 Dna Features Viewer is a Python library to (wait for it...) visualize DNA
 features, e.g. from GenBank or Gff files, using the plotting library Matplotlib:
