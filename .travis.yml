@@ -8,7 +8,7 @@ install:
   - pip install -e .
 # command to run tests
 script:
-  - python -m pytest -v --cov dnachisel --cov-report term-missing
+  - python -m pytest -v --cov dna_features_viewer --cov-report term-missing
 
 after_success:
   - coveralls
