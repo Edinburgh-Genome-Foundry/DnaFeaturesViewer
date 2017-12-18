@@ -4,8 +4,11 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install pytest Biopython
+  - pip install coveralls pytest-cov pytest Biopython
   - pip install -e .
 # command to run tests
 script:
-  - python -m pytest
+  - python -m pytest -v --cov dnachisel --cov-report term-missing
+
+after_success:
+  - coveralls
