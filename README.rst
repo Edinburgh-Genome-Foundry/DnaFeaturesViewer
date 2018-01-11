@@ -27,7 +27,7 @@ License
 ---------
 
 Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
-<http://edinburgh-genome-foundry.github.io/home.html>`_ by `Zulko <https://github.com/Zulko>`_
+<http://genomefoundry.org>`_ by `Zulko <https://github.com/Zulko>`_
 and `released on Github <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer>`_ under the MIT licence.
 Everyone is welcome to contribute !
 
