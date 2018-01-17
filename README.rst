@@ -46,6 +46,11 @@ Dna Features Viewer can be installed by unzipping the source code in one directo
 
     sudo python setup.py install
 
+If you intend to use the bokeh features, you need to also install Bokeh and Pandas:
+
+.. code:: python
+
+    (sudo) pip install bokeh pandas
 
 
 Examples of use

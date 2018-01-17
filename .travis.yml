@@ -1,10 +1,10 @@
 language: python
 python:
-  - "2.7"
   - "3.6"
 # command to install dependencies
 install:
-  - pip install coveralls pytest-cov pytest Biopython bokeh
+  - pip install coveralls pytest-cov pytest Biopython
+  - pip install bokeh pandas
   - pip install -e .
 # command to run tests
 script:
