@@ -76,6 +76,7 @@ def test_plot_with_gc_content(tmpdir):
     fig.tight_layout()
     fig.savefig(target_file)
 
+
 def test_plot_with_bokeh(tmpdir):
     gb_record = SeqIO.read(example_genbank, "genbank")
     record = BiopythonTranslator().translate_record(record=gb_record)
@@ -85,3 +86,25 @@ def test_plot_with_bokeh(tmpdir):
         f.write(file_html(plot, CDN, "Example Sequence"))
     with open(target_file, 'r') as f:
         assert len(f.read()) > 10000
+
+def test_split_overflowing_features():
+    features = [
+        GraphicFeature(start=10, end=20, strand=+1, label="a"),
+        GraphicFeature(start=40, end=55, strand=+1, label="b"),
+        GraphicFeature(start=-20, end=2, strand=+1, label="c")
+    ]
+
+    # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
+    record = GraphicRecord(sequence_length=50, features=features)
+    record.split_overflowing_features_circularly()
+    new_features_locations_and_labels = sorted([
+        (f.start, f.end, f.label)
+        for f in record.features
+    ])
+    assert new_features_locations_and_labels == [
+        (0, 2, 'c'),
+        (0, 5, 'b'),
+        (10, 20, 'a'),
+        (30, 49, 'c'),
+        (40, 49, 'b')
+    ]

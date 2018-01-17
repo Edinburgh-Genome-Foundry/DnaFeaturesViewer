@@ -111,7 +111,7 @@ class GraphicRecord:
                                     f1.end + self.sequence_length)
                 new_features += [f1, f2]
             elif f.start < self.sequence_length < f.end:
-                f1, f2 = f.split_in_two(self.sequence_length)
+                f1, f2 = f.split_in_two(self.sequence_length - 1)
                 f2.start, f2.end = (f2.start - self.sequence_length,
                                     f2.end - self.sequence_length)
                 new_features += [f1, f2]
