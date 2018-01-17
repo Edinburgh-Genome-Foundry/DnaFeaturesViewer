@@ -6,6 +6,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from dna_features_viewer import (BiopythonTranslator, GraphicFeature,
                                  GraphicRecord, CircularGraphicRecord)
+from bokeh.resources import CDN
+from bokeh.embed import file_html
 from Bio import SeqIO
 import numpy as np
 
@@ -73,3 +75,13 @@ def test_plot_with_gc_content(tmpdir):
     target_file = os.path.join(str(tmpdir), "with_plot.png")
     fig.tight_layout()
     fig.savefig(target_file)
+
+def test_plot_with_bokeh(tmpdir):
+    gb_record = SeqIO.read(example_genbank, "genbank")
+    record = BiopythonTranslator().translate_record(record=gb_record)
+    plot = record.plot_with_bokeh(figure_width=8)
+    target_file = os.path.join(str(tmpdir), "plot_with_bokeh.html")
+    with open(target_file, "w+") as f:
+        f.write(file_html(plot, CDN, "Example Sequence"))
+    with open(target_file, 'r') as f:
+        assert len(f.read()) > 10000

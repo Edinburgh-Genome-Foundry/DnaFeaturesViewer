@@ -264,7 +264,7 @@ class GraphicRecord:
 
         hover = HoverTool(tooltips="@hover_html")
         p = figure(plot_width=width, plot_height=height,
-                   tools=[hover, "xpan,xwheel_zoom,reset,resize,tap"],
+                   tools=[hover, "xpan,xwheel_zoom,reset,tap"],
                    x_range=Range1d(0, self.sequence_length),
                    y_range=Range1d(-1, max_y+1))
         p.patches(
