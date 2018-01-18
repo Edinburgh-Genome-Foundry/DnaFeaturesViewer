@@ -28,6 +28,7 @@ def test_by_hand(tmpdir):
 
     # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
     record = GraphicRecord(sequence_length=1000, features=features)
+    record.plot(figure_width=5, with_ruler=False) # lazy, just for coverage
     ax, _ = record.plot(figure_width=5)
     target_file = os.path.join(str(tmpdir), "by_hand.png")
     ax.figure.savefig(target_file)
@@ -108,3 +109,17 @@ def test_split_overflowing_features():
         (30, 49, 'c'),
         (40, 49, 'b')
     ]
+
+
+def test_to_biopython_record():
+    record = GraphicRecord(sequence_length=50, features=[
+        GraphicFeature(start=5, end=20, strand=+1, label="a"),
+        GraphicFeature(start=20, end=500, strand=+1, label="b"),
+        GraphicFeature(start=400, end=700, strand=-1, label="c")
+    ])
+    biopython_record = record.to_biopython_record(sequence=50*"A")
+    features = sorted([
+        (f.location.start, f.location.end, f.qualifiers['label'])
+        for f in biopython_record.features
+    ])
+    assert features == [(5, 20, 'a'), (20, 500, 'b'), (400, 700, 'c')]

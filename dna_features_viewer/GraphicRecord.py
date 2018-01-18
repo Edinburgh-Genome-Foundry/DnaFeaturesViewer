@@ -218,7 +218,7 @@ class GraphicRecord:
             figure_width = ax.figure.get_size_inches()[0]
             ax.figure.set_size_inches(figure_width, 1.5 + 0.37 * ymax)
 
-    def to_biopython_record(self):
+    def to_biopython_record(self, sequence):
         """
         Example
         -------
@@ -236,8 +236,9 @@ class GraphicRecord:
                        type=f.feature_type, qualifiers={"label": f.label})
             for f in self.features
         ]
-        sequence = Seq(self.data["sequence"], alphabet=DNAAlphabet())
-        return SeqRecord(sequence=sequence, features=features)
+        if not isinstance(sequence, Seq):
+            sequence = Seq(sequence, alphabet=DNAAlphabet())
+        return SeqRecord(seq=sequence, features=features)
 
 
 
