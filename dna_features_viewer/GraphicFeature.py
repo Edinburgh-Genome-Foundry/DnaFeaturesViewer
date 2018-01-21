@@ -27,7 +27,7 @@ class GraphicFeature:
 
     def __init__(self, start=None, end=None, strand=None,
                  label=None, color="#000080", thickness=14, linewidth=1.0,
-                 html=None, **data):
+                 html=None, open_left=False, open_right=False, **data):
         self.start = start
         self.end = end
         self.strand = strand
@@ -37,13 +37,34 @@ class GraphicFeature:
         self.thickness = thickness
         self.linewidth = linewidth
         self.html = html
+        self.open_left = open_left
+        self.open_right = open_right
 
     def split_in_two(self, x_coord=0):
+        """Return two features by cutting this feature at x_coord."""
         copy1 = deepcopy(self)
         copy2 = deepcopy(self)
         copy1.end = x_coord
         copy2.start = x_coord + 1
         return copy1, copy2
+
+    def crop(self, window):
+        """Return a the fragment of the feature that is in the window.
+
+        If there is no overlap between the feature location and the window,
+        None is returned.
+        """
+        s, e = window
+        if (s > self.end) or (e < self.start):
+            return None
+        copy = deepcopy(self)
+        if s > self.start:
+            copy.start = s
+            copy.open_left = True
+        if e < self.end:
+            copy.end = e
+            copy.open_right = True
+        return copy
 
     def overlaps_with(self, other):
         """Return True iff the feature's location overlaps with feature `other`

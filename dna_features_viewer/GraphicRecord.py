@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from matplotlib.ticker import MaxNLocator
 
-from .utils import (change_luminosity, get_text_box, compute_features_levels,
+from .tools import (change_luminosity, get_text_box, compute_features_levels,
                     bokeh_feature_patch)
-import numpy as np
+from .biotools import extract_translation
 from .GraphicFeature import GraphicFeature
 
 try:
@@ -49,12 +50,21 @@ class GraphicRecord:
       Width in inches of one "level" for feature annotations.
     """
 
-    def __init__(self, sequence_length, features, feature_level_width=1,
-                 annotation_level_width=1):
+    def __init__(self, sequence_length=None, sequence=None, features=(),
+                 feature_level_width=1, annotation_level_width=1,
+                 first_index=0):
+        if sequence_length is None:
+            sequence_length = len(sequence)
         self.features = features
         self.sequence_length = sequence_length
         self.feature_level_width = feature_level_width
         self.annotation_level_width = annotation_level_width
+        self.sequence = sequence
+        self.first_index = first_index
+
+    @property
+    def span(self):
+        return self.first_index, self.first_index + self.sequence_length
 
     def initialize_ax(self, ax, draw_line, with_ruler):
 
@@ -67,8 +77,8 @@ class GraphicRecord:
             ax.xaxis.tick_bottom()
         else:  # don't display anything
             ax.axis("off")
-
-        ax.set_xlim(0, self.sequence_length)
+        ax.set_xlim(*self.span)
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     def plot_feature(self, ax, feature, level, linewidth=1.0):
         """Create an Arrow Matplotlib patch with the feature's coordinates.
@@ -81,10 +91,18 @@ class GraphicRecord:
         `start` and `end` while the y-coordinates are determined by the `level`
         """
         x1, x2 = feature.start, feature.end
-
+        if feature.open_left:
+            x1 -= 1
+        if feature.open_right:
+            x2 += 1
         if feature.strand == -1:
             x1, x2 = x2, x1
-        head_length = 5 if feature.strand in (-1, 1) else 0.001
+
+        is_undirected = feature.strand not in (-1, 1)
+        head_is_cut = ((feature.strand == 1 and feature.open_right) or
+                       (feature.strand == -1 and feature.open_left))
+        head_length = 0.001 if (is_undirected or head_is_cut) else 5
+
         arrowstyle = mpatches.ArrowStyle.Simple(head_width=feature.thickness,
                                                 tail_width=feature.thickness,
                                                 head_length=head_length)
@@ -155,7 +173,7 @@ class GraphicRecord:
         return text, overflowing, (x1, x2)
 
     def plot(self, ax=None, figure_width=8, draw_line=True, with_ruler=True,
-             fontsize=11, box_linewidth=1, box_color=None,
+             fontsize=11, box_linewidth=1, box_color=None, plot_sequence=False,
              annotate_inline=False, level_offset=0, x_lim=None):
         """Plot all the features in the same Matplotlib ax
 
@@ -202,11 +220,121 @@ class GraphicRecord:
                 feature_y=fy,
                 annotation_y=new_y
             )
+
+        if plot_sequence:
+            self.plot_sequence(ax)
+
         self.finalize_ax(ax, max([1] + list(features_levels.values())),
                          0 if len(annotations_levels) == 0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
         return ax, labels_data
+
+    def plot_sequence(self, ax, location=None, y_offset=1, fontdict=None,
+                      background=("#f7fbff", "#fffcf0") ):
+        """Plot a sequence of nucleotides at the bottom of the plot.
+
+        Parameters
+        ----------
+
+        ax
+          Which axes the translation should be plotted to
+
+        location
+          location of the segment to translate, either (start, end) or
+          (start, end, strand)
+
+        y_offset
+          Number of text levels under the plot's base line where to draw the
+          nucleotides. Should be 1 if the nucleotide sequence is to be plotted
+          directly under the main line.
+
+        fontdict
+          Matplotlib fontdict for the text, e.g.
+          ``{'size': 11, 'weight':'bold'}``
+
+        background
+          tuple (color1, color2) of alternate colors to plot behind each
+          nucleotide position to guide vision. Leave to None for no background.
+
+        translation
+          Sequence of amino acids either as a string ``'MAKG...'`` or as a list
+          ``['Met', 'Ala', ...]``
+        """
+        if self.sequence is None:
+            raise ValueError("No sequence in the graphic record")
+        if location is None:
+            location = self.span
+        lstart, lend = location
+        if fontdict is None:
+            fontdict = {}
+        for i, n in enumerate(self.sequence):
+            l = i + lstart
+            if (lstart <= l <= lend):
+                ax.text(l + 0.5, - 0.7 * self.feature_level_width * y_offset,
+                        n, ha='center', va='center', fontdict=fontdict)
+        if background is not None:
+            for i in range(lstart, lend):
+                ax.fill_between([i, i + 1], y1=1000, y2=-1000, zorder=-2000,
+                                facecolor=background[i % 2])
+        ymin = ax.get_ylim()[0]
+        ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
+
+
+    def plot_translation(self, ax, location, y_offset=2, fontdict=None,
+                         background=("#f5fff0", "#fff7fd"), translation=None,
+                         long_form_translation=True):
+        """Plot a sequence of amino-acids at the bottom of the plot.
+
+        Parameters
+        ----------
+
+        ax
+          Which axes the translation should be plotted to
+
+        location
+          location of the segment to translate, either (start, end) or
+          (start, end, strand)
+
+        y_offset
+          Number of text levels under the plot's base line where to draw the
+          amino acid names. Should be 2 if the nucleotide sequence is also
+          plotted at level 1.
+
+        fontdict
+          Matplotlib fontdict for the text, e.g.
+          ``{'size': 11, 'weight':'bold'}``
+
+        background
+          tuple (color1, color2) of alternate colors to plot behind each
+          amino acid position to guide vision. Leave to None for no background.
+
+        translation
+          Sequence of amino acids either as a string ``'MAKG...'`` or as a list
+          ``['Met', 'Ala', ...]``
+        """
+        start, end = location[0], location[1]
+        if translation is None:
+            new_loc = start - self.first_index, end - self.first_index
+            translation = extract_translation(self.sequence, location=new_loc,
+                                              long_form=long_form_translation)
+
+        texts = [
+            ((start + 3 * i, start + 3 * (i + 1)), aa)
+            for i, aa in enumerate(translation)
+        ]
+
+        y = - 0.7 * y_offset * self.feature_level_width
+        ymin = ax.get_ylim()[0]
+        ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
+        if fontdict is None:
+            fontdict = {}
+        for i, ((start, end), text) in enumerate(texts):
+            ax.text(0.5*(start + end), y, text,
+                    ha='center', va='center', fontdict=fontdict)
+            if background:
+                ax.fill_between([start, end], y1=1000, y2=-1000, zorder=-1000,
+                                facecolor=background[i % 2])
 
     def finalize_ax(self, ax, features_levels, annotations_levels,
                     auto_figure_height=False):
@@ -240,8 +368,24 @@ class GraphicRecord:
             sequence = Seq(sequence, alphabet=DNAAlphabet())
         return SeqRecord(seq=sequence, features=features)
 
+    def crop(self, window):
+        s, e = window
+        if (s < 0) or (e >= self.sequence_length):
+            raise ValueError("out-of-bound cropping")
+        new_features = []
+        for f in self.features:
+            cropped_feature = f.crop(window)
+            if cropped_feature is not None:  # = has ovelap with the window
+                new_features.append(cropped_feature)
 
-
+        return GraphicRecord(
+            sequence=self.sequence[s:e] if self.sequence is not None else None,
+            sequence_length = e - s,
+            features=new_features,
+            feature_level_width=self.feature_level_width,
+            annotation_level_width=self.annotation_level_width,
+            first_index=self.first_index + s
+        )
 
 
     def plot_with_bokeh(self, figure_width=5):
@@ -306,155 +450,3 @@ class GraphicRecord:
         p.toolbar.logo = None
 
         return p
-
-
-class ArrowWedge(mpatches.Wedge):
-
-    def __init__(self, center, radius, theta1, theta2, width, direction=+1,
-                 **kwargs):
-
-        self.direction = direction
-        self.radius = radius
-        mpatches.Wedge.__init__(self, center, radius,
-                                theta1, theta2, width,
-                                **kwargs)
-        self._recompute_path()
-
-    def _recompute_path(self):
-
-        if not self.direction in [-1, +1]:
-            return mpatches.Wedge._recompute_path(self)
-
-        theta1, theta2 = self.theta1, self.theta2
-        arrow_angle = min(5, abs(theta2 - theta1) / 2)
-        normalized_arrow_width = self.width / 2.0 / self.radius
-        if self.direction == +1:
-            angle_start_arrow = theta1 + arrow_angle
-            arc = mpatches.Path.arc(angle_start_arrow, theta2)
-            outer_arc = arc.vertices[::-1] * (1 + normalized_arrow_width)
-            inner_arc = arc.vertices * (1 - normalized_arrow_width)
-            arrow_vertices = [
-                outer_arc[-1],
-                np.array([np.cos(np.deg2rad(theta1)),
-                          np.sin(np.deg2rad(theta1))]),
-                inner_arc[0]
-            ]
-        else:
-            angle_start_arrow = theta2 - arrow_angle
-            arc = mpatches.Path.arc(theta1, angle_start_arrow)
-            outer_arc = arc.vertices * \
-                (self.radius + self.width / 2.0) / self.radius
-            inner_arc = arc.vertices[
-                ::-1] * (self.radius - self.width / 2.0) / self.radius
-            arrow_vertices = [
-                outer_arc[-1],
-                np.array([np.cos(np.deg2rad(theta2)),
-                          np.sin(np.deg2rad(theta2))]),
-                inner_arc[0]
-            ]
-        p = np.vstack([outer_arc, arrow_vertices, inner_arc])
-
-        path_vertices = np.vstack([p, inner_arc[-1, :], (0, 0)])
-
-        path_codes = np.hstack([arc.codes,
-                                4 * [mpatches.Path.LINETO],
-                                arc.codes[1:],
-                                mpatches.Path.LINETO,
-                                mpatches.Path.CLOSEPOLY])
-        path_codes[len(arc.codes)] = mpatches.Path.LINETO
-
-        # Shift and scale the wedge to the final location.
-        path_vertices *= self.r
-        path_vertices += np.asarray(self.center)
-        self._path = mpatches.Path(path_vertices, path_codes)
-
-
-class CircularGraphicRecord(GraphicRecord):
-    """Set of Genetic Features of a same DNA sequence, to be plotted together.
-
-    Parameters
-    ----------
-
-    sequence_length
-      Length of the DNA sequence, in number of nucleotides
-
-    features
-      list of GraphicalFeature objects.
-
-    top_position
-      The index in the sequence that will end up at the top of the circle
-
-    feature_level_width
-      Width in inches of one "level" for feature arrows.
-
-    annotation_level_width
-      Width in inches of one "level" for feature annotations.
-    """
-
-    def __init__(self, sequence_length, features, top_position=0,
-                 feature_level_width=0.2, annotation_level_width=0.25):
-
-        self.radius = 1.0
-        self.sequence_length = sequence_length
-        self.features = features
-        self.top_position = top_position
-        self.angle_rotation = 2 * np.pi * top_position / sequence_length
-        self.feature_level_width = feature_level_width
-        self.annotation_level_width = annotation_level_width
-
-    def initialize_ax(self, ax, draw_line, with_ruler):
-
-        if draw_line:
-            circle = mpatches.Circle(
-                (0, -self.radius), self.radius, facecolor='none',
-                edgecolor='k')
-            ax.add_patch(circle)
-        ax.axis("off")
-        if with_ruler:  # only display the xaxis ticks
-            ax.set_frame_on(False)
-            ax.yaxis.set_visible(False)
-            ax.xaxis.tick_bottom()
-        else:  # don't display anything
-            ax.axis("off")
-
-        ax.set_xlim(-self.radius, self.radius)
-        ax.set_aspect("equal")
-
-    def finalize_ax(self, ax, features_levels, annotation_levels,
-                    auto_figure_height=False):
-        ymin = (-2 * self.radius -
-                self.feature_level_width * (features_levels + 1))
-        ymax = (self.feature_level_width * (features_levels + 1) +
-                (annotation_levels + 1) * self.annotation_level_width)
-        xmin = -self.radius - self.feature_level_width * (features_levels + 1)
-        xmax = -xmin
-        ax.set_xlim(xmin, xmax)
-        ax.set_ylim(ymin, ymax)
-        ratio = 1.0 * (ymax - ymin) / (xmax - xmin)
-
-        if auto_figure_height:
-            figure_width = ax.figure.get_size_inches()[0]
-            ax.figure.set_size_inches(figure_width, figure_width * ratio)
-
-    def plot_feature(self, ax, feature, level):
-        a_start = self.position_to_angle(feature.start)
-        a_end = self.position_to_angle(feature.end)
-        a_start, a_end = sorted([a_start, a_end])
-        r = self.radius + level * self.feature_level_width
-        patch = ArrowWedge((0, -self.radius), r, a_start, a_end,
-                           0.7 * self.feature_level_width,
-                           direction=feature.strand,
-                           edgecolor='k',
-                           facecolor=feature.color, zorder=1)
-        ax.add_patch(patch)
-
-    def position_to_angle(self, position):
-        a = 360.0 * (position - self.top_position) / self.sequence_length
-        return 90 - a
-
-    def coordinates_in_plot(self, x, level):
-        r = self.radius + level * self.feature_level_width
-        angle = self.position_to_angle(x)
-        rad_angle = np.deg2rad(angle)
-        return np.array([r * np.cos(rad_angle),
-                         r * np.sin(rad_angle) - self.radius])

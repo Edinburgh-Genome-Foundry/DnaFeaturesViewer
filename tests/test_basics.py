@@ -110,6 +110,24 @@ def test_split_overflowing_features():
         (40, 49, 'b')
     ]
 
+def test_cropping():
+    features=[
+        GraphicFeature(start=5, end=20, strand=+1, color="#ffd700",
+                       label="Small feature"),
+        GraphicFeature(start=20, end=500, strand=+1, color="#ffcccc",
+                       label="Gene 1 with a very long name"),
+        GraphicFeature(start=400, end=700, strand=-1, color="#cffccc",
+                       label="Gene 2"),
+        GraphicFeature(start=600, end=900, strand=+1, color="#ccccff",
+                       label="Gene 3"),
+    ]
+
+
+    # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
+    record = GraphicRecord(sequence_length=1000, features=features)
+    cropped_record = record.crop((425, 650))
+    assert len(cropped_record.features) == 3
+
 
 def test_to_biopython_record():
     record = GraphicRecord(sequence_length=50, features=[
@@ -123,3 +141,18 @@ def test_to_biopython_record():
         for f in biopython_record.features
     ])
     assert features == [(5, 20, 'a'), (20, 500, 'b'), (400, 700, 'c')]
+
+def test_sequence_and_translation_plotting():
+    from dna_features_viewer import (GraphicFeature, GraphicRecord,
+                                 CircularGraphicRecord)
+    features = [
+        GraphicFeature(start=5, end=10, strand=+1, color="#ffd700",
+                       label="bbS-1"),
+        GraphicFeature(start=8, end=15, strand=+1, color="#ffcccc",
+                       label="CrC")
+    ]
+
+    record = GraphicRecord(sequence=7*"ATGC", features=features)
+    ax, _ = record.plot(figure_width=5)
+    record.plot_sequence(ax)
+    record.plot_translation(ax, (8, 23), fontdict={'weight': 'bold'})

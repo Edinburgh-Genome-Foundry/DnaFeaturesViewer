@@ -2,7 +2,8 @@
 
 __all__ = ("GraphicRecord", "GraphicFeature")
 
-from .GraphicRecord import GraphicRecord, CircularGraphicRecord
+from .GraphicRecord import GraphicRecord
+from .CirCularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
 from .BiopythonTranslator import BiopythonTranslator
 
