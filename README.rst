@@ -14,8 +14,11 @@
 
 DNA Features Viewer is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
-    :align: center
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+    </p>
 
 Dna Features Viewer is meant to automatically produce simple and clear plots even
 for sequences with lots of overlapping features and long labels. It plays well with Matplotlib and Biopython.
