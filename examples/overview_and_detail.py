@@ -1,5 +1,4 @@
-from dna_features_viewer import (GraphicFeature, GraphicRecord,
-                                 CircularGraphicRecord)
+from dna_features_viewer import GraphicFeature, GraphicRecord
 import matplotlib.pyplot as plt
 
 record = GraphicRecord(sequence=250*"ATGC", features=[

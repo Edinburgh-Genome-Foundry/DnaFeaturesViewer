@@ -78,20 +78,73 @@ In this first example we define features "by hand":
     record = GraphicRecord(sequence_length=1000, features=features)
     record.plot(figure_width=5)
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png
-    :align: center
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+    </p>
 
 
 If we replace `GraphicRecord` by `CircularGraphicRecord` in the code above we obtain
 a circular plot of the construct:
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png
-    :align: center
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png" width="443">
+    </p>
 
 It is also possible to generate interactive (browser-based) plots by using ``plot_with_bokeh`` instead of ``plot``:
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png
-    :align: center
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png" width="800">
+    </p>
+
+Nucleotide sequences, translations, and cropping
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+DNA features viewer allows to plot nucleotide or amino acid sequences under
+the record plot:
+
+.. code:: python
+
+    from dna_features_viewer import GraphicFeature, GraphicRecord
+
+    sequence = "ATGCATGCATGCATGCATGCATGCATGC"
+    record = GraphicRecord(sequence, features=[
+        GraphicFeature(start=5, end=10, strand=+1, color='#ffcccc'),
+        GraphicFeature(start=8, end=15, strand=+1, color='#ccccff')
+    ])
+
+    ax, _ = record.plot(figure_width=5)
+    record.plot_sequence(ax)
+    record.plot_translation(ax, (8, 23), fontdict={'weight': 'bold'})
+    ax.figure.savefig('sequence_and_translation.png', bbox_inches='tight')
+
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/sequence_and_translation.png" width="415">
+    </p>
+
+This enables for instance to plot an overview of a sequence along with a detailed detail of a sequence subsegment (`full code <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/blob/master/examples/overview_and_detail.py>`_)
+
+.. code:: python
+
+    ...
+    record.plot(ax=ax1)
+    cropped_record = record.crop((zoom_start, zoom_end))
+    cropped_record.plot(ax=ax2)
+    cropped_record.plot_sequence(ax=ax2)
+    cropped_record.plot_translation(ax=ax2, location=(408, 423))
+
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/overview_and_detail.png" width="900">
+    </p>
 
 
 Reading the features from a GenBank file
@@ -105,8 +158,11 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
     graphic_record = BiopythonTranslator().translate_record("my_sequence.gb")
     ax, _ = graphic_record.plot(figure_width=10)
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png
-    :align: center
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
+    </p>
 
 The class ``BiopythonTranslator`` determines how the genbank information is transformed into graphical features.
 It enables to chose which categories of features to plot, the color of the different features.
@@ -146,7 +202,14 @@ other sequences statistics, such as the local GC content:
     # Resize the figure
     fig.savefig("with_plot.png")
 
-.. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png
+
+.. raw:: html
+
+    <p align="center">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png" width="800">
+    </p>
+
+.. figure::
     :align: center
 
 Custom biopython translators
