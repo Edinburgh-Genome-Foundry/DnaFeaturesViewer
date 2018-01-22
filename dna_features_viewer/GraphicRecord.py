@@ -48,11 +48,22 @@ class GraphicRecord:
 
     annotation_level_width
       Width in inches of one "level" for feature annotations.
+
+    first_index
+      Indicates the first index to plot in case the sequence is actually a
+      subsequence of a larger one. For instance, if the Graphic record
+      represents the segment (400, 420) of a sequence, we will have
+      ``first_index=400`` and ``sequence_length=20``.
+
+    plots_indexing
+      Indicates which standard to use to show nucleotide indices in the plots.
+      If 'biopython', the standard python indexing is used (starting at 0).
+      If 'genbank', the indexing follows the Genbank standard (starting at 1).
     """
 
     def __init__(self, sequence_length=None, sequence=None, features=(),
                  feature_level_width=1, annotation_level_width=1,
-                 first_index=0):
+                 first_index=0, plots_indexing='biopython'):
         if sequence_length is None:
             sequence_length = len(sequence)
         self.features = features
@@ -61,15 +72,17 @@ class GraphicRecord:
         self.annotation_level_width = annotation_level_width
         self.sequence = sequence
         self.first_index = first_index
+        self.plots_indexing = plots_indexing
 
     @property
     def span(self):
         return self.first_index, self.first_index + self.sequence_length
 
     def initialize_ax(self, ax, draw_line, with_ruler):
-
+        start, end = self.span
+        plot_start, plot_end = start - 0.5, end - 0.5
         if draw_line:
-            ax.plot([0, self.sequence_length], [0, 0], zorder=-1000, c="k")
+            ax.plot([plot_start, plot_end], [0, 0], zorder=-1000, c="k")
 
         if with_ruler:  # only display the xaxis ticks
             ax.set_frame_on(False)
@@ -77,7 +90,8 @@ class GraphicRecord:
             ax.xaxis.tick_bottom()
         else:  # don't display anything
             ax.axis("off")
-        ax.set_xlim(*self.span)
+
+        ax.set_xlim(plot_start, plot_end)
         ax.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     def plot_feature(self, ax, feature, level, linewidth=1.0):
@@ -97,6 +111,7 @@ class GraphicRecord:
             x2 += 1
         if feature.strand == -1:
             x1, x2 = x2, x1
+        x1, x2 = x1 - 0.5, x2 + 0.5
 
         is_undirected = feature.strand not in (-1, 1)
         head_is_cut = ((feature.strand == 1 and feature.open_right) or
@@ -231,7 +246,7 @@ class GraphicRecord:
         return ax, labels_data
 
     def plot_sequence(self, ax, location=None, y_offset=1, fontdict=None,
-                      background=("#f7fbff", "#fffcf0") ):
+                      background=("#f7fbff", "#fffcf0")):
         """Plot a sequence of nucleotides at the bottom of the plot.
 
         Parameters
@@ -271,17 +286,17 @@ class GraphicRecord:
         for i, n in enumerate(self.sequence):
             l = i + lstart
             if (lstart <= l <= lend):
-                ax.text(l + 0.5, - 0.7 * self.feature_level_width * y_offset,
+                ax.text(l, - 0.7 * self.feature_level_width * y_offset,
                         n, ha='center', va='center', fontdict=fontdict)
         if background is not None:
             for i in range(lstart, lend):
-                ax.fill_between([i, i + 1], y1=1000, y2=-1000, zorder=-2000,
-                                facecolor=background[i % 2])
+                ax.fill_between([i - 0.5, i + 0.5], y1=1000, y2=-1000,
+                                zorder=-2000, facecolor=background[i % 2])
         ymin = ax.get_ylim()[0]
         ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
 
 
-    def plot_translation(self, ax, location, y_offset=2, fontdict=None,
+    def plot_translation(self, ax, location=None, y_offset=2, fontdict=None,
                          background=("#f5fff0", "#fff7fd"), translation=None,
                          long_form_translation=True):
         """Plot a sequence of amino-acids at the bottom of the plot.
@@ -293,8 +308,7 @@ class GraphicRecord:
           Which axes the translation should be plotted to
 
         location
-          location of the segment to translate, either (start, end) or
-          (start, end, strand)
+          location of the segment to translate (start, end)
 
         y_offset
           Number of text levels under the plot's base line where to draw the
@@ -314,8 +328,12 @@ class GraphicRecord:
           ``['Met', 'Ala', ...]``
         """
         start, end = location[0], location[1]
+        strand = location[2] if (len(location) == 3) else 1
+        s, e = self.span
+        start = max(start, s + ((start - s) % 3))
+        end = min(end, e - ((end - e) % 3))
         if translation is None:
-            new_loc = start - self.first_index, end - self.first_index
+            new_loc = start - self.first_index, end - self.first_index, strand
             translation = extract_translation(self.sequence, location=new_loc,
                                               long_form=long_form_translation)
 
@@ -330,11 +348,11 @@ class GraphicRecord:
         if fontdict is None:
             fontdict = {}
         for i, ((start, end), text) in enumerate(texts):
-            ax.text(0.5*(start + end), y, text,
+            ax.text(0.5 * (start + end - 1), y, text,
                     ha='center', va='center', fontdict=fontdict)
             if background:
-                ax.fill_between([start, end], y1=1000, y2=-1000, zorder=-1000,
-                                facecolor=background[i % 2])
+                ax.fill_between([start - 0.5, end - 0.5], y1=1000, y2=-1000,
+                                zorder=-1000, facecolor=background[i % 2])
 
     def finalize_ax(self, ax, features_levels, annotations_levels,
                     auto_figure_height=False):
@@ -345,6 +363,8 @@ class GraphicRecord:
         if auto_figure_height:
             figure_width = ax.figure.get_size_inches()[0]
             ax.figure.set_size_inches(figure_width, 1.5 + 0.37 * ymax)
+        if self.plots_indexing == 'genbank':
+            ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
 
     def to_biopython_record(self, sequence):
         """
@@ -380,7 +400,7 @@ class GraphicRecord:
 
         return GraphicRecord(
             sequence=self.sequence[s:e] if self.sequence is not None else None,
-            sequence_length = e - s,
+            sequence_length=e - s,
             features=new_features,
             feature_level_width=self.feature_level_width,
             annotation_level_width=self.annotation_level_width,
