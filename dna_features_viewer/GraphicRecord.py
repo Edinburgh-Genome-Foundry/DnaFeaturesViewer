@@ -111,7 +111,7 @@ class GraphicRecord:
             x2 += 1
         if feature.strand == -1:
             x1, x2 = x2, x1
-        x1, x2 = x1 - 0.5, x2 + 0.5
+        x1, x2 = x1 - 0.5, x2 - 0.5
 
         is_undirected = feature.strand not in (-1, 1)
         head_is_cut = ((feature.strand == 1 and feature.open_right) or

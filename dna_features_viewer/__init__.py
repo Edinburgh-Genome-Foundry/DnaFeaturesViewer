@@ -1,9 +1,7 @@
 """ dna_features_viewer/__init__.py """
 
-__all__ = ("GraphicRecord", "GraphicFeature")
-
 from .GraphicRecord import GraphicRecord
-from .CirCularGraphicRecord import CircularGraphicRecord
+from .CircularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
 from .BiopythonTranslator import BiopythonTranslator
 

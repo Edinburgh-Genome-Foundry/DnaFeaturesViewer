@@ -11,7 +11,7 @@ from bokeh.embed import file_html
 from Bio import SeqIO
 import numpy as np
 
-example_genbank = os.path.join('tests', "example_sequence.gb")
+example_genbank = os.path.join('tests', 'data', "example_sequence.gb")
 
 def test_by_hand(tmpdir):
     """Test building a GraphicRecord "by hand" """
@@ -45,6 +45,15 @@ def test_by_hand(tmpdir):
 def test_from_genbank(tmpdir):
     graphic_record = BiopythonTranslator().translate_record(example_genbank)
     ax, _ = graphic_record.plot(figure_width=10)
+    ax.figure.tight_layout()
+    target_file = os.path.join(str(tmpdir), "from_genbank.png")
+    ax.figure.savefig(target_file)
+
+def test_from_genbank_to_circular(tmpdir):
+    translator = BiopythonTranslator()
+    graphic_record = translator.translate_record(
+        example_genbank, grecord_class=CircularGraphicRecord)
+    ax, _ = graphic_record.plot(figure_width=7)
     ax.figure.tight_layout()
     target_file = os.path.join(str(tmpdir), "from_genbank.png")
     ax.figure.savefig(target_file)

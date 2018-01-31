@@ -110,8 +110,13 @@ class BiopythonTranslator:
             record = SeqIO.read(record, "genbank")
         if grecord_class is None:
             grecord_class = GraphicRecord
-        return grecord_class(sequence=str(record.seq), features=[
-            self.translate_feature(feature)
-            for feature in self.compute_filtered_features(record.features)
-            if feature.location is not None
-        ], **self.graphic_record_parameters)
+        filtered_features = self.compute_filtered_features(record.features)
+        return grecord_class(
+            sequence_length=len(record),
+            sequence=str(record.seq),
+            features=[
+                self.translate_feature(feature)
+                for feature in filtered_features
+                if feature.location is not None
+            ], **self.graphic_record_parameters
+        )

@@ -87,7 +87,7 @@ class CircularGraphicRecord(GraphicRecord):
     """
 
     def __init__(self, sequence_length, features, top_position=0,
-                 feature_level_width=0.2, annotation_level_width=0.25):
+                 feature_level_width=0.2, annotation_level_width=0.25, **kw):
 
         self.radius = 1.0
         self.sequence_length = sequence_length
