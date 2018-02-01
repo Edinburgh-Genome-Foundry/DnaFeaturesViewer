@@ -140,6 +140,7 @@ class CircularGraphicRecord(GraphicRecord):
                            0.7 * self.feature_level_width,
                            direction=feature.strand,
                            edgecolor='k',
+                           linewidth=feature.linewidth,
                            facecolor=feature.color, zorder=1)
         ax.add_patch(patch)
 
