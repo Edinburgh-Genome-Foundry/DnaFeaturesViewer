@@ -1,0 +1,714 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dna_features_viewer.GraphicRecord &mdash; DnaFeaturesViewer 0.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/main.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="DnaFeaturesViewer 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DnaFeaturesViewer
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">DNA Features Viewer</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html">BiopythonTranslator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.GraphicRecord">GraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.CircularGraphicRecord">CircularGraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.GraphicFeature">GraphicFeature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.tools">Tools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/by_hand.html">Define a graphic record “by hand”</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/from_genbank.html">Load a graphic record from Genbank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DnaFeaturesViewer</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>dna_features_viewer.GraphicRecord</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dna_features_viewer.GraphicRecord</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">MaxNLocator</span>
+
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="p">(</span><span class="n">change_luminosity</span><span class="p">,</span> <span class="n">get_text_box</span><span class="p">,</span> <span class="n">compute_features_levels</span><span class="p">,</span>
+                    <span class="n">bokeh_feature_patch</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.biotools</span> <span class="k">import</span> <span class="n">extract_translation</span>
+<span class="kn">from</span> <span class="nn">.GraphicFeature</span> <span class="k">import</span> <span class="n">GraphicFeature</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
+    <span class="kn">from</span> <span class="nn">Bio.SeqRecord</span> <span class="k">import</span> <span class="n">SeqRecord</span>
+    <span class="kn">from</span> <span class="nn">Bio.SeqFeature</span> <span class="k">import</span> <span class="n">FeatureLocation</span><span class="p">,</span> <span class="n">SeqFeature</span>
+    <span class="kn">from</span> <span class="nn">Bio.Alphabet</span> <span class="k">import</span> <span class="n">DNAAlphabet</span>
+    <span class="n">BIOPYTHON_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">BIOPYTHON_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">bokeh.plotting</span> <span class="k">import</span> <span class="n">figure</span><span class="p">,</span> <span class="n">ColumnDataSource</span>
+    <span class="kn">from</span> <span class="nn">bokeh.models</span> <span class="k">import</span> <span class="n">Range1d</span><span class="p">,</span> <span class="n">HoverTool</span>
+    <span class="n">BOKEH_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">BOKEH_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="n">PANDAS_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">PANDAS_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="GraphicRecord"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord">[docs]</a><span class="k">class</span> <span class="nc">GraphicRecord</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Set of Genetic Features of a same DNA sequence, to be plotted together.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sequence_length</span>
+<span class="sd">      Length of the DNA sequence, in number of nucleotides</span>
+
+<span class="sd">    features</span>
+<span class="sd">      list of GraphicalFeature objects.</span>
+
+<span class="sd">    feature_level_width</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature arrows.</span>
+
+<span class="sd">    annotation_level_width</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature annotations.</span>
+
+<span class="sd">    first_index</span>
+<span class="sd">      Indicates the first index to plot in case the sequence is actually a</span>
+<span class="sd">      subsequence of a larger one. For instance, if the Graphic record</span>
+<span class="sd">      represents the segment (400, 420) of a sequence, we will have</span>
+<span class="sd">      ``first_index=400`` and ``sequence_length=20``.</span>
+
+<span class="sd">    plots_indexing</span>
+<span class="sd">      Indicates which standard to use to show nucleotide indices in the plots.</span>
+<span class="sd">      If &#39;biopython&#39;, the standard python indexing is used (starting at 0).</span>
+<span class="sd">      If &#39;genbank&#39;, the indexing follows the Genbank standard (starting at 1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sequence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="p">(),</span>
+                 <span class="n">feature_level_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">annotation_level_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">first_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">plots_indexing</span><span class="o">=</span><span class="s1">&#39;biopython&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sequence_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">=</span> <span class="n">feature_level_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span> <span class="o">=</span> <span class="n">annotation_level_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="o">=</span> <span class="n">sequence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">=</span> <span class="n">first_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plots_indexing</span> <span class="o">=</span> <span class="n">plots_indexing</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">span</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span>
+
+    <span class="k">def</span> <span class="nf">initialize_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">draw_line</span><span class="p">,</span> <span class="n">with_ruler</span><span class="p">):</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span</span>
+        <span class="n">plot_start</span><span class="p">,</span> <span class="n">plot_end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="mf">0.2</span>
+        <span class="k">if</span> <span class="n">draw_line</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">plot_start</span><span class="p">,</span> <span class="n">plot_end</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">with_ruler</span><span class="p">:</span>  <span class="c1"># only display the xaxis ticks</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># don&#39;t display anything</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">plot_start</span><span class="p">,</span> <span class="n">plot_end</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<div class="viewcode-block" id="GraphicRecord.plot_feature"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.plot_feature">[docs]</a>    <span class="k">def</span> <span class="nf">plot_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create an Arrow Matplotlib patch with the feature&#39;s coordinates.</span>
+
+<span class="sd">        The Arrow points in the direction of the feature&#39;s strand.</span>
+<span class="sd">        If the feature has no direction (strand==0), the returned patch will</span>
+<span class="sd">        simply be a rectangle.</span>
+
+<span class="sd">        The x-coordinates of the patch are determined by the feature&#39;s</span>
+<span class="sd">        `start` and `end` while the y-coordinates are determined by the `level`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">end</span>
+        <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">open_left</span><span class="p">:</span>
+            <span class="n">x1</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">open_right</span><span class="p">:</span>
+            <span class="n">x2</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">strand</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x1</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">x2</span> <span class="o">-</span> <span class="mf">0.5</span>
+
+        <span class="n">is_undirected</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">strand</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">head_is_cut</span> <span class="o">=</span> <span class="p">((</span><span class="n">feature</span><span class="o">.</span><span class="n">strand</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">feature</span><span class="o">.</span><span class="n">open_right</span><span class="p">)</span> <span class="ow">or</span>
+                       <span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">strand</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">feature</span><span class="o">.</span><span class="n">open_left</span><span class="p">))</span>
+        <span class="n">head_length</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="k">if</span> <span class="p">(</span><span class="n">is_undirected</span> <span class="ow">or</span> <span class="n">head_is_cut</span><span class="p">)</span> <span class="k">else</span> <span class="mi">5</span>
+
+        <span class="n">arrowstyle</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">ArrowStyle</span><span class="o">.</span><span class="n">Simple</span><span class="p">(</span><span class="n">head_width</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">thickness</span><span class="p">,</span>
+                                                <span class="n">tail_width</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">thickness</span><span class="p">,</span>
+                                                <span class="n">head_length</span><span class="o">=</span><span class="n">head_length</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="n">level</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">FancyArrowPatch</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="n">x2</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span>
+                                         <span class="n">shrinkA</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">shrinkB</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                                         <span class="n">arrowstyle</span><span class="o">=</span><span class="n">arrowstyle</span><span class="p">,</span>
+                                         <span class="n">facecolor</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                         <span class="n">linewidth</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">linewidth</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">patch</span></div>
+
+    <span class="k">def</span> <span class="nf">coordinates_in_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">level</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GraphicRecord.split_overflowing_features_circularly"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.split_overflowing_features_circularly">[docs]</a>    <span class="k">def</span> <span class="nf">split_overflowing_features_circularly</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split the features that overflow over the edge for circular</span>
+<span class="sd">        constructs (inplace).&quot;&quot;&quot;</span>
+        <span class="n">new_features</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">f</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+                <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">split_in_two</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">f1</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">f1</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">,</span>
+                                    <span class="n">f1</span><span class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">)</span>
+                <span class="n">new_features</span> <span class="o">+=</span> <span class="p">[</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">start</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">&lt;</span> <span class="n">f</span><span class="o">.</span><span class="n">end</span><span class="p">:</span>
+                <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">split_in_two</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">f2</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">f2</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">f2</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">,</span>
+                                    <span class="n">f2</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">)</span>
+                <span class="n">new_features</span> <span class="o">+=</span> <span class="p">[</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">new_features</span></div>
+
+<div class="viewcode-block" id="GraphicRecord.annotate_feature"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.annotate_feature">[docs]</a>    <span class="k">def</span> <span class="nf">annotate_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+                         <span class="n">box_linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">box_color</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a Matplotlib Text with the feature&#39;s label.</span>
+
+<span class="sd">        The x-coordinates of the text are determined by the feature&#39;s</span>
+<span class="sd">        `x_center` while the y-coordinates are determined by the `level`.</span>
+
+<span class="sd">        The text is horizontally and vertically centered.</span>
+
+<span class="sd">        The Arrow points in the direction of the feature&#39;s strand.</span>
+<span class="sd">        If the feature has no direction (strand==0), the returned patch will</span>
+<span class="sd">        simply be a rectangle.</span>
+
+<span class="sd">        The x-coordinates of the patch are determined by the feature&#39;s</span>
+<span class="sd">        `start` and `end` while the y-coordinates are determined by the `level`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bg_color</span> <span class="o">=</span> <span class="n">change_luminosity</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="n">luminosity</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates_in_plot</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">x_center</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">horizontalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">verticalalignment</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span>
+                      <span class="n">fc</span><span class="o">=</span><span class="n">bg_color</span> <span class="k">if</span> <span class="n">box_color</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">box_color</span><span class="p">,</span>
+                      <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;0.5&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">box_linewidth</span><span class="p">),</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span>
+        <span class="p">)</span>
+
+        <span class="n">figure_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">figure_width</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">get_text_box</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span><span class="p">)</span>
+        <span class="n">overflowing</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&lt;</span> <span class="n">feature</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x2</span> <span class="o">&gt;</span> <span class="n">feature</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">,</span> <span class="n">overflowing</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphicRecord.plot"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">figure_width</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">draw_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">box_linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">box_color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot_sequence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+             <span class="n">annotate_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">level_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_lim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot all the features in the same Matplotlib ax</span>
+
+<span class="sd">        `figure_width` represents the width in inches of the final figure (if</span>
+<span class="sd">        no `ax` parameter is attributed).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">features_levels</span> <span class="o">=</span> <span class="n">compute_features_levels</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features_levels</span><span class="p">:</span>
+            <span class="n">features_levels</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">+=</span> <span class="n">level_offset</span>
+        <span class="n">max_level</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">==</span> <span class="p">{})</span> <span class="k">else</span>
+                     <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">features_levels</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span>
+        <span class="n">auto_figure_height</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">max_level</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">draw_line</span><span class="o">=</span><span class="n">draw_line</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="n">with_ruler</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_lim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">x_lim</span><span class="p">)</span>
+
+        <span class="n">overflowing_annotations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">features_levels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_feature</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">text</span><span class="p">,</span> <span class="n">overflowing</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotate_feature</span><span class="p">(</span>
+                    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+                    <span class="n">box_linewidth</span><span class="o">=</span><span class="n">box_linewidth</span><span class="p">,</span> <span class="n">box_color</span><span class="o">=</span><span class="n">box_color</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">overflowing</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">annotate_inline</span><span class="p">:</span>
+                    <span class="n">overflowing_annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GraphicFeature</span><span class="p">(</span>
+                        <span class="n">start</span><span class="o">=</span><span class="n">x1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">x2</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span>
+                        <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">feature_level</span><span class="o">=</span><span class="n">level</span>
+                    <span class="p">))</span>
+        <span class="n">annotations_levels</span> <span class="o">=</span> <span class="n">compute_features_levels</span><span class="p">(</span><span class="n">overflowing_annotations</span><span class="p">)</span>
+        <span class="n">labels_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">annotations_levels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+            <span class="n">new_y</span> <span class="o">=</span> <span class="p">((</span><span class="n">max_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">+</span>
+                     <span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span><span class="p">)</span>
+            <span class="n">text</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">new_y</span><span class="p">))</span>
+            <span class="n">fx</span><span class="p">,</span> <span class="n">fy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates_in_plot</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">x_center</span><span class="p">,</span>
+                                              <span class="n">feature</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;feature_level&quot;</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">fx</span><span class="p">],</span> <span class="p">[</span><span class="n">new_y</span><span class="p">,</span> <span class="n">fy</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">labels_data</span><span class="p">[</span><span class="n">feature</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;feature&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">feature_y</span><span class="o">=</span><span class="n">fy</span><span class="p">,</span>
+                <span class="n">annotation_y</span><span class="o">=</span><span class="n">new_y</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_sequence</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_sequence</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">finalize_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="nb">max</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">features_levels</span><span class="o">.</span><span class="n">values</span><span class="p">())),</span>
+                         <span class="mi">0</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotations_levels</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span>
+                         <span class="nb">max</span><span class="p">(</span><span class="n">annotations_levels</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+                         <span class="n">auto_figure_height</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">features_levels</span><span class="p">,</span> <span class="n">labels_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphicRecord.plot_sequence"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.plot_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">plot_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">background</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;#f7fbff&quot;</span><span class="p">,</span> <span class="s2">&quot;#fffcf0&quot;</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Plot a sequence of nucleotides at the bottom of the plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ax</span>
+<span class="sd">          Which axes the translation should be plotted to</span>
+
+<span class="sd">        location</span>
+<span class="sd">          location of the segment to translate, either (start, end) or</span>
+<span class="sd">          (start, end, strand)</span>
+
+<span class="sd">        y_offset</span>
+<span class="sd">          Number of text levels under the plot&#39;s base line where to draw the</span>
+<span class="sd">          nucleotides. Should be 1 if the nucleotide sequence is to be plotted</span>
+<span class="sd">          directly under the main line.</span>
+
+<span class="sd">        fontdict</span>
+<span class="sd">          Matplotlib fontdict for the text, e.g.</span>
+<span class="sd">          ``{&#39;size&#39;: 11, &#39;weight&#39;:&#39;bold&#39;}``</span>
+
+<span class="sd">        background</span>
+<span class="sd">          tuple (color1, color2) of alternate colors to plot behind each</span>
+<span class="sd">          nucleotide position to guide vision. Leave to None for no background.</span>
+
+<span class="sd">        translation</span>
+<span class="sd">          Sequence of amino acids either as a string ``&#39;MAKG...&#39;`` or as a list</span>
+<span class="sd">          ``[&#39;Met&#39;, &#39;Ala&#39;, ...]``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No sequence in the graphic record&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span</span>
+        <span class="n">lstart</span><span class="p">,</span> <span class="n">lend</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="k">if</span> <span class="n">fontdict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">):</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">lstart</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">lstart</span> <span class="o">&lt;=</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">lend</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="o">-</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="n">y_offset</span><span class="p">,</span>
+                        <span class="n">n</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="n">fontdict</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">background</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lstart</span><span class="p">,</span> <span class="n">lend</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="n">i</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">y1</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">y2</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span>
+                                <span class="n">zorder</span><span class="o">=-</span><span class="mi">2000</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">background</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="o">-</span><span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="GraphicRecord.plot_translation"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.plot_translation">[docs]</a>    <span class="k">def</span> <span class="nf">plot_translation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">background</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;#f5fff0&quot;</span><span class="p">,</span> <span class="s2">&quot;#fff7fd&quot;</span><span class="p">),</span> <span class="n">translation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">long_form_translation</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot a sequence of amino-acids at the bottom of the plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ax</span>
+<span class="sd">          Which axes the translation should be plotted to</span>
+
+<span class="sd">        location</span>
+<span class="sd">          location of the segment to translate (start, end)</span>
+
+<span class="sd">        y_offset</span>
+<span class="sd">          Number of text levels under the plot&#39;s base line where to draw the</span>
+<span class="sd">          amino acid names. Should be 2 if the nucleotide sequence is also</span>
+<span class="sd">          plotted at level 1.</span>
+
+<span class="sd">        fontdict</span>
+<span class="sd">          Matplotlib fontdict for the text, e.g.</span>
+<span class="sd">          ``{&#39;size&#39;: 11, &#39;weight&#39;:&#39;bold&#39;}``</span>
+
+<span class="sd">        background</span>
+<span class="sd">          tuple (color1, color2) of alternate colors to plot behind each</span>
+<span class="sd">          amino acid position to guide vision. Leave to None for no background.</span>
+
+<span class="sd">        translation</span>
+<span class="sd">          Sequence of amino acids either as a string ``&#39;MAKG...&#39;`` or as a list</span>
+<span class="sd">          ``[&#39;Met&#39;, &#39;Ala&#39;, ...]``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">strand</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="p">((</span><span class="n">start</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">e</span> <span class="o">-</span> <span class="p">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">e</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_loc</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">strand</span>
+            <span class="n">translation</span> <span class="o">=</span> <span class="n">extract_translation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="n">new_loc</span><span class="p">,</span>
+                                              <span class="n">long_form</span><span class="o">=</span><span class="n">long_form_translation</span><span class="p">)</span>
+
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">((</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">aa</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">aa</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="o">-</span><span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">fontdict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span> <span class="n">text</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="n">fontdict</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">background</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">([</span><span class="n">start</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">y1</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">y2</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span>
+                                <span class="n">zorder</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">background</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">])</span></div>
+
+    <span class="k">def</span> <span class="nf">finalize_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">features_levels</span><span class="p">,</span> <span class="n">annotations_levels</span><span class="p">,</span>
+                    <span class="n">auto_figure_height</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="n">ymax</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">annotations_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">auto_figure_height</span><span class="p">:</span>
+            <span class="n">figure_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="mf">1.5</span> <span class="o">+</span> <span class="mf">0.37</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plots_indexing</span> <span class="o">==</span> <span class="s1">&#39;genbank&#39;</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()])</span>
+
+<div class="viewcode-block" id="GraphicRecord.to_biopython_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.to_biopython_record">[docs]</a>    <span class="k">def</span> <span class="nf">to_biopython_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        from Bio import SeqIO</span>
+<span class="sd">        gr_record = GraphicRecord(features=features, sequence_length=len(seq),</span>
+<span class="sd">                                  sequence=seq)</span>
+<span class="sd">        bio_record = gr_record.to_biopython_record()</span>
+<span class="sd">        with open(&quot;example.gb&quot;, &quot;w+&quot;) as f:</span>
+<span class="sd">            SeqIO.write(record, f, &quot;genbank&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">BIOPYTHON_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;.to_biopython_record requires Biopython&quot;</span><span class="p">)</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">SeqFeature</span><span class="p">(</span><span class="n">FeatureLocation</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">strand</span><span class="p">),</span>
+                       <span class="nb">type</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">feature_type</span><span class="p">,</span> <span class="n">qualifiers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span><span class="p">})</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">Seq</span><span class="p">):</span>
+            <span class="n">sequence</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">alphabet</span><span class="o">=</span><span class="n">DNAAlphabet</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">SeqRecord</span><span class="p">(</span><span class="n">seq</span><span class="o">=</span><span class="n">sequence</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;out-of-bound cropping&quot;</span><span class="p">)</span>
+        <span class="n">new_features</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
+            <span class="n">cropped_feature</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cropped_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># = has ovelap with the window</span>
+                <span class="n">new_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cropped_feature</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">GraphicRecord</span><span class="p">(</span>
+            <span class="n">sequence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">sequence_length</span><span class="o">=</span><span class="n">e</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span>
+            <span class="n">features</span><span class="o">=</span><span class="n">new_features</span><span class="p">,</span>
+            <span class="n">feature_level_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span><span class="p">,</span>
+            <span class="n">annotation_level_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span><span class="p">,</span>
+            <span class="n">first_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">+</span> <span class="n">s</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="GraphicRecord.plot_with_bokeh"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicRecord.GraphicRecord.plot_with_bokeh">[docs]</a>    <span class="k">def</span> <span class="nf">plot_with_bokeh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure_width</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot the graphic record using Bokeh.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt;</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">BOKEH_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;``plot_with_bokeh`` requires Bokeh installed.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">PANDAS_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;``plot_with_bokeh`` requires Pandas installed.&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">features_levels</span><span class="p">,</span> <span class="n">plot_data</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="n">figure_width</span><span class="p">)</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="p">)</span>
+        <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;annotation_y&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span> <span class="o">+</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">features_levels</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="n">hover</span> <span class="o">=</span> <span class="n">HoverTool</span><span class="p">(</span><span class="n">tooltips</span><span class="o">=</span><span class="s2">&quot;@hover_html&quot;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                   <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">hover</span><span class="p">,</span> <span class="s2">&quot;xpan,xwheel_zoom,reset,tap&quot;</span><span class="p">],</span>
+                   <span class="n">x_range</span><span class="o">=</span><span class="n">Range1d</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">),</span>
+                   <span class="n">y_range</span><span class="o">=</span><span class="n">Range1d</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">patches</span><span class="p">(</span>
+            <span class="n">xs</span><span class="o">=</span><span class="s1">&#39;xs&#39;</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="s1">&#39;ys&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">([</span>
+                <span class="n">bokeh_feature_patch</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="n">feature</span><span class="o">.</span><span class="n">strand</span><span class="p">,</span>
+                    <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                    <span class="n">hover_html</span><span class="o">=</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">html</span> <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">html</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span>
+                                <span class="n">feature</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">features_levels</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">]))</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">plot_data</span> <span class="o">!=</span> <span class="p">{}:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">text_align</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">text_font_size</span><span class="o">=</span><span class="s1">&#39;12px&#39;</span><span class="p">,</span>  <span class="n">text_font</span><span class="o">=</span><span class="s2">&quot;arial&quot;</span><span class="p">,</span>
+                <span class="n">text_font_style</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">([</span>
+                    <span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">x_center</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">pdata</span><span class="p">[</span><span class="s2">&quot;annotation_y&quot;</span><span class="p">],</span>
+                         <span class="n">text</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">pdata</span> <span class="ow">in</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">]))</span>
+            <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">segment</span><span class="p">(</span>
+                <span class="n">x0</span><span class="o">=</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="s1">&#39;y0&#39;</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="s1">&#39;y1&#39;</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">([</span>
+                    <span class="nb">dict</span><span class="p">(</span><span class="n">x0</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">x_center</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">x_center</span><span class="p">,</span>
+                         <span class="n">y0</span><span class="o">=</span><span class="n">pdata</span><span class="p">[</span><span class="s2">&quot;annotation_y&quot;</span><span class="p">],</span> <span class="n">y1</span><span class="o">=</span><span class="n">pdata</span><span class="p">[</span><span class="s2">&quot;feature_y&quot;</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">pdata</span> <span class="ow">in</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">]))</span>
+            <span class="p">)</span>
+
+        <span class="n">p</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">outline_line_color</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">grid_line_color</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">logo</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">p</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Edinburgh Genome Foundry.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

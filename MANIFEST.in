@@ -1,3 +1,0 @@
-include *.txt
-recursive-include examples *.txt *.py
-include ez_setup.py

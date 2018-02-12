@@ -1,0 +1,398 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>dna_features_viewer.CircularGraphicRecord &mdash; DnaFeaturesViewer 0.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/main.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="DnaFeaturesViewer 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> DnaFeaturesViewer
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">DNA Features Viewer</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html">BiopythonTranslator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.GraphicRecord">GraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.CircularGraphicRecord">CircularGraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.GraphicFeature">GraphicFeature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ref.html#module-dna_features_viewer.tools">Tools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/by_hand.html">Define a graphic record “by hand”</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/from_genbank.html">Load a graphic record from Genbank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">DnaFeaturesViewer</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>dna_features_viewer.CircularGraphicRecord</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for dna_features_viewer.CircularGraphicRecord</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">from</span> <span class="nn">.GraphicRecord</span> <span class="k">import</span> <span class="n">GraphicRecord</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">class</span> <span class="nc">ArrowWedge</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Wedge</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">direction</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
+        <span class="n">mpatches</span><span class="o">.</span><span class="n">Wedge</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span>
+                                <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recompute_path</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_recompute_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Wedge</span><span class="o">.</span><span class="n">_recompute_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">theta1</span><span class="p">,</span> <span class="n">theta2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta2</span>
+        <span class="n">arrow_angle</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">theta2</span> <span class="o">-</span> <span class="n">theta1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">normalized_arrow_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">angle_start_arrow</span> <span class="o">=</span> <span class="n">theta1</span> <span class="o">+</span> <span class="n">arrow_angle</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">angle_start_arrow</span><span class="p">,</span> <span class="n">theta2</span><span class="p">)</span>
+            <span class="n">outer_arc</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">vertices</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">normalized_arrow_width</span><span class="p">)</span>
+            <span class="n">inner_arc</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">vertices</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">normalized_arrow_width</span><span class="p">)</span>
+            <span class="n">arrow_vertices</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">outer_arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta1</span><span class="p">)),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta1</span><span class="p">))]),</span>
+                <span class="n">inner_arc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle_start_arrow</span> <span class="o">=</span> <span class="n">theta2</span> <span class="o">-</span> <span class="n">arrow_angle</span>
+            <span class="n">arc</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">arc</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">angle_start_arrow</span><span class="p">)</span>
+            <span class="n">outer_arc</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">vertices</span> <span class="o">*</span> \
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span>
+            <span class="n">inner_arc</span> <span class="o">=</span> <span class="n">arc</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span>
+                <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span>
+            <span class="n">arrow_vertices</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">outer_arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta2</span><span class="p">)),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta2</span><span class="p">))]),</span>
+                <span class="n">inner_arc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">outer_arc</span><span class="p">,</span> <span class="n">arrow_vertices</span><span class="p">,</span> <span class="n">inner_arc</span><span class="p">])</span>
+
+        <span class="n">path_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">p</span><span class="p">,</span> <span class="n">inner_arc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+
+        <span class="n">path_codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">arc</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span>
+                                <span class="mi">4</span> <span class="o">*</span> <span class="p">[</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">],</span>
+                                <span class="n">arc</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span>
+                                <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                                <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">])</span>
+        <span class="n">path_codes</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">arc</span><span class="o">.</span><span class="n">codes</span><span class="p">)]</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span>
+
+        <span class="c1"># Shift and scale the wedge to the final location.</span>
+        <span class="n">path_vertices</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span>
+        <span class="n">path_vertices</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">path_vertices</span><span class="p">,</span> <span class="n">path_codes</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CircularGraphicRecord"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord">[docs]</a><span class="k">class</span> <span class="nc">CircularGraphicRecord</span><span class="p">(</span><span class="n">GraphicRecord</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set of Genetic Features of a same DNA sequence, to be plotted together.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sequence_length</span>
+<span class="sd">      Length of the DNA sequence, in number of nucleotides</span>
+
+<span class="sd">    features</span>
+<span class="sd">      list of GraphicalFeature objects.</span>
+
+<span class="sd">    top_position</span>
+<span class="sd">      The index in the sequence that will end up at the top of the circle</span>
+
+<span class="sd">    feature_level_width</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature arrows.</span>
+
+<span class="sd">    annotation_level_width</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature annotations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">top_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">feature_level_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">annotation_level_width</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_position</span> <span class="o">=</span> <span class="n">top_position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle_rotation</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">top_position</span> <span class="o">/</span> <span class="n">sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">=</span> <span class="n">feature_level_width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span> <span class="o">=</span> <span class="n">annotation_level_width</span>
+
+    <span class="k">def</span> <span class="nf">initialize_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">draw_line</span><span class="p">,</span> <span class="n">with_ruler</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">draw_line</span><span class="p">:</span>
+            <span class="n">circle</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">with_ruler</span><span class="p">:</span>  <span class="c1"># only display the xaxis ticks</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># don&#39;t display anything</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">finalize_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">features_levels</span><span class="p">,</span> <span class="n">annotation_levels</span><span class="p">,</span>
+                    <span class="n">auto_figure_height</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+                <span class="p">(</span><span class="n">annotation_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotation_level_width</span><span class="p">)</span>
+        <span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="n">xmin</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">auto_figure_height</span><span class="p">:</span>
+            <span class="n">figure_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="n">figure_width</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">plot_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="n">a_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">a_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="n">a_start</span><span class="p">,</span> <span class="n">a_end</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">a_start</span><span class="p">,</span> <span class="n">a_end</span><span class="p">])</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">level</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">ArrowWedge</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">),</span> <span class="n">r</span><span class="p">,</span> <span class="n">a_start</span><span class="p">,</span> <span class="n">a_end</span><span class="p">,</span>
+                           <span class="mf">0.7</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span><span class="p">,</span>
+                           <span class="n">direction</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">strand</span><span class="p">,</span>
+                           <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                           <span class="n">linewidth</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">linewidth</span><span class="p">,</span>
+                           <span class="n">facecolor</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">position_to_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">360.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_position</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span>
+        <span class="k">return</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">a</span>
+
+    <span class="k">def</span> <span class="nf">coordinates_in_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">level</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_width</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">rad_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rad_angle</span><span class="p">),</span>
+                         <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rad_angle</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">])</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Edinburgh Genome Foundry.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

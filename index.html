@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DNA Features Viewer &mdash; DnaFeaturesViewer 0.1.0 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="DnaFeaturesViewer 0.1.0 documentation" href="#"/>
+        <link rel="next" title="BiopythonTranslator" href="ref.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> DnaFeaturesViewer
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">DNA Features Viewer</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ref.html">BiopythonTranslator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html#module-dna_features_viewer.GraphicRecord">GraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html#module-dna_features_viewer.CircularGraphicRecord">CircularGraphicRecord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html#module-dna_features_viewer.GraphicFeature">GraphicFeature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ref.html#module-dna_features_viewer.tools">Tools</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/by_hand.html">Define a graphic record “by hand”</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/from_genbank.html">Load a graphic record from Genbank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">DnaFeaturesViewer</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>DNA Features Viewer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p align="center">
+<img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/title.png" width="350">
+</p><div class="section" id="dna-features-viewer">
+<h1>DNA Features Viewer<a class="headerlink" href="#dna-features-viewer" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer"><img alt="Travis CI build status" src="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master"><img alt="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" src="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" /></a>
+<p>DNA Features Viewer is a Python library to visualize DNA features, e.g. from GenBank or Gff files:</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+</p><p>Dna Features Viewer is meant to automatically produce simple and clear plots even
+for sequences with lots of overlapping features and long labels. It plays well with Matplotlib and Biopython.
+The plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g.
+for report generation or LIMS interfaces.</p>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Dna Features Viewer is an open-source software originally written at the <a class="reference external" href="http://genomefoundry.org">Edinburgh Genome Foundry</a> by <a class="reference external" href="https://github.com/Zulko">Zulko</a>
+and <a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer">released on Github</a> under the MIT licence.
+Everyone is welcome to contribute !</p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>If you have PIP installed, just type in a terminal:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">sudo</span><span class="p">)</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">dna_features_viewer</span>
+</pre></div>
+</div>
+<p>Dna Features Viewer can be installed by unzipping the source code in one directory and using this command:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>If you intend to use the bokeh features, you need to also install Bokeh and Pandas:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">sudo</span><span class="p">)</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">bokeh</span> <span class="n">pandas</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples-of-use">
+<h2>Examples of use<a class="headerlink" href="#examples-of-use" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic-plots">
+<h3>Basic plots<a class="headerlink" href="#basic-plots" title="Permalink to this headline">¶</a></h3>
+<p>In this first example we define features “by hand”:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">GraphicFeature</span><span class="p">,</span> <span class="n">GraphicRecord</span>
+<span class="n">features</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffd700&quot;</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Small feature&quot;</span><span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffcccc&quot;</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 1 with a very long name&quot;</span><span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">strand</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#cffccc&quot;</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 2&quot;</span><span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ccccff&quot;</span><span class="p">,</span>
+                   <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 3&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">record</span> <span class="o">=</span> <span class="n">GraphicRecord</span><span class="p">(</span><span class="n">sequence_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+</p><p>If we replace <cite>GraphicRecord</cite> by <cite>CircularGraphicRecord</cite> in the code above we obtain
+a circular plot of the construct:</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png" width="443">
+</p><p>It is also possible to generate interactive (browser-based) plots by using <code class="docutils literal"><span class="pre">plot_with_bokeh</span></code> instead of <code class="docutils literal"><span class="pre">plot</span></code>:</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png" width="800">
+</p></div>
+<div class="section" id="nucleotide-sequences-translations-and-cropping">
+<h3>Nucleotide sequences, translations, and cropping<a class="headerlink" href="#nucleotide-sequences-translations-and-cropping" title="Permalink to this headline">¶</a></h3>
+<p>DNA features viewer allows to plot nucleotide or amino acid sequences under
+the record plot:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">GraphicFeature</span><span class="p">,</span> <span class="n">GraphicRecord</span>
+
+<span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;ATGCATGCATGCATGCATGCATGCATGC&quot;</span>
+<span class="n">record</span> <span class="o">=</span> <span class="n">GraphicRecord</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ffcccc&#39;</span><span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ccccff&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot_sequence</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot_translation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">})</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;sequence_and_translation.png&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/sequence_and_translation.png" width="415">
+</p><p>This enables for instance to plot an overview of a sequence along with a detailed detail of a sequence subsegment (<a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/blob/master/examples/overview_and_detail.py">full code</a>)</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">cropped_record</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="n">zoom_start</span><span class="p">,</span> <span class="n">zoom_end</span><span class="p">))</span>
+<span class="n">cropped_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">cropped_record</span><span class="o">.</span><span class="n">plot_sequence</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">cropped_record</span><span class="o">.</span><span class="n">plot_translation</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mi">408</span><span class="p">,</span> <span class="mi">423</span><span class="p">))</span>
+</pre></div>
+</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/overview_and_detail.png" width="900">
+</p></div>
+<div class="section" id="reading-the-features-from-a-genbank-file">
+<h3>Reading the features from a GenBank file<a class="headerlink" href="#reading-the-features-from-a-genbank-file" title="Permalink to this headline">¶</a></h3>
+<p>DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">BiopythonTranslator</span>
+<span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="s2">&quot;my_sequence.gb&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
+</p><p>The class <code class="docutils literal"><span class="pre">BiopythonTranslator</span></code> determines how the genbank information is transformed into graphical features.
+It enables to chose which categories of features to plot, the color of the different features.</p>
+</div>
+<div class="section" id="displaying-the-features-along-with-other-plots">
+<h3>Displaying the features along with other plots<a class="headerlink" href="#displaying-the-features-along-with-other-plots" title="Permalink to this headline">¶</a></h3>
+<p>As it uses Matplotlib, Dna Features Viewer can display the features on top of
+other sequences statistics, such as the local GC content:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">BiopythonTranslator</span>
+<span class="kn">from</span> <span class="nn">Bio</span> <span class="k">import</span> <span class="n">SeqIO</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Parse the genbank file, plot annotations</span>
+<span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
+<span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Plot the local GC content</span>
+<span class="k">def</span> <span class="nf">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="n">gc_content</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="mf">100.0</span><span class="o">*</span><span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;GC&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="p">[</span><span class="n">gc_content</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">])</span>
+          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)]</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)</span><span class="o">+</span><span class="mi">25</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GC(%)&quot;</span><span class="p">)</span>
+
+<span class="n">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+
+<span class="c1"># Resize the figure</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;with_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p align="center">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png" width="800">
+</p></div>
+</div>
+<div class="section" id="custom-biopython-translators">
+<h2>Custom biopython translators<a class="headerlink" href="#custom-biopython-translators" title="Permalink to this headline">¶</a></h2>
+<p>Dna Features Viewer allows to define “themes” by using custom record translators
+instead of the default <code class="docutils literal"><span class="pre">BiopythonTranslator</span></code>. Here is an example:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">BiopythonTranslator</span>
+
+<span class="k">class</span> <span class="nc">MyCustomTranslator</span><span class="p">(</span><span class="n">BiopythonTranslator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom translator implementing the following theme:</span>
+
+<span class="sd">    - Color terminators in green, CDS in blue, all other features in gold.</span>
+<span class="sd">    - Do not display features that are restriction sites unless they are BamHI</span>
+<span class="sd">    - Do not display labels for restriction sites</span>
+<span class="sd">    - For CDS labels just write &quot;CDS here&quot; instead of the name of the gene.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">compute_feature_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CDS&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">elif</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;terminator&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;green&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;gold&quot;</span>
+
+    <span class="k">def</span> <span class="nf">compute_feature_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;restriction_site&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CDS&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;CDS here&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BiopythonTranslator</span><span class="o">.</span><span class="n">compute_feature_label</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">compute_filtered_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Do not display promoters. Just because.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">feature</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s2">&quot;restriction_site&quot;</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;BamHI&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)))</span>
+        <span class="p">]</span>
+
+
+<span class="n">graphic_record</span> <span class="o">=</span> <span class="n">MyCustomTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;custom_bopython_translator.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png" />
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/by_hand.html">Define a graphic record “by hand”</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/from_genbank.html">Load a graphic record from Genbank</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
+</ul>
+</div>
+<a href="https://twitter.com/share" class="twitter-share-button"
+data-text="DnaFeaturesViewer - Plot DNA digestion band patterns with Python" data-size="large" data-hashtags="Bioprinting">Tweet
+</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';
+fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+<iframe src="http://ghbtns.com/github-btn.html?user=Edinburgh-Genome-Foundry&repo=DnaFeaturesViewer&type=watch&count=true&size=large"
+allowtransparency="true" frameborder="0" scrolling="0" width="152px" height="30px" margin-bottom="30px"></iframe></div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ref.html" class="btn btn-neutral float-right" title="BiopythonTranslator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Edinburgh Genome Foundry.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
