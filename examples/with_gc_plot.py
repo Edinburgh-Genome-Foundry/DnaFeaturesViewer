@@ -13,7 +13,8 @@ graphic_record.plot(ax=ax1, with_ruler=False)
 
 # Plot the local GC content
 def plot_local_gc_content(record, window_size, ax):
-    gc_content = lambda s: 100.0*len([c for c in s if c in "GC"]) / len(s)
+    def gc_content(s):
+        return 100.0*len([c for c in s if c in "GC"]) / len(s)
     yy = [gc_content(record.seq[i:i+window_size])
           for i in range(len(record.seq)-window_size)]
     xx = np.arange(len(record.seq)-window_size)+25

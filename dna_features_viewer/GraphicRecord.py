@@ -30,7 +30,6 @@ except:
     PANDAS_AVAILABLE = False
 
 
-
 class GraphicRecord:
     """Set of Genetic Features of a same DNA sequence, to be plotted together.
 
@@ -80,7 +79,7 @@ class GraphicRecord:
 
     def initialize_ax(self, ax, draw_line, with_ruler):
         start, end = self.span
-        plot_start, plot_end = start - 0.5, end - 0.5
+        plot_start, plot_end = start - 0.8, end - 0.2
         if draw_line:
             ax.plot([plot_start, plot_end], [0, 0], zorder=-1000, c="k")
 
@@ -182,7 +181,7 @@ class GraphicRecord:
         )
 
         figure_width = ax.figure.get_size_inches()[0]
-        margin = 0.05*figure_width
+        margin = 0.05 * figure_width
         x1, y1, x2, y2 = get_text_box(text, margin=margin)
         overflowing = (x1 < feature.start) or (x2 > feature.end)
         return text, overflowing, (x1, x2)
@@ -243,7 +242,7 @@ class GraphicRecord:
                          0 if len(annotations_levels) == 0 else
                          max(annotations_levels.values()),
                          auto_figure_height)
-        return ax, labels_data
+        return ax, (features_levels, labels_data)
 
     def plot_sequence(self, ax, location=None, y_offset=1, fontdict=None,
                       background=("#f7fbff", "#fffcf0")):
@@ -294,7 +293,6 @@ class GraphicRecord:
                                 zorder=-2000, facecolor=background[i % 2])
         ymin = ax.get_ylim()[0]
         ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
-
 
     def plot_translation(self, ax, location=None, y_offset=2, fontdict=None,
                          background=("#f5fff0", "#fff7fd"), translation=None,
@@ -407,7 +405,6 @@ class GraphicRecord:
             first_index=self.first_index + s
         )
 
-
     def plot_with_bokeh(self, figure_width=5):
         """Plot the graphic record using Bokeh.
 
@@ -422,47 +419,50 @@ class GraphicRecord:
             raise ImportError("``plot_with_bokeh`` requires Bokeh installed.")
         if not PANDAS_AVAILABLE:
             raise ImportError("``plot_with_bokeh`` requires Pandas installed.")
-        ax, plot_data = self.plot(figure_width=figure_width)
-        width, height = [int(100*e) for e in ax.figure.get_size_inches()]
+        ax, (features_levels, plot_data) = self.plot(figure_width=figure_width)
+        width, height = [int(100 * e) for e in ax.figure.get_size_inches()]
         plt.close(ax.figure)
-        max_y = max([data["annotation_y"] for f, data in plot_data.items()])
-
+        max_y = max([data["annotation_y"] for f, data in plot_data.items()] +
+                    list(features_levels.values()))
         hover = HoverTool(tooltips="@hover_html")
         p = figure(plot_width=width, plot_height=height,
                    tools=[hover, "xpan,xwheel_zoom,reset,tap"],
                    x_range=Range1d(0, self.sequence_length),
-                   y_range=Range1d(-1, max_y+1))
+                   y_range=Range1d(-1, max_y + 1))
         p.patches(
             xs='xs', ys='ys', color='color', line_color="#000000",
             source=ColumnDataSource(pd.DataFrame.from_records([
                 bokeh_feature_patch(
                     self, feature.start, feature.end, feature.strand,
-                    level=pdata["feature_y"], color=feature.color,
+                    level=level, color=feature.color,
                     label=feature.label,
                     hover_html=(feature.html if feature.html is not None else
                                 feature.label)
                 )
-                for feature, pdata in plot_data.items()
+                for feature, level in features_levels.items()
             ]))
         )
-        p.text(
-            x='x', y='y', text='text', text_align="center",
-            text_font_size='12px',  text_font="arial", text_font_style="normal",
-            source=ColumnDataSource(pd.DataFrame.from_records([
-                dict(x=feature.x_center, y=pdata["annotation_y"],
-                     text=feature.label, color=feature.color)
-                for feature, pdata in plot_data.items()
-            ]))
-        )
-        p.segment(
-            x0='x0', x1='x1', y0='y0', y1='y1', line_width=0.5,
-            color="#000000",
-            source=ColumnDataSource(pd.DataFrame.from_records([
-                dict(x0=feature.x_center, x1=feature.x_center,
-                     y0=pdata["annotation_y"], y1=pdata["feature_y"])
-                for feature, pdata in plot_data.items()
-            ]))
-        )
+
+        if plot_data != {}:
+            p.text(
+                x='x', y='y', text='text', text_align="center",
+                text_font_size='12px',  text_font="arial",
+                text_font_style="normal",
+                source=ColumnDataSource(pd.DataFrame.from_records([
+                    dict(x=feature.x_center, y=pdata["annotation_y"],
+                         text=feature.label, color=feature.color)
+                    for feature, pdata in plot_data.items()
+                ]))
+            )
+            p.segment(
+                x0='x0', x1='x1', y0='y0', y1='y1', line_width=0.5,
+                color="#000000",
+                source=ColumnDataSource(pd.DataFrame.from_records([
+                    dict(x0=feature.x_center, x1=feature.x_center,
+                         y0=pdata["annotation_y"], y1=pdata["feature_y"])
+                    for feature, pdata in plot_data.items()
+                ]))
+            )
 
         p.yaxis.visible = False
         p.outline_line_color = None

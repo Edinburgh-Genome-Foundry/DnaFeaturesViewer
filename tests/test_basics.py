@@ -52,7 +52,7 @@ def test_from_genbank(tmpdir):
 def test_from_genbank_to_circular(tmpdir):
     translator = BiopythonTranslator()
     graphic_record = translator.translate_record(
-        example_genbank, grecord_class=CircularGraphicRecord)
+        example_genbank, record_class=CircularGraphicRecord)
     ax, _ = graphic_record.plot(figure_width=7)
     ax.figure.tight_layout()
     target_file = os.path.join(str(tmpdir), "from_genbank.png")
@@ -95,7 +95,20 @@ def test_plot_with_bokeh(tmpdir):
     with open(target_file, "w+") as f:
         f.write(file_html(plot, CDN, "Example Sequence"))
     with open(target_file, 'r') as f:
-        assert len(f.read()) > 10000
+        assert len(f.read()) > 5000
+
+def test_plot_with_bokeh_no_labels(tmpdir):
+    """Bokeh has a problem with empty lists of labels."""
+    gb_record = SeqIO.read(example_genbank, "genbank")
+    record = BiopythonTranslator().translate_record(record=gb_record)
+    for feature in record.features:
+        feature.label = None
+    plot = record.plot_with_bokeh(figure_width=8)
+    target_file = os.path.join(str(tmpdir), "plot_with_bokeh.html")
+    with open(target_file, "w+") as f:
+        f.write(file_html(plot, CDN, "Example Sequence"))
+    with open(target_file, 'r') as f:
+        assert len(f.read()) > 5000
 
 def test_split_overflowing_features():
     features = [

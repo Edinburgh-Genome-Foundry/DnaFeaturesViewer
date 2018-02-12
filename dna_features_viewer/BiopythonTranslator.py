@@ -1,9 +1,13 @@
 from .GraphicRecord import GraphicRecord
+from .CircularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
 from Bio import SeqIO
 
 class BiopythonTranslator:
     """A translator from SeqRecords to dna_features_viewer GraphicRecord.
+
+    This can be subclassed to create custom "themes" (see the example
+    ``custom_biopython_translator.py`` in the docs).
 
     Parameters
     ----------
@@ -92,7 +96,7 @@ class BiopythonTranslator:
                               strand=feature.location.strand,
                               **properties)
 
-    def translate_record(self, record, grecord_class=None):
+    def translate_record(self, record, record_class=None):
         """Create a new GraphicRecord from a BioPython Record object.
 
         Parameters
@@ -101,17 +105,23 @@ class BiopythonTranslator:
         record
           A BioPython Record object or the path to a Genbank file.
 
-        grecord_class
+        record_class
           The graphic record class to use, e.g. GraphicRecord (default) or
-          CircularGraphicRecord.
+          CircularGraphicRecord. Strings 'circular' and 'linear' can also be
+          provided.
         """
+        classes = {
+            'linear': GraphicRecord,
+            'circular': CircularGraphicRecord,
+            None: GraphicRecord
+        }
+        if record_class in classes:
+            record_class = classes[record_class]
 
         if isinstance(record, str):
             record = SeqIO.read(record, "genbank")
-        if grecord_class is None:
-            grecord_class = GraphicRecord
         filtered_features = self.compute_filtered_features(record.features)
-        return grecord_class(
+        return record_class(
             sequence_length=len(record),
             sequence=str(record.seq),
             features=[

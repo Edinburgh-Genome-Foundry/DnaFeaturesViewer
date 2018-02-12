@@ -4,6 +4,9 @@
     <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/title.png" width="350">
     </p>
 
+DNA Features Viewer
+====================
+
 .. image:: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
    :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
    :alt: Travis CI build status
@@ -12,7 +15,7 @@
    :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
 
 
-DNA Features Viewer ()(full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
+DNA Features Viewer is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
 
 .. raw:: html
 
@@ -267,3 +270,44 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
+
+
+.. toctree::
+    :hidden:
+    :maxdepth: 3
+
+    self
+
+.. toctree::
+    :hidden:
+    :caption: Reference
+    :maxdepth: 1
+
+    ref
+
+.. toctree::
+    :caption: Examples
+
+    examples/by_hand
+    examples/by_hand_circular
+    examples/custom_biopython_translator
+    examples/from_genbank
+    examples/sequence_and_translation
+    examples/with_gc_plot
+
+.. raw:: html
+
+       <a href="https://twitter.com/share" class="twitter-share-button"
+       data-text="DnaFeaturesViewer - Plot DNA digestion band patterns with Python" data-size="large" data-hashtags="Bioprinting">Tweet
+       </a>
+       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+       if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';
+       fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+       </script>
+       <iframe src="http://ghbtns.com/github-btn.html?user=Edinburgh-Genome-Foundry&repo=DnaFeaturesViewer&type=watch&count=true&size=large"
+       allowtransparency="true" frameborder="0" scrolling="0" width="152px" height="30px" margin-bottom="30px"></iframe>
+
+
+.. _Zulko: https://github.com/Zulko/
+.. _Github: https://github.com/EdinburghGenomeFoundry/DnaFeaturesViewer
+.. _PYPI: https://pypi.python.org/pypi/DnaFeaturesViewer
