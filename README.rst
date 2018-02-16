@@ -264,3 +264,11 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
+
+More biology software
+---------------------
+
+.. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png
+  :target: https://edinburgh-genome-foundry.github.io/
+
+Dna Features Viewer is part of the `EGF Codons <https://edinburgh-genome-foundry.github.io/>`_ synthetic biology software suite for DNA design, manufacturing and validation.
