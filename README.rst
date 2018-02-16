@@ -206,7 +206,7 @@ other sequences statistics, such as the local GC content:
 .. raw:: html
 
     <p align="center">
-    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_plot.png" width="800">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_gc_plot.png" width="800">
     </p>
 
 .. figure::
