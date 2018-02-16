@@ -31,4 +31,8 @@ Dna Features Viewer automatically produce simple and clear plots even for sequen
 
 **License:** MIT, Copyright Edinburgh Genome Foundry
 
+
+.. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.svg
+  :target: https://edinburgh-genome-foundry.github.io/
+
 Dna Features Viewer is part of the `EGF Codons <https://edinburgh-genome-foundry.github.io/>`_ synthetic biology software suite for DNA design, manufacturing and validation.
