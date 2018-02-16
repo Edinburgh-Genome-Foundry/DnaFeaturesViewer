@@ -11,6 +11,9 @@ DNA Features Viewer is a Python library to visualize DNA features, e.g. from Gen
 
 Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.
 
+Infos
+-----
+
 **PIP installation:**
 
 .. code:: bash
@@ -31,6 +34,8 @@ Dna Features Viewer automatically produce simple and clear plots even for sequen
 
 **License:** MIT, Copyright Edinburgh Genome Foundry
 
+Want more ?
+-----------
 
 .. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png
   :target: https://edinburgh-genome-foundry.github.io/
