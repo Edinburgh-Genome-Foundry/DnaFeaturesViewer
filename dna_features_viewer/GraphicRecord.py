@@ -7,14 +7,11 @@ from .tools import (change_luminosity, get_text_box, compute_features_levels,
 from .biotools import extract_translation
 from .GraphicFeature import GraphicFeature
 
-try:
-    from Bio.Seq import Seq
-    from Bio.SeqRecord import SeqRecord
-    from Bio.SeqFeature import FeatureLocation, SeqFeature
-    from Bio.Alphabet import DNAAlphabet
-    BIOPYTHON_AVAILABLE = True
-except ImportError:
-    BIOPYTHON_AVAILABLE = False
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.SeqFeature import FeatureLocation, SeqFeature
+from Bio.Alphabet import DNAAlphabet
+
 
 try:
     from bokeh.plotting import figure, ColumnDataSource
@@ -375,8 +372,6 @@ class GraphicRecord:
         with open("example.gb", "w+") as f:
             SeqIO.write(record, f, "genbank")
         """
-        if not BIOPYTHON_AVAILABLE:
-            raise ImportError(".to_biopython_record requires Biopython")
         features = [
             SeqFeature(FeatureLocation(f.start, f.end, f.strand),
                        type=f.feature_type, qualifiers={"label": f.label})
