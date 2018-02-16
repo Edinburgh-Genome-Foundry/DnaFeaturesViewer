@@ -12,7 +12,7 @@
    :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
 
 
-DNA Features Viewer ()(full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
+DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
 
 .. raw:: html
 
@@ -20,10 +20,7 @@ DNA Features Viewer ()(full documentation `here <https://edinburgh-genome-foundr
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
     </p>
 
-Dna Features Viewer is meant to automatically produce simple and clear plots even
-for sequences with lots of overlapping features and long labels. It plays well with Matplotlib and Biopython.
-The plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g.
-for report generation or LIMS interfaces.
+Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.
 
 
 License
@@ -57,7 +54,7 @@ If you intend to use the bokeh features, you need to also install Bokeh and Pand
 
 
 Examples of use
-----------------
+---------------
 
 
 Basic plots

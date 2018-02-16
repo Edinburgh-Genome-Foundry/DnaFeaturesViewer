@@ -14,13 +14,15 @@ record = GraphicRecord(sequence=250*"ATGC", features=[
 
 zoom_start, zoom_end = 398, 428
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-ax1.set_title("Whole sequence", loc='left', weight='bold')
-ax2.set_title("Sequence detail", loc='left', weight='bold')
+
 record.plot(ax=ax1)
-ax1.fill_between((zoom_start, zoom_end), +1000, -1000, alpha=0.15)
 cropped_record = record.crop((zoom_start, zoom_end))
 cropped_record.plot(ax=ax2)
 cropped_record.plot_sequence(ax=ax2)
 cropped_record.plot_translation(ax=ax2, location=(408, 423),
                                 fontdict={'weight': 'bold'})
+
+ax1.set_title("Whole sequence", loc='left', weight='bold')
+ax2.set_title("Sequence detail", loc='left', weight='bold')
+ax1.fill_between((zoom_start, zoom_end), +1000, -1000, alpha=0.15)
 fig.savefig('overview_and_detail.png', bbox_inches='tight')
