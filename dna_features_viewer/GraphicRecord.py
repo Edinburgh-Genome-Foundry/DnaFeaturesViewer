@@ -112,7 +112,8 @@ class GraphicRecord:
         is_undirected = feature.strand not in (-1, 1)
         head_is_cut = ((feature.strand == 1 and feature.open_right) or
                        (feature.strand == -1 and feature.open_left))
-        head_length = 0.001 if (is_undirected or head_is_cut) else 5
+        head_length = (0.001 if (is_undirected or head_is_cut) else
+                       max(0.6 * feature.thickness, 5))
 
         arrowstyle = mpatches.ArrowStyle.Simple(head_width=feature.thickness,
                                                 tail_width=feature.thickness,
@@ -148,8 +149,7 @@ class GraphicRecord:
                 new_features.append(f)
         self.features = new_features
 
-    def annotate_feature(self, ax, feature, level, fontsize=11,
-                         box_linewidth=1, box_color=None):
+    def annotate_feature(self, ax, feature, level):
         """Create a Matplotlib Text with the feature's label.
 
         The x-coordinates of the text are determined by the feature's
@@ -166,14 +166,15 @@ class GraphicRecord:
         """
         bg_color = change_luminosity(feature.color, luminosity=0.95)
         x, y = self.coordinates_in_plot(feature.x_center, level)
+        box_color = feature.box_color
         text = ax.text(
             x, y, feature.label,
             horizontalalignment="center",
             verticalalignment="center",
-            bbox=dict(boxstyle="round",
-                      fc=bg_color if box_color is None else box_color,
-                      ec="0.5", lw=box_linewidth),
-            fontsize=fontsize,
+            bbox=None if (box_color is None) else dict(boxstyle="round",
+                fc=bg_color if box_color is "auto" else box_color,
+                ec="0.5", lw=feature.box_linewidth),
+            fontdict=feature.fontdict,
             zorder=2
         )
 
@@ -184,8 +185,8 @@ class GraphicRecord:
         return text, overflowing, (x1, x2)
 
     def plot(self, ax=None, figure_width=8, draw_line=True, with_ruler=True,
-             fontsize=11, box_linewidth=1, box_color=None, plot_sequence=False,
-             annotate_inline=False, level_offset=0, x_lim=None):
+             plot_sequence=False, annotate_inline=False, level_offset=0,
+             x_lim=None):
         """Plot all the features in the same Matplotlib ax
 
         `figure_width` represents the width in inches of the final figure (if
@@ -208,8 +209,7 @@ class GraphicRecord:
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is not None:
                 text, overflowing, (x1, x2) = self.annotate_feature(
-                    ax=ax, feature=feature, level=level, fontsize=fontsize,
-                    box_linewidth=box_linewidth, box_color=box_color
+                    ax=ax, feature=feature, level=level
                 )
                 if overflowing or not annotate_inline:
                     overflowing_annotations.append(GraphicFeature(
@@ -277,8 +277,7 @@ class GraphicRecord:
         if location is None:
             location = self.span
         lstart, lend = location
-        if fontdict is None:
-            fontdict = {}
+        fontdict = dict(size=11, **(fontdict or {}))
         for i, n in enumerate(self.sequence):
             l = i + lstart
             if (lstart <= l <= lend):
@@ -340,8 +339,7 @@ class GraphicRecord:
         y = - 0.7 * y_offset * self.feature_level_width
         ymin = ax.get_ylim()[0]
         ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
-        if fontdict is None:
-            fontdict = {}
+        fontdict = fontdict or {}
         for i, ((start, end), text) in enumerate(texts):
             ax.text(0.5 * (start + end - 1), y, text,
                     ha='center', va='center', fontdict=fontdict)

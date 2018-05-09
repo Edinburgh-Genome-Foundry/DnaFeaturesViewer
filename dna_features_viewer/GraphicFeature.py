@@ -20,14 +20,24 @@ class GraphicFeature:
       Color of the feature, any Matplotlib-compatible format is accepted,
       such as "white", "w", "#ffffff", (1,1,1), etc.
 
+    box_color
+      Color of the label box. Set to None for no box around the label.
+      Leave to "auto" for a box color that is a lightened version of the
+      feature's color.
+
     data
       Any other keyword is kept into the feature.data[] dictionary.
+
+    fontdict
+      A Matplotlib fontdict for the font to be used in the label, e.g.
+      ``size=11``, ``weight='bold'``, ``family='Helvetica'``, etc.
     """
     feature_type = "feature"
 
     def __init__(self, start=None, end=None, strand=None,
                  label=None, color="#000080", thickness=14, linewidth=1.0,
-                 html=None, open_left=False, open_right=False, **data):
+                 fontdict=None, html=None, open_left=False, open_right=False,
+                 box_linewidth=1, box_color="auto", **data):
         self.start = start
         self.end = end
         self.strand = strand
@@ -36,6 +46,9 @@ class GraphicFeature:
         self.data = data
         self.thickness = thickness
         self.linewidth = linewidth
+        self.box_linewidth = box_linewidth
+        self.box_color = box_color
+        self.fontdict = dict(fontsize=11, **(fontdict or {}))
         self.html = html
         self.open_left = open_left
         self.open_right = open_right

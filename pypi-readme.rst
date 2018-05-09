@@ -34,8 +34,8 @@ Infos
 
 **License:** MIT, Copyright Edinburgh Genome Foundry
 
-Want more ?
------------
+More biology software
+-----------------------
 
 .. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png
   :target: https://edinburgh-genome-foundry.github.io/

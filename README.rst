@@ -265,6 +265,19 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
 
+Other examples:
+---------------
+
+This GIF made uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with `DNA Chisel <https://github.com/Edinburgh-Genome-Foundry/DnaChisel>`_. It also uses `Proglog <https://github.com/Edinburgh-Genome-Foundry/Proglog>`_ to automatically generate a picture at different time points. See the not-so-great python code for this example `here <https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d>`_.
+.. raw:: html
+
+    <p align="center">
+    <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaChisel/master/docs/_static/images/dnachisel_algorithm.gif" width="800">
+    <br />
+    </p>
+
+https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaChisel/master/docs/_static/images/dnachisel_algorithm.gif
+
 More biology software
 ---------------------
 
