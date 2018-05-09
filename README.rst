@@ -22,15 +22,6 @@ DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.
 
 Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.
 
-
-License
----------
-
-Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
-<http://genomefoundry.org>`_ by `Zulko <https://github.com/Zulko>`_
-and `released on Github <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer>`_ under the MIT licence.
-Everyone is welcome to contribute !
-
 Installation
 --------------
 
@@ -265,6 +256,7 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
 
+
 Other examples:
 ---------------
 
@@ -276,7 +268,13 @@ This GIF made uses DNA Features Viewer to plot the progress in the optimization 
     <br />
     </p>
 
-https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaChisel/master/docs/_static/images/dnachisel_algorithm.gif
+License=MIT
+-----------
+
+Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
+<http://genomefoundry.org>`_ by `Zulko <https://github.com/Zulko>`_
+and `released on Github <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer>`_ under the MIT licence.
+Everyone is welcome to contribute !
 
 More biology software
 ---------------------
