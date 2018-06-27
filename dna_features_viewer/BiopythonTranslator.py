@@ -23,6 +23,8 @@ class BiopythonTranslator:
     """
     default_feature_color = "#7245dc"
     graphic_record_parameters = {}
+    ignored_features_types = ()
+    max_label_length = 50
 
     def __init__(self, features_filters=(), features_properties=None):
         self.features_filters = features_filters
@@ -39,12 +41,25 @@ class BiopythonTranslator:
         """
         return feature.qualifiers.get("color", self.default_feature_color)
 
-    def compute_filtered_features(self, features):
-        return [f for f in features
-                if all([fl(f) for fl in self.features_filters])]
+    def compute_feature_fontdict(self, feature):
+        """Compute a font dict for this feature.
+        """
+        return None
 
-    @staticmethod
-    def compute_feature_label(feature):
+    def compute_feature_box_linewidth(self, feature):
+        """Compute a font dict for this feature.
+        """
+        return 1
+
+    def compute_filtered_features(self, features):
+        return [
+            f for f in features
+            if all([fl(f) for fl in self.features_filters])
+            and f.type not in self.ignored_features_types
+        ]
+
+    @classmethod
+    def compute_feature_label(cls, feature):
         """Gets the 'label' of the feature.
 
         This method looks for the first non-empty qualifier of the feature
@@ -61,9 +76,12 @@ class BiopythonTranslator:
                 result = feature.qualifiers[key]
                 break
         if isinstance(result, list):
-            return "|".join(result)
+            result = "|".join(result)
         else:
-            return result
+            result = result
+        if len(result) > cls.max_label_length:
+            result = result[:cls.max_label_length] + '...'
+        return result
 
     @staticmethod
     def compute_feature_html(feature):
@@ -82,11 +100,16 @@ class BiopythonTranslator:
 
     def translate_feature(self, feature):
         """Translate a Biopython feature into a Dna Features Viewer feature."""
-        properties = dict(label=self.compute_feature_label(feature),
-                          color=self.compute_feature_color(feature),
-                          html=self.compute_feature_html(feature))
+        properties = dict(
+            label=self.compute_feature_label(feature),
+            color=self.compute_feature_color(feature),
+            html=self.compute_feature_html(feature),
+            fontdict=self.compute_feature_fontdict(feature),
+            box_linewidth=self.compute_feature_box_linewidth(feature)
+        )
         if self.features_properties is not None:
             other_properties = self.features_properties(feature)
+
         else:
             other_properties = {}
         properties.update(other_properties)

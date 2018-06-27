@@ -48,7 +48,8 @@ class GraphicFeature:
         self.linewidth = linewidth
         self.box_linewidth = box_linewidth
         self.box_color = box_color
-        self.fontdict = dict(fontsize=11, **(fontdict or {}))
+        self.fontdict = dict([('fontsize', 11)]
+                             + list((fontdict or {}).items()))
         self.html = html
         self.open_left = open_left
         self.open_right = open_right
