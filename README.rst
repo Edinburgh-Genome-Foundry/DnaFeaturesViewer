@@ -104,7 +104,7 @@ the record plot:
     from dna_features_viewer import GraphicFeature, GraphicRecord
 
     sequence = "ATGCATGCATGCATGCATGCATGCATGC"
-    record = GraphicRecord(sequence, features=[
+    record = GraphicRecord(sequence=sequence, features=[
         GraphicFeature(start=5, end=10, strand=+1, color='#ffcccc'),
         GraphicFeature(start=8, end=15, strand=+1, color='#ccccff')
     ])
