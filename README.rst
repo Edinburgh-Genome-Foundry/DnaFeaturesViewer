@@ -104,7 +104,7 @@ the record plot:
     from dna_features_viewer import GraphicFeature, GraphicRecord
 
     sequence = "ATGCATGCATGCATGCATGCATGCATGC"
-    record = GraphicRecord(sequence, features=[
+    record = GraphicRecord(sequence=sequence, features=[
         GraphicFeature(start=5, end=10, strand=+1, color='#ffcccc'),
         GraphicFeature(start=8, end=15, strand=+1, color='#ccccff')
     ])
@@ -257,8 +257,11 @@ instead of the default ``BiopythonTranslator``. Here is an example:
     :align: center
 
 
-Other examples:
----------------
+Examples in other librairies:
+------------------------------
+
+DNA Chisel
+~~~~~~~~~~~
 
 This GIF uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with `DNA Chisel <https://github.com/Edinburgh-Genome-Foundry/DnaChisel>`_. It also uses `Proglog <https://github.com/Edinburgh-Genome-Foundry/Proglog>`_ to automatically generate a picture at different time points. See the not-so-great python code for this example `here <https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d>`_.
 
@@ -268,6 +271,19 @@ This GIF uses DNA Features Viewer to plot the progress in the optimization of a 
     <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaChisel/master/docs/_static/images/dnachisel_algorithm.gif" width="800">
     <br />
     </p>
+
+GeneBlocks
+~~~~~~~~~~
+GeneBlocks computes "diffs" of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence's features.
+
+.. raw:: html
+
+    <p align="center">
+    <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/GeneBlocks/master/examples/diff_blocks.png" width="800">
+    <br />
+    </p>
+
+
 
 License=MIT
 -----------
