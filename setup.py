@@ -14,4 +14,4 @@ setup(name='dna_features_viewer',
     license='MIT',
     keywords="DNA Sequence Feature Genbank Biopython Matplotlib",
     packages= find_packages(exclude='docs'),
-    install_requires=["matplotlib", "Biopython"])
+    install_requires=["matplotlib>=3", "Biopython"])

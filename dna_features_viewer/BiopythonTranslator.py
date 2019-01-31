@@ -39,7 +39,14 @@ class BiopythonTranslator:
         To change the behaviour, create a subclass of ``BiopythonTranslator``
         and overwrite this method.
         """
-        return feature.qualifiers.get("color", self.default_feature_color)
+        if 'color' in feature.qualifiers:
+            color = feature.qualifiers['color']
+            if isinstance(color[0], str):
+                return "".join(feature.qualifiers['color'])
+            else:
+                return color
+        else:
+            return self.default_feature_color
 
     def compute_feature_fontdict(self, feature):
         """Compute a font dict for this feature.

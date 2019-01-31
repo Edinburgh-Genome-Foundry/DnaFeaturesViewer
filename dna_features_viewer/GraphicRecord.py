@@ -288,7 +288,7 @@ class GraphicRecord:
                 ax.fill_between([i - 0.5, i + 0.5], y1=1000, y2=-1000,
                                 zorder=-2000, facecolor=background[i % 2])
         ymin = ax.get_ylim()[0]
-        ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
+        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_width))
 
     def plot_translation(self, ax, location=None, y_offset=2, fontdict=None,
                          background=("#f5fff0", "#fff7fd"), translation=None,
@@ -338,7 +338,7 @@ class GraphicRecord:
 
         y = - 0.7 * y_offset * self.feature_level_width
         ymin = ax.get_ylim()[0]
-        ax.set_ylim(ymin=min(ymin, -y_offset * self.feature_level_width))
+        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_width))
         fontdict = fontdict or {}
         for i, ((start, end), text) in enumerate(texts):
             ax.text(0.5 * (start + end - 1), y, text,
