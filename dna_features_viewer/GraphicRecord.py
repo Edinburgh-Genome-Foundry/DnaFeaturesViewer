@@ -277,7 +277,8 @@ class GraphicRecord:
         if location is None:
             location = self.span
         lstart, lend = location
-        fontdict = dict(size=11, **(fontdict or {}))
+        fontdict = dict(size=11)
+        fontdict.update(fontdict or {})
         for i, n in enumerate(self.sequence):
             l = i + lstart
             if (lstart <= l <= lend):
