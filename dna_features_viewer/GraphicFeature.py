@@ -19,6 +19,10 @@ class GraphicFeature:
     color
       Color of the feature, any Matplotlib-compatible format is accepted,
       such as "white", "w", "#ffffff", (1,1,1), etc.
+    
+    linecolor
+      Color of the feature's border, any Matplotlib-compatible format is
+      accepted, such as "white", "w", "#ffffff", (1,1,1), etc.
 
     box_color
       Color of the label box. Set to None for no box around the label.
@@ -36,13 +40,15 @@ class GraphicFeature:
 
     def __init__(self, start=None, end=None, strand=None,
                  label=None, color="#000080", thickness=14, linewidth=1.0,
-                 fontdict=None, html=None, open_left=False, open_right=False,
+                 linecolor="#000000", fontdict=None, html=None,
+                 open_left=False, open_right=False,
                  box_linewidth=1, box_color="auto", **data):
         self.start = start
         self.end = end
         self.strand = strand
         self.label = label
         self.color = color
+        self.linecolor = linecolor
         self.data = data
         self.thickness = thickness
         self.linewidth = linewidth

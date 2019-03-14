@@ -139,7 +139,7 @@ class CircularGraphicRecord(GraphicRecord):
         patch = ArrowWedge((0, -self.radius), r, a_start, a_end,
                            0.7 * self.feature_level_width,
                            direction=feature.strand,
-                           edgecolor='k',
+                           edgecolor=feature.linecolor,
                            linewidth=feature.linewidth,
                            facecolor=feature.color, zorder=1)
         ax.add_patch(patch)

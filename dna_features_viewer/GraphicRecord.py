@@ -123,6 +123,7 @@ class GraphicRecord:
                                          shrinkA=0.0, shrinkB=0.0,
                                          arrowstyle=arrowstyle,
                                          facecolor=feature.color, zorder=0,
+                                         edgecolor=feature.linecolor,
                                          linewidth=feature.linewidth)
         ax.add_patch(patch)
         return patch
