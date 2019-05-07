@@ -41,9 +41,10 @@ def get_text_box(text, margin=0):
     """
     renderer = text.axes.figure.canvas.get_renderer()
     bbox = text.get_window_extent(renderer)  # bounding box
-    bbox_data = bbox.transformed(text.axes.transData.inverted())
+    bbox_data = bbox
+    # bbox_data = bbox.transformed(text.axes.transData.inverted())
     x1, y1, x2, y2 = bbox_data.get_points().flatten()
-    return [x1 - margin, y1 - margin, x2 + margin, y2 + margin]
+    return [x1 , y1, x2, y2]
 
 class Graph:
     """Minimal implementation of non-directional graphs.
@@ -85,16 +86,33 @@ def compute_features_levels(features):
         if f1.overlaps_with(f2)
     ]
     graph = Graph(features, edges)
-    levels = {
-        n: None
-        for n in graph.nodes
-    }
+    levels = {n: None for n in graph.nodes}
+
+    def collision(base_level, node):
+        """Return True iff the node placed at base_level collides with
+        its neighbors in the graph."""
+        for neighbor in graph.neighbors[node]:
+            level = levels[neighbor]
+            if level is None:
+                continue
+            if 'nlines' in neighbor.data:
+                top = numpy.ceil(level + 0.5 * neighbor.data['nlines'])
+                if level <= base_level < top:
+                    return True
+                
+                top = numpy.ceil(base_level + 0.5 * node.data['nlines'])
+                if base_level <= level < top:
+                    return True
+            else:
+                if level == base_level:
+                    return True
+        return False
+
     for node in sorted(graph.nodes, key=lambda f: -f.length):
-        level = 0
-        while any([levels[n] == level
-                   for n in graph.neighbors[node]]):
-            level += 1
-        levels[node] = level
+        base_level = 0
+        while collision(base_level, node):
+            base_level += 1
+        levels[node] = base_level
     return levels
 
 

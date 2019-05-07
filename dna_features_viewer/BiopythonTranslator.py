@@ -1,6 +1,7 @@
 from .GraphicRecord import GraphicRecord
 from .CircularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
+import textwrap
 from Bio import SeqIO
 
 class BiopythonTranslator:
@@ -25,10 +26,13 @@ class BiopythonTranslator:
     graphic_record_parameters = {}
     ignored_features_types = ()
     max_label_length = 50
+    max_line_length = 40
+    label_fields = ["label", "source", "locus_tag", "note", "gene", "product"]
 
     def __init__(self, features_filters=(), features_properties=None):
         self.features_filters = features_filters
         self.features_properties = features_properties
+
 
     def compute_feature_color(self, feature):
         """Compute a color for this feature.
@@ -54,9 +58,14 @@ class BiopythonTranslator:
         return None
 
     def compute_feature_box_linewidth(self, feature):
-        """Compute a font dict for this feature.
+        """Compute a box_linewidth for this feature.
         """
         return 1
+
+    def compute_feature_box_color(self, feature):
+        """Compute a box_color for this feature.
+        """
+        return 'auto'
 
     def compute_filtered_features(self, features):
         return [
@@ -65,8 +74,7 @@ class BiopythonTranslator:
             and f.type not in self.ignored_features_types
         ]
 
-    @classmethod
-    def compute_feature_label(cls, feature):
+    def compute_feature_label(self, feature):
         """Gets the 'label' of the feature.
 
         This method looks for the first non-empty qualifier of the feature
@@ -77,32 +85,28 @@ class BiopythonTranslator:
         To change the behaviour, create a subclass of ``BiopythonTranslator``
         and overwrite this method.
         """
-        result = feature.type
-        for key in ["label", "source", "locus_tag", "note"]:
+        label = self._determine_label_text(feature)
+        return self._format_label(label)
+    
+    def _determine_label_text(self, feature):
+        label = feature.type
+        for key in self.label_fields:
             if key in feature.qualifiers:
-                result = feature.qualifiers[key]
+                label = feature.qualifiers[key]
                 break
-        if isinstance(result, list):
-            result = "|".join(result)
-        else:
-            result = result
-        if len(result) > cls.max_label_length:
-            result = result[:cls.max_label_length] + '...'
-        return result
+        if isinstance(label, list):
+            label = "|".join(label)
+        return label
+    
+    def _format_label(self, label):
+        if len(label) > self.max_label_length:
+            label = label[:self.max_label_length - 3] + '...'
+        label = "\n".join(textwrap.wrap(label, self.max_line_length))
+        return label
 
-    @staticmethod
-    def compute_feature_html(feature):
+    def compute_feature_html(self, feature):
         """Gets the 'label' of the feature."""
-        result = feature.type
-        for key in ["note", "locus_tag", "label", "source"]:
-            if key in feature.qualifiers:
-                result = feature.qualifiers[key]
-
-                break
-        if isinstance(result, list):
-            return "|".join(result)
-        else:
-            return result
+        return self._determine_label_text(feature)
 
 
     def translate_feature(self, feature):
@@ -112,7 +116,8 @@ class BiopythonTranslator:
             color=self.compute_feature_color(feature),
             html=self.compute_feature_html(feature),
             fontdict=self.compute_feature_fontdict(feature),
-            box_linewidth=self.compute_feature_box_linewidth(feature)
+            box_linewidth=self.compute_feature_box_linewidth(feature),
+            box_color=self.compute_feature_box_color(feature)
         )
         if self.features_properties is not None:
             other_properties = self.features_properties(feature)

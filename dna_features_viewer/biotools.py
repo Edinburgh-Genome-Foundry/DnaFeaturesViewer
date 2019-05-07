@@ -1,4 +1,5 @@
 from Bio.Seq import Seq
+from Bio.SeqFeature import SeqFeature, FeatureLocation
 from Bio.PDB.Polypeptide import aa1, aa3
 
 def complement(dna_sequence):
@@ -45,3 +46,39 @@ def extract_translation(sequence, location, long_form=False):
     if strand == -1:
         translation = translation[::-1]
     return translation
+
+
+def annotate_biopython_record(seqrecord, location="full",
+                              feature_type="misc_feature",
+                              margin=0, **qualifiers):
+    """Add a feature to a Biopython SeqRecord.
+
+    Parameters
+    ----------
+
+    seqrecord
+      The biopython seqrecord to be annotated.
+
+    location
+      Either (start, end) or (start, end, strand). (strand defaults to +1)
+
+    feature_type
+      The type associated with the feature
+
+    margin
+      Number of extra bases added on each side of the given location.
+
+    qualifiers
+      Dictionnary that will be the Biopython feature's `qualifiers` attribute.
+    """
+    if location == "full":
+        location = (margin, len(seqrecord)-margin)
+
+    strand = location[2] if len(location) == 3 else 1
+    seqrecord.features.append(
+        SeqFeature(
+            FeatureLocation(location[0], location[1], strand),
+            qualifiers=qualifiers,
+            type=feature_type
+        )
+    )

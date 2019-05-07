@@ -3,11 +3,12 @@ from dna_features_viewer import BiopythonTranslator
 from Bio import SeqIO
 import numpy as np
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 4), sharex=True)
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
 
 # Parse the genbank file, plot annotations
 record = SeqIO.read("example_sequence.gb", "genbank")
-graphic_record = BiopythonTranslator().translate_record(record)
+translator = BiopythonTranslator()
+graphic_record = translator.translate_record(record)
 ax, levels = graphic_record.plot()
 graphic_record.plot(ax=ax1, with_ruler=False)
 

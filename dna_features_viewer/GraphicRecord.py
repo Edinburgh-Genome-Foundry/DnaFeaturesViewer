@@ -39,10 +39,10 @@ class GraphicRecord:
     features
       list of GraphicalFeature objects.
 
-    feature_level_width
+    feature_level_height
       Width in inches of one "level" for feature arrows.
 
-    annotation_level_width
+    annotation_height
       Width in inches of one "level" for feature annotations.
 
     first_index
@@ -58,17 +58,18 @@ class GraphicRecord:
     """
 
     def __init__(self, sequence_length=None, sequence=None, features=(),
-                 feature_level_width=1, annotation_level_width=1,
-                 first_index=0, plots_indexing='biopython'):
+                 feature_level_height=1,
+                 first_index=0, plots_indexing='biopython',
+                 labels_spacing=10):
         if sequence_length is None:
             sequence_length = len(sequence)
         self.features = features
         self.sequence_length = sequence_length
-        self.feature_level_width = feature_level_width
-        self.annotation_level_width = annotation_level_width
+        self.feature_level_height = feature_level_height
         self.sequence = sequence
         self.first_index = first_index
         self.plots_indexing = plots_indexing
+        self.labels_spacing = labels_spacing
 
     @property
     def span(self):
@@ -118,7 +119,7 @@ class GraphicRecord:
         arrowstyle = mpatches.ArrowStyle.Simple(head_width=feature.thickness,
                                                 tail_width=feature.thickness,
                                                 head_length=head_length)
-        y = self.feature_level_width * level
+        y = self.feature_level_height * level
         patch = mpatches.FancyArrowPatch([x1, y], [x2, y],
                                          shrinkA=0.0, shrinkB=0.0,
                                          arrowstyle=arrowstyle,
@@ -129,7 +130,7 @@ class GraphicRecord:
         return patch
 
     def coordinates_in_plot(self, x, level):
-        return (x, level * self.feature_level_width)
+        return (x, level * self.feature_level_height)
 
     def split_overflowing_features_circularly(self):
         """Split the features that overflow over the edge for circular
@@ -178,12 +179,17 @@ class GraphicRecord:
             fontdict=feature.fontdict,
             zorder=2
         )
-
         figure_width = ax.figure.get_size_inches()[0]
-        margin = 0.05 * figure_width
-        x1, y1, x2, y2 = get_text_box(text, margin=margin)
+        x1, y1, x2, y2 = get_text_box(text)
+        x1 -= self.labels_spacing
+        x2 += self.labels_spacing
         overflowing = (x1 < feature.start) or (x2 > feature.end)
-        return text, overflowing, (x1, x2)
+        return text, overflowing, (x1, x2), (y2 - y1)
+    
+    def determine_annotation_height(self, levels):
+        # Improve me: ideally, annotation width would be linked to the height
+        # of one line of text, so dependent on font size and ax height/span.  
+        return self.feature_level_height
 
     def plot(self, ax=None, figure_width=8, draw_line=True, with_ruler=True,
              plot_sequence=False, annotate_inline=False, level_offset=0,
@@ -200,30 +206,41 @@ class GraphicRecord:
                      max(1, max(features_levels.values())))
         auto_figure_height = ax is None
         if ax is None:
-            fig, ax = plt.subplots(1, figsize=(figure_width, 2 * max_level))
+            fig, ax = plt.subplots(1, figsize=(figure_width, max_level))
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         if x_lim is not None:
             ax.set_xlim(*x_lim)
+        bbox = ax.get_window_extent()
+        ax_width, ax_height = bbox.width, bbox.height
 
         overflowing_annotations = []
+        ideal_yspan = 0
         for feature, level in features_levels.items():
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is not None:
-                text, overflowing, (x1, x2) = self.annotate_feature(
+                text, overflowing, (x1, x2), height = self.annotate_feature(
                     ax=ax, feature=feature, level=level
                 )
+                nlines = len(feature.label.split("\n"))
+                line_height = height / nlines
+                # Hey look, a magic number!
+                feature_ideal_span = 0.4 * (ax_height / line_height)
+                ideal_yspan = max(ideal_yspan,  feature_ideal_span)
                 if overflowing or not annotate_inline:
                     overflowing_annotations.append(GraphicFeature(
                         start=x1, end=x2, feature=feature,
-                        text=text, feature_level=level
+                        text=text, feature_level=level,
+                        nlines=nlines
                     ))
         annotations_levels = compute_features_levels(overflowing_annotations)
+        max_annotations_level = max([0] + list(annotations_levels.values()))
+        annotation_height = self.determine_annotation_height(max_level)
         labels_data = {}
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
             x, y = text.get_position()
-            new_y = ((max_level + 1) * self.feature_level_width +
-                     (level) * self.annotation_level_width)
+            new_y = ((max_level + 1) * self.feature_level_height +
+                     (level) * annotation_height)
             text.set_position((x, new_y))
             fx, fy = self.coordinates_in_plot(feature.data["feature"].x_center,
                                               feature.data["feature_level"])
@@ -235,11 +252,13 @@ class GraphicRecord:
 
         if plot_sequence:
             self.plot_sequence(ax)
-
-        self.finalize_ax(ax, max([1] + list(features_levels.values())),
-                         0 if len(annotations_levels) == 0 else
-                         max(annotations_levels.values()),
-                         auto_figure_height)
+        
+        self.finalize_ax(
+            ax=ax,
+            features_levels=max([1] + list(features_levels.values())),
+            annotations_max_level=max_annotations_level,
+            auto_figure_height=auto_figure_height,
+                         ideal_yspan=ideal_yspan)
         return ax, (features_levels, labels_data)
 
     def plot_sequence(self, ax, location=None, y_offset=1, fontdict=None,
@@ -283,14 +302,14 @@ class GraphicRecord:
         for i, n in enumerate(self.sequence):
             l = i + lstart
             if (lstart <= l <= lend):
-                ax.text(l, - 0.7 * self.feature_level_width * y_offset,
+                ax.text(l, - 0.7 * self.feature_level_height * y_offset,
                         n, ha='center', va='center', fontdict=fontdict)
         if background is not None:
             for i in range(lstart, lend):
                 ax.fill_between([i - 0.5, i + 0.5], y1=1000, y2=-1000,
                                 zorder=-2000, facecolor=background[i % 2])
         ymin = ax.get_ylim()[0]
-        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_width))
+        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
 
     def plot_translation(self, ax, location=None, y_offset=2, fontdict=None,
                          background=("#f5fff0", "#fff7fd"), translation=None,
@@ -332,15 +351,14 @@ class GraphicRecord:
             new_loc = start - self.first_index, end - self.first_index, strand
             translation = extract_translation(self.sequence, location=new_loc,
                                               long_form=long_form_translation)
-
         texts = [
             ((start + 3 * i, start + 3 * (i + 1)), aa)
             for i, aa in enumerate(translation)
         ]
 
-        y = - 0.7 * y_offset * self.feature_level_width
+        y = - 0.7 * y_offset * self.feature_level_height
         ymin = ax.get_ylim()[0]
-        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_width))
+        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
         fontdict = fontdict or {}
         for i, ((start, end), text) in enumerate(texts):
             ax.text(0.5 * (start + end - 1), y, text,
@@ -349,17 +367,22 @@ class GraphicRecord:
                 ax.fill_between([start - 0.5, end - 0.5], y1=1000, y2=-1000,
                                 zorder=-1000, facecolor=background[i % 2])
 
-    def finalize_ax(self, ax, features_levels, annotations_levels,
-                    auto_figure_height=False):
-
-        ymax = (self.feature_level_width * (features_levels + 1) +
-                self.annotation_level_width * (annotations_levels + 1))
-        ax.set_ylim(-1, ymax)
+    def finalize_ax(self, ax, features_levels, annotations_max_level,
+                    auto_figure_height=False,
+                    ideal_yspan=None):
+        annotation_height = self.determine_annotation_height(None)
+        ymax = (self.feature_level_height * (features_levels + 1) +
+                annotation_height * (annotations_max_level + 1))
+        ymin = -1
+        if ideal_yspan is not None:
+            ymax = max(ideal_yspan + ymin, ymax)
+        ax.set_ylim(ymin, ymax)
         if auto_figure_height:
             figure_width = ax.figure.get_size_inches()[0]
-            ax.figure.set_size_inches(figure_width, 1.5 + 0.37 * ymax)
+            ax.figure.set_size_inches(figure_width, 1 + 0.4 * ymax)
         if self.plots_indexing == 'genbank':
             ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
+        return ideal_yspan / (ymax - ymin)
 
     def to_biopython_record(self, sequence):
         """
@@ -395,8 +418,7 @@ class GraphicRecord:
             sequence=self.sequence[s:e] if self.sequence is not None else None,
             sequence_length=e - s,
             features=new_features,
-            feature_level_width=self.feature_level_width,
-            annotation_level_width=self.annotation_level_width,
+            feature_level_height=self.feature_level_height,
             first_index=self.first_index + s
         )
 

@@ -79,23 +79,24 @@ class CircularGraphicRecord(GraphicRecord):
     top_position
       The index in the sequence that will end up at the top of the circle
 
-    feature_level_width
+    feature_level_height
       Width in inches of one "level" for feature arrows.
 
-    annotation_level_width
+    annotation_height
       Width in inches of one "level" for feature annotations.
     """
 
     def __init__(self, sequence_length, features, top_position=0,
-                 feature_level_width=0.2, annotation_level_width=0.25, **kw):
+                 feature_level_height=0.2, annotation_height='auto',
+                 labels_spacing=20, **kw):
 
         self.radius = 1.0
         self.sequence_length = sequence_length
         self.features = features
         self.top_position = top_position
-        self.angle_rotation = 2 * np.pi * top_position / sequence_length
-        self.feature_level_width = feature_level_width
-        self.annotation_level_width = annotation_level_width
+        self.feature_level_height = feature_level_height
+        self.annotation_height = annotation_height
+        self.labels_spacing = labels_spacing
 
     def initialize_ax(self, ax, draw_line, with_ruler):
 
@@ -112,16 +113,23 @@ class CircularGraphicRecord(GraphicRecord):
         else:  # don't display anything
             ax.axis("off")
 
-        ax.set_xlim(-self.radius, self.radius)
+        ax.set_xlim(- 1.1 * self.radius, 1.1 * self.radius)
+        ax.set_ylim(-self.radius, 3 * self.radius)
         ax.set_aspect("equal")
 
-    def finalize_ax(self, ax, features_levels, annotation_levels,
-                    auto_figure_height=False):
+    def finalize_ax(self, ax, features_levels, annotations_max_level,
+                    auto_figure_height=False,
+                    ideal_yspan=None):
+        annotation_height = self.determine_annotation_height(
+            annotations_max_level)
         ymin = (-2 * self.radius -
-                self.feature_level_width * (features_levels + 1))
-        ymax = (self.feature_level_width * (features_levels + 1) +
-                (annotation_levels + 1) * self.annotation_level_width)
-        xmin = -self.radius - self.feature_level_width * (features_levels + 1)
+                self.feature_level_height * (features_levels + 1))
+        ymax = (self.radius +
+                self.feature_level_height * (features_levels + 1) +
+                annotation_height * (annotations_max_level + 1))
+        if ideal_yspan is not None:
+                ymax = max(annotation_height * ideal_yspan + ymin, ymax)
+        xmin = -self.radius - self.feature_level_height * (features_levels + 1)
         xmax = -xmin
         ax.set_xlim(xmin, xmax)
         ax.set_ylim(ymin, ymax)
@@ -135,9 +143,9 @@ class CircularGraphicRecord(GraphicRecord):
         a_start = self.position_to_angle(feature.start)
         a_end = self.position_to_angle(feature.end)
         a_start, a_end = sorted([a_start, a_end])
-        r = self.radius + level * self.feature_level_width
+        r = self.radius + level * self.feature_level_height
         patch = ArrowWedge((0, -self.radius), r, a_start, a_end,
-                           0.7 * self.feature_level_width,
+                           0.7 * self.feature_level_height,
                            direction=feature.strand,
                            edgecolor=feature.linecolor,
                            linewidth=feature.linewidth,
@@ -149,8 +157,10 @@ class CircularGraphicRecord(GraphicRecord):
         return 90 - a
 
     def coordinates_in_plot(self, x, level):
-        r = self.radius + level * self.feature_level_width
+        r = self.radius + level * self.feature_level_height
         angle = self.position_to_angle(x)
         rad_angle = np.deg2rad(angle)
         return np.array([r * np.cos(rad_angle),
                          r * np.sin(rad_angle) - self.radius])
+    def determine_annotation_height(self, max_annotations_level):
+        return min(0.2, 3 * self.radius / (1 + max_annotations_level))
