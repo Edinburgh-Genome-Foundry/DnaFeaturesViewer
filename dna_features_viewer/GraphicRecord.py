@@ -73,9 +73,22 @@ class GraphicRecord:
 
     @property
     def span(self):
+        """Return the display span (start, end) accounting for first_index."""
         return self.first_index, self.first_index + self.sequence_length
 
     def initialize_ax(self, ax, draw_line, with_ruler):
+        """Initialize the ax: remove axis, draw a horizontal line, etc.
+
+        Parameters
+        ----------
+        
+        draw_line
+          True/False to draw the horizontal line or not.
+
+        with_ruler
+          True/False to draw the indices indicators along the line. 
+
+        """
         start, end = self.span
         plot_start, plot_end = start - 0.8, end - 0.2
         if draw_line:
@@ -130,6 +143,8 @@ class GraphicRecord:
         return patch
 
     def coordinates_in_plot(self, x, level):
+        """Convert a sequence position and height level into a (x, y) position.
+        """
         return (x, level * self.feature_level_height)
 
     def split_overflowing_features_circularly(self):
@@ -187,6 +202,8 @@ class GraphicRecord:
         return text, overflowing, (x1, x2), (y2 - y1)
     
     def determine_annotation_height(self, levels):
+        """By default the ideal annotation level height is the same as the
+        feature_level_height."""
         # Improve me: ideally, annotation width would be linked to the height
         # of one line of text, so dependent on font size and ax height/span.  
         return self.feature_level_height
@@ -196,8 +213,39 @@ class GraphicRecord:
              x_lim=None):
         """Plot all the features in the same Matplotlib ax
 
-        `figure_width` represents the width in inches of the final figure (if
-        no `ax` parameter is attributed).
+        Parameters
+        ----------
+
+        ax
+          The Matplotlib ax on which to plot the graphic record. If None is
+          provided, a new figure and ax is generated, the ax is returned at
+          the end. 
+        
+        figure_width
+          Width of the figure (only if no ax was provided and a new figure is
+          created) in inches.
+        
+        draw_line
+          If True, a base line representing the sequence will be drawn.
+        
+        with_ruler
+          If true, the sequence indices will be indicated at regular intervals.
+        
+        plot_sequence
+          If True and the graphic record has a "sequence" attribute set, the
+          sequence will be displayed below the base line.
+        
+        annotate_inline
+          If true, some feature labels will be displayed inside their
+          corresponding feature if there is sufficient space.
+        
+        level_offset
+          All features and annotations will be pushed up by "level_offset". Can
+          be useful when plotting several sets of features successively on a
+          same ax.
+        
+        x_lim
+          Horizontal axis limits to be set at the end.
         """
         features_levels = compute_features_levels(self.features)
         for f in features_levels:

@@ -4,6 +4,28 @@ from .GraphicRecord import GraphicRecord
 import numpy as np
 
 class ArrowWedge(mpatches.Wedge):
+    """Matplotlib patch shaped as a tick fraction of circle with a pointy end.
+
+    This is the patch used by CircularGraphicRecord to draw features.
+    
+    Parameters
+    ----------
+    center
+    
+    radius
+    
+    theta1
+      Start angle of the wedge
+    
+    theta2
+    
+    width
+      Width or thickness of the arrow-wedge.
+    
+    direction
+      Determines whether the pointy end points in direct sense (+1) or
+      indirect sense (-1) or no sense at all (0)
+    """
 
     def __init__(self, center, radius, theta1, theta2, width, direction=+1,
                  **kwargs):
@@ -16,6 +38,7 @@ class ArrowWedge(mpatches.Wedge):
         self._recompute_path()
 
     def _recompute_path(self):
+        """Recompute the full path forming the "tick" arrowed wedge"""
 
         if self.direction not in [-1, +1]:
             return mpatches.Wedge._recompute_path(self)
@@ -99,6 +122,7 @@ class CircularGraphicRecord(GraphicRecord):
         self.labels_spacing = labels_spacing
 
     def initialize_ax(self, ax, draw_line, with_ruler):
+        """Initialize the ax with a circular line, sets limits, aspect etc."""
 
         if draw_line:
             circle = mpatches.Circle(
@@ -120,6 +144,7 @@ class CircularGraphicRecord(GraphicRecord):
     def finalize_ax(self, ax, features_levels, annotations_max_level,
                     auto_figure_height=False,
                     ideal_yspan=None):
+        """Final display range and figure dimension tweakings."""
         annotation_height = self.determine_annotation_height(
             annotations_max_level)
         ymin = (-2 * self.radius -
@@ -140,6 +165,9 @@ class CircularGraphicRecord(GraphicRecord):
             ax.figure.set_size_inches(figure_width, figure_width * ratio)
 
     def plot_feature(self, ax, feature, level):
+        """Plot an ArrowWedge representing the feature at the giben height
+        level.
+        """
         a_start = self.position_to_angle(feature.start)
         a_end = self.position_to_angle(feature.end)
         a_start, a_end = sorted([a_start, a_end])
@@ -153,14 +181,24 @@ class CircularGraphicRecord(GraphicRecord):
         ax.add_patch(patch)
 
     def position_to_angle(self, position):
+        """Convert a sequence position into an angle in the figure."""
         a = 360.0 * (position - self.top_position) / self.sequence_length
         return 90 - a
 
-    def coordinates_in_plot(self, x, level):
+    def coordinates_in_plot(self, position, level):
+        """Convert a sequence position and height level to (x, y) coordinates.
+        """
         r = self.radius + level * self.feature_level_height
-        angle = self.position_to_angle(x)
+        angle = self.position_to_angle(position)
         rad_angle = np.deg2rad(angle)
         return np.array([r * np.cos(rad_angle),
                          r * np.sin(rad_angle) - self.radius])
+
     def determine_annotation_height(self, max_annotations_level):
+        """Auto-select the annotations height.
+        
+        Annotation height is 0.2 at most, or else whatever will make
+        the figure a 5*radius tall rectangle where the circular plasmid
+        occupies the bottom-2 5th and the annotations occupy the top-3 5th.
+        """
         return min(0.2, 3 * self.radius / (1 + max_annotations_level))
