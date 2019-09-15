@@ -237,7 +237,7 @@ instead of the default ``BiopythonTranslator``. Here is an example:
             elif feature.type == "CDS":
                 return "CDS here"
             else:
-                return BiopythonTranslator.compute_feature_label(feature)
+                return BiopythonTranslator.compute_feature_label(self, feature)
 
         def compute_filtered_features(self, features):
             """Do not display promoters. Just because."""
