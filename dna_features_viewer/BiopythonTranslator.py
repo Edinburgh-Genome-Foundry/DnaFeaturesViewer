@@ -4,6 +4,7 @@ from .GraphicFeature import GraphicFeature
 import textwrap
 from Bio import SeqIO
 
+
 class BiopythonTranslator:
     """A translator from SeqRecords to dna_features_viewer GraphicRecord.
 
@@ -22,6 +23,7 @@ class BiopythonTranslator:
       A function (feature)=> properties_dict
 
     """
+
     default_feature_color = "#7245dc"
     graphic_record_parameters = {}
     ignored_features_types = ()
@@ -33,7 +35,6 @@ class BiopythonTranslator:
         self.features_filters = features_filters
         self.features_properties = features_properties
 
-
     def compute_feature_color(self, feature):
         """Compute a color for this feature.
 
@@ -43,10 +44,10 @@ class BiopythonTranslator:
         To change the behaviour, create a subclass of ``BiopythonTranslator``
         and overwrite this method.
         """
-        if 'color' in feature.qualifiers:
-            color = feature.qualifiers['color']
+        if "color" in feature.qualifiers:
+            color = feature.qualifiers["color"]
             if isinstance(color[0], str):
-                return "".join(feature.qualifiers['color'])
+                return "".join(feature.qualifiers["color"])
             else:
                 return color
         else:
@@ -65,11 +66,12 @@ class BiopythonTranslator:
     def compute_feature_box_color(self, feature):
         """Compute a box_color for this feature.
         """
-        return 'auto'
+        return "auto"
 
     def compute_filtered_features(self, features):
         return [
-            f for f in features
+            f
+            for f in features
             if all([fl(f) for fl in self.features_filters])
             and f.type not in self.ignored_features_types
         ]
@@ -87,7 +89,7 @@ class BiopythonTranslator:
         """
         label = self._determine_label_text(feature)
         return self._format_label(label)
-    
+
     def _determine_label_text(self, feature):
         label = feature.type
         for key in self.label_fields:
@@ -97,17 +99,16 @@ class BiopythonTranslator:
         if isinstance(label, list):
             label = "|".join(label)
         return label
-    
+
     def _format_label(self, label):
         if len(label) > self.max_label_length:
-            label = label[:self.max_label_length - 3] + '...'
+            label = label[: self.max_label_length - 3] + "..."
         label = "\n".join(textwrap.wrap(label, self.max_line_length))
         return label
 
     def compute_feature_html(self, feature):
         """Gets the 'label' of the feature."""
         return self._determine_label_text(feature)
-
 
     def translate_feature(self, feature):
         """Translate a Biopython feature into a Dna Features Viewer feature."""
@@ -117,7 +118,7 @@ class BiopythonTranslator:
             html=self.compute_feature_html(feature),
             fontdict=self.compute_feature_fontdict(feature),
             box_linewidth=self.compute_feature_box_linewidth(feature),
-            box_color=self.compute_feature_box_color(feature)
+            box_color=self.compute_feature_box_color(feature),
         )
         if self.features_properties is not None:
             other_properties = self.features_properties(feature)
@@ -126,10 +127,12 @@ class BiopythonTranslator:
             other_properties = {}
         properties.update(other_properties)
 
-        return GraphicFeature(start=feature.location.start,
-                              end=feature.location.end,
-                              strand=feature.location.strand,
-                              **properties)
+        return GraphicFeature(
+            start=feature.location.start,
+            end=feature.location.end,
+            strand=feature.location.strand,
+            **properties
+        )
 
     def translate_record(self, record, record_class=None):
         """Create a new GraphicRecord from a BioPython Record object.
@@ -146,9 +149,9 @@ class BiopythonTranslator:
           provided.
         """
         classes = {
-            'linear': GraphicRecord,
-            'circular': CircularGraphicRecord,
-            None: GraphicRecord
+            "linear": GraphicRecord,
+            "circular": CircularGraphicRecord,
+            None: GraphicRecord,
         }
         if record_class in classes:
             record_class = classes[record_class]
@@ -163,5 +166,6 @@ class BiopythonTranslator:
                 self.translate_feature(feature)
                 for feature in filtered_features
                 if feature.location is not None
-            ], **self.graphic_record_parameters
+            ],
+            **self.graphic_record_parameters
         )

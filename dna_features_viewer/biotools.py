@@ -2,6 +2,7 @@ from Bio.Seq import Seq
 from Bio.SeqFeature import SeqFeature, FeatureLocation
 from Bio.PDB.Polypeptide import aa1, aa3
 
+
 def complement(dna_sequence):
     """Return the complement of the DNA sequence.
 
@@ -24,8 +25,10 @@ def reverse_complement(sequence):
 
 aa_short_to_long_form_dict = {
     _aa1: _aa3[0] + _aa3[1:].lower()
-    for (_aa1, _aa3) in zip(aa1 + '*', aa3 + ['*'])
+    for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
 }
+
+
 def translate(dna_sequence, long_form=False):
     """Translate the DNA sequence into an amino-acids sequence MLKYQT..."""
     result = str(Seq(dna_sequence).translate())
@@ -33,13 +36,14 @@ def translate(dna_sequence, long_form=False):
         result = [aa_short_to_long_form_dict[aa] for aa in result]
     return result
 
+
 def extract_translation(sequence, location, long_form=False):
     if len(location) == 3:
         start, end, strand = location
     else:
         start, end = location
         strand = 1
-    subsequence = sequence[start: end]
+    subsequence = sequence[start:end]
     if strand == -1:
         subsequence = reverse_complement(subsequence)
     translation = translate(subsequence, long_form=long_form)
@@ -48,9 +52,13 @@ def extract_translation(sequence, location, long_form=False):
     return translation
 
 
-def annotate_biopython_record(seqrecord, location="full",
-                              feature_type="misc_feature",
-                              margin=0, **qualifiers):
+def annotate_biopython_record(
+    seqrecord,
+    location="full",
+    feature_type="misc_feature",
+    margin=0,
+    **qualifiers
+):
     """Add a feature to a Biopython SeqRecord.
 
     Parameters
@@ -72,13 +80,13 @@ def annotate_biopython_record(seqrecord, location="full",
       Dictionnary that will be the Biopython feature's `qualifiers` attribute.
     """
     if location == "full":
-        location = (margin, len(seqrecord)-margin)
+        location = (margin, len(seqrecord) - margin)
 
     strand = location[2] if len(location) == 3 else 1
     seqrecord.features.append(
         SeqFeature(
             FeatureLocation(location[0], location[1], strand),
             qualifiers=qualifiers,
-            type=feature_type
+            type=feature_type,
         )
     )

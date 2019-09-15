@@ -4,6 +4,7 @@ import itertools
 import numpy
 from matplotlib.colors import colorConverter
 
+
 def change_luminosity(color, luminosity=None, factor=1):
     """Return a version of the color with different luminosity.
 
@@ -23,7 +24,7 @@ def change_luminosity(color, luminosity=None, factor=1):
     if luminosity is not None:
         if luminosity == 1:
             return (1, 1, 1)
-        l = 1.0*res.sum() / 3.0
+        l = 1.0 * res.sum() / 3.0
         factor = (luminosity - l) / (1.0 - luminosity)
     if factor == -1:
         return numpy.array([1.0, 1.0, 1.0])
@@ -42,9 +43,11 @@ def get_text_box(text, margin=0):
     renderer = text.axes.figure.canvas.get_renderer()
     bbox = text.get_window_extent(renderer)  # bounding box
     bbox_data = bbox
-    # bbox_data = bbox.transformed(text.axes.transData.inverted())
     x1, y1, x2, y2 = bbox_data.get_points().flatten()
-    return [x1 , y1, x2, y2]
+    bbox_data = bbox.transformed(text.axes.transData.inverted())
+    x1, _, x2, _ = bbox_data.get_points().flatten()
+    return [x1, y1, x2, y2]
+
 
 class Graph:
     """Minimal implementation of non-directional graphs.
@@ -58,6 +61,7 @@ class Graph:
       A list of the form [(n1,n2), (n3,n4)...] where (n1, n2) represents
       an edge between nodes n1 and n2
     """
+
     def __init__(self, nodes, edges):
         self.nodes = nodes
         self.neighbors = {n: [] for n in nodes}
@@ -95,12 +99,12 @@ def compute_features_levels(features):
             level = levels[neighbor]
             if level is None:
                 continue
-            if 'nlines' in neighbor.data:
-                top = numpy.ceil(level + 0.5 * neighbor.data['nlines'])
+            if "nlines" in neighbor.data:
+                top = numpy.ceil(level + 0.5 * neighbor.data["nlines"])
                 if level <= base_level < top:
                     return True
-                
-                top = numpy.ceil(base_level + 0.5 * node.data['nlines'])
+
+                top = numpy.ceil(base_level + 0.5 * node.data["nlines"])
                 if base_level <= level < top:
                     return True
             else:
@@ -118,15 +122,19 @@ def compute_features_levels(features):
 
 def bokeh_feature_patch(self, start, end, strand, width=0.3, level=0, **kw):
     """Return a dict with points coordinates of a Bokeh Feature arrow."""
-    hw = width/2.0
+    hw = width / 2.0
     x1, x2 = (start, end) if (strand >= 0) else (end, start)
     if strand >= 0:
-        head_base = max(x1, x2 - max(.025*self.sequence_length, .025*(x2-x1)))
+        head_base = max(
+            x1, x2 - max(0.025 * self.sequence_length, 0.025 * (x2 - x1))
+        )
     else:
-        head_base = min(x1, x2 + max(.025*self.sequence_length, .025*(x1-x2)))
+        head_base = min(
+            x1, x2 + max(0.025 * self.sequence_length, 0.025 * (x1 - x2))
+        )
     result = dict(
-        xs= [x1, x1, head_base, x2, head_base, x1],
-        ys= [e + level for e in [-hw, hw, hw, 0, -hw, -hw]]
+        xs=[x1, x1, head_base, x2, head_base, x1],
+        ys=[e + level for e in [-hw, hw, hw, 0, -hw, -hw]],
     )
     result.update(kw)
     return result

@@ -3,6 +3,7 @@ import matplotlib.patches as mpatches
 from .GraphicRecord import GraphicRecord
 import numpy as np
 
+
 class ArrowWedge(mpatches.Wedge):
     """Matplotlib patch shaped as a tick fraction of circle with a pointy end.
 
@@ -27,14 +28,15 @@ class ArrowWedge(mpatches.Wedge):
       indirect sense (-1) or no sense at all (0)
     """
 
-    def __init__(self, center, radius, theta1, theta2, width, direction=+1,
-                 **kwargs):
+    def __init__(
+        self, center, radius, theta1, theta2, width, direction=+1, **kwargs
+    ):
 
         self.direction = direction
         self.radius = radius
-        mpatches.Wedge.__init__(self, center, radius,
-                                theta1, theta2, width,
-                                **kwargs)
+        mpatches.Wedge.__init__(
+            self, center, radius, theta1, theta2, width, **kwargs
+        )
         self._recompute_path()
 
     def _recompute_path(self):
@@ -53,32 +55,42 @@ class ArrowWedge(mpatches.Wedge):
             inner_arc = arc.vertices * (1 - normalized_arrow_width)
             arrow_vertices = [
                 outer_arc[-1],
-                np.array([np.cos(np.deg2rad(theta1)),
-                          np.sin(np.deg2rad(theta1))]),
-                inner_arc[0]
+                np.array(
+                    [np.cos(np.deg2rad(theta1)), np.sin(np.deg2rad(theta1))]
+                ),
+                inner_arc[0],
             ]
         else:
             angle_start_arrow = theta2 - arrow_angle
             arc = mpatches.Path.arc(theta1, angle_start_arrow)
-            outer_arc = arc.vertices * \
-                (self.radius + self.width / 2.0) / self.radius
-            inner_arc = arc.vertices[
-                ::-1] * (self.radius - self.width / 2.0) / self.radius
+            outer_arc = (
+                arc.vertices * (self.radius + self.width / 2.0) / self.radius
+            )
+            inner_arc = (
+                arc.vertices[::-1]
+                * (self.radius - self.width / 2.0)
+                / self.radius
+            )
             arrow_vertices = [
                 outer_arc[-1],
-                np.array([np.cos(np.deg2rad(theta2)),
-                          np.sin(np.deg2rad(theta2))]),
-                inner_arc[0]
+                np.array(
+                    [np.cos(np.deg2rad(theta2)), np.sin(np.deg2rad(theta2))]
+                ),
+                inner_arc[0],
             ]
         p = np.vstack([outer_arc, arrow_vertices, inner_arc])
 
         path_vertices = np.vstack([p, inner_arc[-1, :], (0, 0)])
 
-        path_codes = np.hstack([arc.codes,
-                                4 * [mpatches.Path.LINETO],
-                                arc.codes[1:],
-                                mpatches.Path.LINETO,
-                                mpatches.Path.CLOSEPOLY])
+        path_codes = np.hstack(
+            [
+                arc.codes,
+                4 * [mpatches.Path.LINETO],
+                arc.codes[1:],
+                mpatches.Path.LINETO,
+                mpatches.Path.CLOSEPOLY,
+            ]
+        )
         path_codes[len(arc.codes)] = mpatches.Path.LINETO
 
         # Shift and scale the wedge to the final location.
@@ -109,9 +121,16 @@ class CircularGraphicRecord(GraphicRecord):
       Width in inches of one "level" for feature annotations.
     """
 
-    def __init__(self, sequence_length, features, top_position=0,
-                 feature_level_height=0.2, annotation_height='auto',
-                 labels_spacing=20, **kw):
+    def __init__(
+        self,
+        sequence_length,
+        features,
+        top_position=0,
+        feature_level_height=0.2,
+        annotation_height="auto",
+        labels_spacing=20,
+        **kw
+    ):
 
         self.radius = 1.0
         self.sequence_length = sequence_length
@@ -126,8 +145,8 @@ class CircularGraphicRecord(GraphicRecord):
 
         if draw_line:
             circle = mpatches.Circle(
-                (0, -self.radius), self.radius, facecolor='none',
-                edgecolor='k')
+                (0, -self.radius), self.radius, facecolor="none", edgecolor="k"
+            )
             ax.add_patch(circle)
         ax.axis("off")
         if with_ruler:  # only display the xaxis ticks
@@ -137,23 +156,32 @@ class CircularGraphicRecord(GraphicRecord):
         else:  # don't display anything
             ax.axis("off")
 
-        ax.set_xlim(- 1.1 * self.radius, 1.1 * self.radius)
+        ax.set_xlim(-1.1 * self.radius, 1.1 * self.radius)
         ax.set_ylim(-self.radius, 3 * self.radius)
         ax.set_aspect("equal")
 
-    def finalize_ax(self, ax, features_levels, annotations_max_level,
-                    auto_figure_height=False,
-                    ideal_yspan=None):
+    def finalize_ax(
+        self,
+        ax,
+        features_levels,
+        annotations_max_level,
+        auto_figure_height=False,
+        ideal_yspan=None,
+    ):
         """Final display range and figure dimension tweakings."""
         annotation_height = self.determine_annotation_height(
-            annotations_max_level)
-        ymin = (-2 * self.radius -
-                self.feature_level_height * (features_levels + 1))
-        ymax = (self.radius +
-                self.feature_level_height * (features_levels + 1) +
-                annotation_height * (annotations_max_level + 1))
+            annotations_max_level
+        )
+        ymin = -2 * self.radius - self.feature_level_height * (
+            features_levels + 1
+        )
+        ymax = (
+            self.radius
+            + self.feature_level_height * (features_levels + 1)
+            + annotation_height * (annotations_max_level + 1)
+        )
         if ideal_yspan is not None:
-                ymax = max(annotation_height * ideal_yspan + ymin, ymax)
+            ymax = max(annotation_height * ideal_yspan + ymin, ymax)
         xmin = -self.radius - self.feature_level_height * (features_levels + 1)
         xmax = -xmin
         ax.set_xlim(xmin, xmax)
@@ -172,12 +200,18 @@ class CircularGraphicRecord(GraphicRecord):
         a_end = self.position_to_angle(feature.end)
         a_start, a_end = sorted([a_start, a_end])
         r = self.radius + level * self.feature_level_height
-        patch = ArrowWedge((0, -self.radius), r, a_start, a_end,
-                           0.7 * self.feature_level_height,
-                           direction=feature.strand,
-                           edgecolor=feature.linecolor,
-                           linewidth=feature.linewidth,
-                           facecolor=feature.color, zorder=1)
+        patch = ArrowWedge(
+            (0, -self.radius),
+            r,
+            a_start,
+            a_end,
+            0.7 * self.feature_level_height,
+            direction=feature.strand,
+            edgecolor=feature.linecolor,
+            linewidth=feature.linewidth,
+            facecolor=feature.color,
+            zorder=1,
+        )
         ax.add_patch(patch)
 
     def position_to_angle(self, position):
@@ -191,8 +225,9 @@ class CircularGraphicRecord(GraphicRecord):
         r = self.radius + level * self.feature_level_height
         angle = self.position_to_angle(position)
         rad_angle = np.deg2rad(angle)
-        return np.array([r * np.cos(rad_angle),
-                         r * np.sin(rad_angle) - self.radius])
+        return np.array(
+            [r * np.cos(rad_angle), r * np.sin(rad_angle) - self.radius]
+        )
 
     def determine_annotation_height(self, max_annotations_level):
         """Auto-select the annotations height.

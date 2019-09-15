@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 class GraphicFeature:
     """Genetic Feature to be plotted.
 
@@ -36,13 +37,27 @@ class GraphicFeature:
       A Matplotlib fontdict for the font to be used in the label, e.g.
       ``size=11``, ``weight='bold'``, ``family='Helvetica'``, etc.
     """
+
     feature_type = "feature"
 
-    def __init__(self, start=None, end=None, strand=None,
-                 label=None, color="#000080", thickness=14, linewidth=1.0,
-                 linecolor="#000000", fontdict=None, html=None,
-                 open_left=False, open_right=False,
-                 box_linewidth=1, box_color="auto", **data):
+    def __init__(
+        self,
+        start=None,
+        end=None,
+        strand=None,
+        label=None,
+        color="#000080",
+        thickness=14,
+        linewidth=1.0,
+        linecolor="#000000",
+        fontdict=None,
+        html=None,
+        open_left=False,
+        open_right=False,
+        box_linewidth=1,
+        box_color="auto",
+        **data
+    ):
         self.start = start
         self.end = end
         self.strand = strand
@@ -54,8 +69,9 @@ class GraphicFeature:
         self.linewidth = linewidth
         self.box_linewidth = box_linewidth
         self.box_color = box_color
-        self.fontdict = dict([('fontsize', 11)]
-                             + list((fontdict or {}).items()))
+        self.fontdict = dict(
+            [("fontsize", 11)] + list((fontdict or {}).items())
+        )
         self.html = html
         self.open_left = open_left
         self.open_right = open_right
@@ -107,11 +123,14 @@ class GraphicFeature:
     @staticmethod
     def from_biopython_feature(feature, **props):
         """Create a GraphicalFeature from a Biopython.Feature object."""
-        return GraphicFeature(start=feature.location.start,
-                              end=feature.location.end,
-                              strand=feature.location.strand,
-                              **props)
+        return GraphicFeature(
+            start=feature.location.start,
+            end=feature.location.end,
+            strand=feature.location.strand,
+            **props
+        )
 
     def __repr__(self):
-        return (("GF(%(label)s, %(start)d-%(end)d " % self.__dict__) +
-                (")" if self.strand is None else "(%d))" % self.strand))
+        return ("GF(%(label)s, %(start)d-%(end)d " % self.__dict__) + (
+            ")" if self.strand is None else "(%d))" % self.strand
+        )
