@@ -1,32 +1,31 @@
-.. reference ::
-
 BiopythonTranslator
 =====================
 
-.. automodule:: dna_features_viewer.BiopythonTranslator
+.. autoclass:: dna_features_viewer.BiopythonTranslator
    :members:
 
 
 GraphicRecord
 ===============
 
-.. automodule:: dna_features_viewer.GraphicRecord
+.. autoclass:: dna_features_viewer.GraphicRecord
   :members:
+  :inherited-members:
 
 CircularGraphicRecord
 ======================
 
-.. automodule:: dna_features_viewer.CircularGraphicRecord
+.. autoclass:: dna_features_viewer.CircularGraphicRecord
   :members:
 
 GraphicFeature
 ======================
 
-.. automodule:: dna_features_viewer.GraphicFeature
+.. autoclass:: dna_features_viewer.GraphicFeature
   :members:
 
-Tools
-======
+Biotools
+========
 
-.. automodule:: dna_features_viewer.tools
+.. automodule:: dna_features_viewer.biotools
   :members:

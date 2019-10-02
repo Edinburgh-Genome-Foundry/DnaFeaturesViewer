@@ -1,312 +1,356 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>BiopythonTranslator &mdash; DnaFeaturesViewer 0.1.0 documentation</title>
-  
-
-  
-  
-    <link rel="shortcut icon" href="_static/favicon.ico"/>
-  
-  
-  
-
-  
-
-  
-  
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>BiopythonTranslator</title>
     
+      <link rel="stylesheet" href="_static/pygments.css">
+      <link rel="stylesheet" href="_static/theme.css">
+      <link rel="stylesheet" href="_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
 
-  
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
 
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/css/main.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="DnaFeaturesViewer 0.1.0 documentation" href="index.html"/>
-        <link rel="prev" title="DNA Features Viewer" href="index.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-   
-  <div class="wy-grid-for-nav">
-
+      
+      <script src="_static/theme-vendors.js"></script>
+      <script src="_static/theme.js" defer></script>
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+      <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="next" title="Define a graphic record “by hand”" href="examples/by_hand.html" />
+  <link rel="prev" title="Installation" href="index.html" /> 
+  </head>
 
-          
-            <a href="index.html" class="icon icon-home"> DnaFeaturesViewer
-          
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
 
-          
-          </a>
+  <div class="links">
+    <navlinks class="can-hide">
 
-          
-            
-            
-              <div class="version">
-                0.1.0
-              </div>
-            
-          
+  
+    <div class="nav-item">
+      <a href="index.html#more-biology-software"
+         class="nav-link  router-link-active">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
           
+          <navlinks>
             
+
+  
+    <div class="nav-item">
+      <a href="index.html#more-biology-software"
+         class="nav-link  router-link-active">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
             
-              
-            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#more-biology-software">Reference</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">BiopythonTranslator</a>
+
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">DNA Features Viewer</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">BiopythonTranslator</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#module-dna_features_viewer.GraphicRecord">GraphicRecord</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#module-dna_features_viewer.CircularGraphicRecord">CircularGraphicRecord</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#module-dna_features_viewer.GraphicFeature">GraphicFeature</a><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#module-dna_features_viewer.tools">Tools</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/by_hand.html">Define a graphic record “by hand”</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/from_genbank.html">Load a graphic record from Genbank</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
-</ul>
-
+                
+                  <li class="toctree-l2"><a href="#biopythontranslator" class="reference internal">BiopythonTranslator</a></li>
+                
+                  <li class="toctree-l2"><a href="#graphicrecord" class="reference internal">GraphicRecord</a></li>
+                
+                  <li class="toctree-l2"><a href="#circulargraphicrecord" class="reference internal">CircularGraphicRecord</a></li>
+                
+                  <li class="toctree-l2"><a href="#graphicfeature" class="reference internal">GraphicFeature</a></li>
+                
+                  <li class="toctree-l2"><a href="#module-dna_features_viewer.biotools" class="reference internal">Biotools</a></li>
+                
+              </ul>
             
-          
-        </div>
-      </div>
-    </nav>
+          </li>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">DnaFeaturesViewer</a>
-        
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>BiopythonTranslator</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/ref.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
+      </ul>
+    </div>
   
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#more-biology-software">Examples</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="examples/by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
+
             
-  <div class="section" id="module-dna_features_viewer.BiopythonTranslator">
-<span id="biopythontranslator"></span><h1>BiopythonTranslator<a class="headerlink" href="#module-dna_features_viewer.BiopythonTranslator" title="Permalink to this headline">¶</a></h1>
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples/custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples/from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples/sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="examples/with_gc_plot.html" class="reference internal ">Plot sequence with GC content plot</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>BiopythonTranslator</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← Installation</a>
+  </li>
+  <li class="next">
+    <a href="examples/by_hand.html"
+       title="next chapter">Define a graphic record “by hand” →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <div class="section" id="biopythontranslator">
+<h1>BiopythonTranslator<a class="headerlink" href="#biopythontranslator" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator">
-<em class="property">class </em><code class="descclassname">dna_features_viewer.BiopythonTranslator.</code><code class="descname">BiopythonTranslator</code><span class="sig-paren">(</span><em>features_filters=()</em>, <em>features_properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.BiopythonTranslator">
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">BiopythonTranslator</code><span class="sig-paren">(</span><em class="sig-param">features_filters=()</em>, <em class="sig-param">features_properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator" title="Permalink to this definition">¶</a></dt>
 <dd><p>A translator from SeqRecords to dna_features_viewer GraphicRecord.</p>
 <p>This can be subclassed to create custom “themes” (see the example
-<code class="docutils literal"><span class="pre">custom_biopython_translator.py</span></code> in the docs).</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>features_filters</strong></p>
+<code class="docutils literal notranslate"><span class="pre">custom_biopython_translator.py</span></code> in the docs).</p>
+<p>This class is meant to be customized by subclassing and changing the
+methods (<code class="docutils literal notranslate"><span class="pre">compute_feature_label</span></code>, etc.) and/or the attributes
+(<code class="docutils literal notranslate"><span class="pre">default_feature_color</span></code> etc).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>features_filters</strong></p>
 <blockquote>
 <div><p>List of filters (some_biopython_feature) =&gt; True/False.
 Only features passing all the filters are kept.
-This only works if you haven’t redefined <code class="docutils literal"><span class="pre">compute_filtered_features</span></code></p>
+This only works if you haven’t redefined <code class="docutils literal notranslate"><span class="pre">compute_filtered_features</span></code></p>
 </div></blockquote>
 <p><strong>features_properties</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>A function (feature)=&gt; properties_dict</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<table class="docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_color" title="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_color"><code class="xref py py-obj docutils literal"><span class="pre">compute_feature_color</span></code></a>(feature)</td>
-<td>Compute a color for this feature.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_html" title="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_html"><code class="xref py py-obj docutils literal"><span class="pre">compute_feature_html</span></code></a>(feature)</td>
-<td>Gets the ‘label’ of the feature.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_label" title="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_label"><code class="xref py py-obj docutils literal"><span class="pre">compute_feature_label</span></code></a>(feature)</td>
-<td>Gets the ‘label’ of the feature.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">compute_filtered_features</span></code>(features)</td>
+<tbody>
+<tr class="row-odd"><td><p><strong>default_feature_color = “#7245dc”</strong></p></td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_feature" title="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_feature"><code class="xref py py-obj docutils literal"><span class="pre">translate_feature</span></code></a>(feature)</td>
-<td>Translate a Biopython feature into a Dna Features Viewer feature.</td>
+<tr class="row-even"><td><p><strong>graphic_record_parameters</strong></p></td>
+<td><p>Dictionnary containing keyword arguments that will be passed to the (Circular)GraphicRecord constructor</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_record" title="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_record"><code class="xref py py-obj docutils literal"><span class="pre">translate_record</span></code></a>(record[,&nbsp;record_class])</td>
-<td>Create a new GraphicRecord from a BioPython Record object.</td>
+<tr class="row-odd"><td><p><strong>ignored_features_types</strong></p></td>
+<td><p>A list or tuple of strings indicating all the feature types that should always be ignored (i.e. not included in the graphic record) by the translator</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>max_label_length</strong></p></td>
+<td><p>Number of characters above which the labels will be printed cut and ended with an ellipsis “…”. This is to prevent extra-long labels from polluting the whole plots.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>max_line_length</strong></p></td>
+<td><p>Feature labels with a number of characters above this number will be wrapped on 2 or more lines.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>label_fields</strong></p></td>
+<td><p>This list of strings provides the order in which the different attributes of a Genbank feature will be considered, when automatically determining the feature label. For instance if the list is [“label”, “source”, “locus_tag”] and a feature has no label but has a “source”, the “source” will be displayed in the plots.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_color">
-<code class="descname">compute_feature_color</code><span class="sig-paren">(</span><em>feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_color" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_box_color">
+<code class="sig-name descname">compute_feature_box_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a box_color for this feature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth">
+<code class="sig-name descname">compute_feature_box_linewidth</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_linewidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a box_linewidth for this feature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_color">
+<code class="sig-name descname">compute_feature_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a color for this feature.</p>
-<p>If the feature has a <code class="docutils literal"><span class="pre">color</span></code> qualifier it will be used. Otherwise,
-the classe’s <code class="docutils literal"><span class="pre">default_feature_color</span></code> is used.</p>
-<p>To change the behaviour, create a subclass of <code class="docutils literal"><span class="pre">BiopythonTranslator</span></code>
-and overwrite this method.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_html">
-<em class="property">static </em><code class="descname">compute_feature_html</code><span class="sig-paren">(</span><em>feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the ‘label’ of the feature.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_label">
-<em class="property">static </em><code class="descname">compute_feature_label</code><span class="sig-paren">(</span><em>feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.compute_feature_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the ‘label’ of the feature.</p>
-<p>This method looks for the first non-empty qualifier of the feature
-in this order <code class="docutils literal"><span class="pre">label</span></code>, <code class="docutils literal"><span class="pre">source</span></code>, <code class="docutils literal"><span class="pre">locus_tag</span></code>, <code class="docutils literal"><span class="pre">note</span></code>, which
-means that you can provide a label with, for instance
-<code class="docutils literal"><span class="pre">feature.qualifiers['note']</span> <span class="pre">=</span> <span class="pre">'some</span> <span class="pre">note'</span></code>.</p>
-<p>To change the behaviour, create a subclass of <code class="docutils literal"><span class="pre">BiopythonTranslator</span></code>
+<p>If the feature has a <code class="docutils literal notranslate"><span class="pre">color</span></code> qualifier it will be used. Otherwise,
+the classe’s <code class="docutils literal notranslate"><span class="pre">default_feature_color</span></code> is used.</p>
+<p>To change the behaviour, create a subclass of <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code>
 and overwrite this method.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_feature">
-<code class="descname">translate_feature</code><span class="sig-paren">(</span><em>feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_feature" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_fontdict">
+<code class="sig-name descname">compute_feature_fontdict</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_fontdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_fontdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a font dict for this feature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_html">
+<code class="sig-name descname">compute_feature_html</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the ‘label’ of the feature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_label">
+<code class="sig-name descname">compute_feature_label</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the ‘label’ of the feature.</p>
+<p>This method looks for the first non-empty qualifier of the feature
+in this order <code class="docutils literal notranslate"><span class="pre">label</span></code>, <code class="docutils literal notranslate"><span class="pre">source</span></code>, <code class="docutils literal notranslate"><span class="pre">locus_tag</span></code>, <code class="docutils literal notranslate"><span class="pre">note</span></code>, which
+means that you can provide a label with, for instance
+<code class="docutils literal notranslate"><span class="pre">feature.qualifiers['note']</span> <span class="pre">=</span> <span class="pre">'some</span> <span class="pre">note'</span></code>.</p>
+<p>To change the behaviour, create a subclass of <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code>
+and overwrite this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.translate_feature">
+<code class="sig-name descname">translate_feature</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.translate_feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate a Biopython feature into a Dna Features Viewer feature.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_record">
-<code class="descname">translate_record</code><span class="sig-paren">(</span><em>record</em>, <em>record_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.BiopythonTranslator.translate_record" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.BiopythonTranslator.translate_record">
+<code class="sig-name descname">translate_record</code><span class="sig-paren">(</span><em class="sig-param">record</em>, <em class="sig-param">record_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.translate_record" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new GraphicRecord from a BioPython Record object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>record</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>record</strong></p>
 <blockquote>
 <div><p>A BioPython Record object or the path to a Genbank file.</p>
 </div></blockquote>
 <p><strong>record_class</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>The graphic record class to use, e.g. GraphicRecord (default) or
 CircularGraphicRecord. Strings ‘circular’ and ‘linear’ can also be
 provided.</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-dna_features_viewer.GraphicRecord">
-<span id="graphicrecord"></span><h1>GraphicRecord<a class="headerlink" href="#module-dna_features_viewer.GraphicRecord" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="graphicrecord">
+<h1>GraphicRecord<a class="headerlink" href="#graphicrecord" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord">
-<em class="property">class </em><code class="descclassname">dna_features_viewer.GraphicRecord.</code><code class="descname">GraphicRecord</code><span class="sig-paren">(</span><em>sequence_length=None</em>, <em>sequence=None</em>, <em>features=()</em>, <em>feature_level_width=1</em>, <em>annotation_level_width=1</em>, <em>first_index=0</em>, <em>plots_indexing='biopython'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord">
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicRecord</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=None</em>, <em class="sig-param">sequence=None</em>, <em class="sig-param">features=()</em>, <em class="sig-param">feature_level_height=1</em>, <em class="sig-param">first_index=0</em>, <em class="sig-param">plots_indexing='biopython'</em>, <em class="sig-param">labels_spacing=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set of Genetic Features of a same DNA sequence, to be plotted together.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sequence_length</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sequence_length</strong></p>
 <blockquote>
 <div><p>Length of the DNA sequence, in number of nucleotides</p>
 </div></blockquote>
@@ -314,11 +358,11 @@ provided.</p>
 <blockquote>
 <div><p>list of GraphicalFeature objects.</p>
 </div></blockquote>
-<p><strong>feature_level_width</strong></p>
+<p><strong>feature_level_height</strong></p>
 <blockquote>
 <div><p>Width in inches of one “level” for feature arrows.</p>
 </div></blockquote>
-<p><strong>annotation_level_width</strong></p>
+<p><strong>annotation_height</strong></p>
 <blockquote>
 <div><p>Width in inches of one “level” for feature annotations.</p>
 </div></blockquote>
@@ -327,78 +371,19 @@ provided.</p>
 <div><p>Indicates the first index to plot in case the sequence is actually a
 subsequence of a larger one. For instance, if the Graphic record
 represents the segment (400, 420) of a sequence, we will have
-<code class="docutils literal"><span class="pre">first_index=400</span></code> and <code class="docutils literal"><span class="pre">sequence_length=20</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">first_index=400</span></code> and <code class="docutils literal notranslate"><span class="pre">sequence_length=20</span></code>.</p>
 </div></blockquote>
 <p><strong>plots_indexing</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>Indicates which standard to use to show nucleotide indices in the plots.
 If ‘biopython’, the standard python indexing is used (starting at 0).
 If ‘genbank’, the indexing follows the Genbank standard (starting at 1).</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">span</span></code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.annotate_feature" title="dna_features_viewer.GraphicRecord.GraphicRecord.annotate_feature"><code class="xref py py-obj docutils literal"><span class="pre">annotate_feature</span></code></a>(ax,&nbsp;feature,&nbsp;level[,&nbsp;…])</td>
-<td>Create a Matplotlib Text with the feature’s label.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">coordinates_in_plot</span></code>(x,&nbsp;level)</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">crop</span></code>(window)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">finalize_ax</span></code>(ax,&nbsp;features_levels,&nbsp;…[,&nbsp;…])</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">initialize_ax</span></code>(ax,&nbsp;draw_line,&nbsp;with_ruler)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot" title="dna_features_viewer.GraphicRecord.GraphicRecord.plot"><code class="xref py py-obj docutils literal"><span class="pre">plot</span></code></a>([ax,&nbsp;figure_width,&nbsp;draw_line,&nbsp;…])</td>
-<td>Plot all the features in the same Matplotlib ax</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_feature" title="dna_features_viewer.GraphicRecord.GraphicRecord.plot_feature"><code class="xref py py-obj docutils literal"><span class="pre">plot_feature</span></code></a>(ax,&nbsp;feature,&nbsp;level[,&nbsp;linewidth])</td>
-<td>Create an Arrow Matplotlib patch with the feature’s coordinates.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_sequence" title="dna_features_viewer.GraphicRecord.GraphicRecord.plot_sequence"><code class="xref py py-obj docutils literal"><span class="pre">plot_sequence</span></code></a>(ax[,&nbsp;location,&nbsp;y_offset,&nbsp;…])</td>
-<td>Plot a sequence of nucleotides at the bottom of the plot.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_translation" title="dna_features_viewer.GraphicRecord.GraphicRecord.plot_translation"><code class="xref py py-obj docutils literal"><span class="pre">plot_translation</span></code></a>(ax[,&nbsp;location,&nbsp;y_offset,&nbsp;…])</td>
-<td>Plot a sequence of amino-acids at the bottom of the plot.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_with_bokeh" title="dna_features_viewer.GraphicRecord.GraphicRecord.plot_with_bokeh"><code class="xref py py-obj docutils literal"><span class="pre">plot_with_bokeh</span></code></a>([figure_width])</td>
-<td>Plot the graphic record using Bokeh.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.split_overflowing_features_circularly" title="dna_features_viewer.GraphicRecord.GraphicRecord.split_overflowing_features_circularly"><code class="xref py py-obj docutils literal"><span class="pre">split_overflowing_features_circularly</span></code></a>()</td>
-<td>Split the features that overflow over the edge for circular constructs (inplace).</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicRecord.GraphicRecord.to_biopython_record" title="dna_features_viewer.GraphicRecord.GraphicRecord.to_biopython_record"><code class="xref py py-obj docutils literal"><span class="pre">to_biopython_record</span></code></a>(sequence)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.annotate_feature">
-<code class="descname">annotate_feature</code><span class="sig-paren">(</span><em>ax</em>, <em>feature</em>, <em>level</em>, <em>fontsize=11</em>, <em>box_linewidth=1</em>, <em>box_color=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.annotate_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.annotate_feature" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.annotate_feature">
+<code class="sig-name descname">annotate_feature</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">feature</em>, <em class="sig-param">level</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.annotate_feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Matplotlib Text with the feature’s label.</p>
 <p>The x-coordinates of the text are determined by the feature’s
 <cite>x_center</cite> while the y-coordinates are determined by the <cite>level</cite>.</p>
@@ -411,16 +396,105 @@ simply be a rectangle.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>ax=None</em>, <em>figure_width=8</em>, <em>draw_line=True</em>, <em>with_ruler=True</em>, <em>fontsize=11</em>, <em>box_linewidth=1</em>, <em>box_color=None</em>, <em>plot_sequence=False</em>, <em>annotate_inline=False</em>, <em>level_offset=0</em>, <em>x_lim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot all the features in the same Matplotlib ax</p>
-<p><cite>figure_width</cite> represents the width in inches of the final figure (if
-no <cite>ax</cite> parameter is attributed).</p>
+<dt id="dna_features_viewer.GraphicRecord.bokeh_feature_patch">
+<code class="sig-name descname">bokeh_feature_patch</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">end</em>, <em class="sig-param">strand</em>, <em class="sig-param">width=0.3</em>, <em class="sig-param">level=0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.bokeh_feature_patch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dict with points coordinates of a Bokeh Feature arrow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>start, end, strand</strong></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.plot_feature">
-<code class="descname">plot_feature</code><span class="sig-paren">(</span><em>ax</em>, <em>feature</em>, <em>level</em>, <em>linewidth=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.plot_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_feature" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.coordinates_in_plot">
+<code class="sig-name descname">coordinates_in_plot</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord.coordinates_in_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.coordinates_in_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a sequence position and height level into a (x, y) position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.determine_annotation_height">
+<code class="sig-name descname">determine_annotation_height</code><span class="sig-paren">(</span><em class="sig-param">levels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord.determine_annotation_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.determine_annotation_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default the ideal annotation level height is the same as the
+feature_level_height.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.finalize_ax">
+<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">minimum_yspan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redefine y-bounds and figure height.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.initialize_ax">
+<code class="sig-name descname">initialize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">draw_line</em>, <em class="sig-param">with_ruler</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.initialize_ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the ax: remove axis, draw a horizontal line, etc.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>draw_line</strong></p>
+<blockquote>
+<div><p>True/False to draw the horizontal line or not.</p>
+</div></blockquote>
+<p><strong>with_ruler</strong></p>
+<blockquote>
+<div><p>True/False to draw the indices indicators along the line.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">figure_width=8</em>, <em class="sig-param">draw_line=True</em>, <em class="sig-param">with_ruler=True</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">annotate_inline=False</em>, <em class="sig-param">level_offset=0</em>, <em class="sig-param">x_lim=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot all the features in the same Matplotlib ax</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ax</strong></p>
+<blockquote>
+<div><p>The Matplotlib ax on which to plot the graphic record. If None is
+provided, a new figure and ax is generated, the ax is returned at
+the end.</p>
+</div></blockquote>
+<p><strong>figure_width</strong></p>
+<blockquote>
+<div><p>Width of the figure (only if no ax was provided and a new figure is
+created) in inches.</p>
+</div></blockquote>
+<p><strong>draw_line</strong></p>
+<blockquote>
+<div><p>If True, a base line representing the sequence will be drawn.</p>
+</div></blockquote>
+<p><strong>with_ruler</strong></p>
+<blockquote>
+<div><p>If true, the sequence indices will be indicated at regular intervals.</p>
+</div></blockquote>
+<p><strong>plot_sequence</strong></p>
+<blockquote>
+<div><p>If True and the graphic record has a “sequence” attribute set, the
+sequence will be displayed below the base line.</p>
+</div></blockquote>
+<p><strong>annotate_inline</strong></p>
+<blockquote>
+<div><p>If true, some feature labels will be displayed inside their
+corresponding feature if there is sufficient space.</p>
+</div></blockquote>
+<p><strong>level_offset</strong></p>
+<blockquote>
+<div><p>All features and annotations will be pushed up by “level_offset”. Can
+be useful when plotting several sets of features successively on a
+same ax.</p>
+</div></blockquote>
+<p><strong>x_lim</strong></p>
+<blockquote>
+<div><p>Horizontal axis limits to be set at the end.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.plot_feature">
+<code class="sig-name descname">plot_feature</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">feature</em>, <em class="sig-param">level</em>, <em class="sig-param">linewidth=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an Arrow Matplotlib patch with the feature’s coordinates.</p>
 <p>The Arrow points in the direction of the feature’s strand.
 If the feature has no direction (strand==0), the returned patch will
@@ -430,14 +504,12 @@ simply be a rectangle.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.plot_sequence">
-<code class="descname">plot_sequence</code><span class="sig-paren">(</span><em>ax</em>, <em>location=None</em>, <em>y_offset=1</em>, <em>fontdict=None</em>, <em>background=('#f7fbff'</em>, <em>'#fffcf0')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.plot_sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_sequence" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.plot_sequence">
+<code class="sig-name descname">plot_sequence</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=1</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">background=('#f7fbff'</em>, <em class="sig-param">'#fffcf0')</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a sequence of nucleotides at the bottom of the plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ax</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ax</strong></p>
 <blockquote>
 <div><p>Which axes the translation should be plotted to</p>
 </div></blockquote>
@@ -455,7 +527,7 @@ directly under the main line.</p>
 <p><strong>fontdict</strong></p>
 <blockquote>
 <div><p>Matplotlib fontdict for the text, e.g.
-<code class="docutils literal"><span class="pre">{'size':</span> <span class="pre">11,</span> <span class="pre">'weight':'bold'}</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">{'size':</span> <span class="pre">11,</span> <span class="pre">'weight':'bold'}</span></code></p>
 </div></blockquote>
 <p><strong>background</strong></p>
 <blockquote>
@@ -463,25 +535,21 @@ directly under the main line.</p>
 nucleotide position to guide vision. Leave to None for no background.</p>
 </div></blockquote>
 <p><strong>translation</strong></p>
-<blockquote class="last">
-<div><p>Sequence of amino acids either as a string <code class="docutils literal"><span class="pre">'MAKG...'</span></code> or as a list
-<code class="docutils literal"><span class="pre">['Met',</span> <span class="pre">'Ala',</span> <span class="pre">...]</span></code></p>
+<blockquote>
+<div><p>Sequence of amino acids either as a string <code class="docutils literal notranslate"><span class="pre">'MAKG...'</span></code> or as a list
+<code class="docutils literal notranslate"><span class="pre">['Met',</span> <span class="pre">'Ala',</span> <span class="pre">...]</span></code></p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.plot_translation">
-<code class="descname">plot_translation</code><span class="sig-paren">(</span><em>ax</em>, <em>location=None</em>, <em>y_offset=2</em>, <em>fontdict=None</em>, <em>background=('#f5fff0'</em>, <em>'#fff7fd')</em>, <em>translation=None</em>, <em>long_form_translation=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.plot_translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_translation" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.plot_translation">
+<code class="sig-name descname">plot_translation</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=2</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">background=('#f5fff0'</em>, <em class="sig-param">'#fff7fd')</em>, <em class="sig-param">translation=None</em>, <em class="sig-param">long_form_translation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_translation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a sequence of amino-acids at the bottom of the plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ax</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ax</strong></p>
 <blockquote>
 <div><p>Which axes the translation should be plotted to</p>
 </div></blockquote>
@@ -498,7 +566,7 @@ plotted at level 1.</p>
 <p><strong>fontdict</strong></p>
 <blockquote>
 <div><p>Matplotlib fontdict for the text, e.g.
-<code class="docutils literal"><span class="pre">{'size':</span> <span class="pre">11,</span> <span class="pre">'weight':'bold'}</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">{'size':</span> <span class="pre">11,</span> <span class="pre">'weight':'bold'}</span></code></p>
 </div></blockquote>
 <p><strong>background</strong></p>
 <blockquote>
@@ -506,52 +574,54 @@ plotted at level 1.</p>
 amino acid position to guide vision. Leave to None for no background.</p>
 </div></blockquote>
 <p><strong>translation</strong></p>
-<blockquote class="last">
-<div><p>Sequence of amino acids either as a string <code class="docutils literal"><span class="pre">'MAKG...'</span></code> or as a list
-<code class="docutils literal"><span class="pre">['Met',</span> <span class="pre">'Ala',</span> <span class="pre">...]</span></code></p>
+<blockquote>
+<div><p>Sequence of amino acids either as a string <code class="docutils literal notranslate"><span class="pre">'MAKG...'</span></code> or as a list
+<code class="docutils literal notranslate"><span class="pre">['Met',</span> <span class="pre">'Ala',</span> <span class="pre">...]</span></code></p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.plot_with_bokeh">
-<code class="descname">plot_with_bokeh</code><span class="sig-paren">(</span><em>figure_width=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.plot_with_bokeh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.plot_with_bokeh" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.plot_with_bokeh">
+<code class="sig-name descname">plot_with_bokeh</code><span class="sig-paren">(</span><em class="sig-param">figure_width=5</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_with_bokeh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the graphic record using Bokeh.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.split_overflowing_features_circularly">
-<code class="descname">split_overflowing_features_circularly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.split_overflowing_features_circularly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.split_overflowing_features_circularly" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.span">
+<em class="property">property </em><code class="sig-name descname">span</code><a class="headerlink" href="#dna_features_viewer.GraphicRecord.span" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the display span (start, end) accounting for first_index.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.split_overflowing_features_circularly">
+<code class="sig-name descname">split_overflowing_features_circularly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord.split_overflowing_features_circularly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.split_overflowing_features_circularly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split the features that overflow over the edge for circular
 constructs (inplace).</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicRecord.GraphicRecord.to_biopython_record">
-<code class="descname">to_biopython_record</code><span class="sig-paren">(</span><em>sequence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord.html#GraphicRecord.to_biopython_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.GraphicRecord.to_biopython_record" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicRecord.to_biopython_record">
+<code class="sig-name descname">to_biopython_record</code><span class="sig-paren">(</span><em class="sig-param">sequence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord.to_biopython_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord.to_biopython_record" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-dna_features_viewer.CircularGraphicRecord">
-<span id="circulargraphicrecord"></span><h1>CircularGraphicRecord<a class="headerlink" href="#module-dna_features_viewer.CircularGraphicRecord" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="circulargraphicrecord">
+<h1>CircularGraphicRecord<a class="headerlink" href="#circulargraphicrecord" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord">
-<em class="property">class </em><code class="descclassname">dna_features_viewer.CircularGraphicRecord.</code><code class="descname">CircularGraphicRecord</code><span class="sig-paren">(</span><em>sequence_length</em>, <em>features</em>, <em>top_position=0</em>, <em>feature_level_width=0.2</em>, <em>annotation_level_width=0.25</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord.html#CircularGraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.CircularGraphicRecord">
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">CircularGraphicRecord</code><span class="sig-paren">(</span><em class="sig-param">sequence_length</em>, <em class="sig-param">features</em>, <em class="sig-param">top_position=0</em>, <em class="sig-param">feature_level_height=0.2</em>, <em class="sig-param">annotation_height='auto'</em>, <em class="sig-param">labels_spacing=20</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set of Genetic Features of a same DNA sequence, to be plotted together.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sequence_length</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sequence_length</strong></p>
 <blockquote>
 <div><p>Length of the DNA sequence, in number of nucleotides</p>
 </div></blockquote>
@@ -563,92 +633,78 @@ constructs (inplace).</p>
 <blockquote>
 <div><p>The index in the sequence that will end up at the top of the circle</p>
 </div></blockquote>
-<p><strong>feature_level_width</strong></p>
+<p><strong>feature_level_height</strong></p>
 <blockquote>
 <div><p>Width in inches of one “level” for feature arrows.</p>
 </div></blockquote>
-<p><strong>annotation_level_width</strong></p>
-<blockquote class="last">
+<p><strong>annotation_height</strong></p>
+<blockquote>
 <div><p>Width in inches of one “level” for feature annotations.</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">span</span></code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">annotate_feature</span></code>(ax,&nbsp;feature,&nbsp;level[,&nbsp;…])</td>
-<td>Create a Matplotlib Text with the feature’s label.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">coordinates_in_plot</span></code>(x,&nbsp;level)</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">crop</span></code>(window)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">finalize_ax</span></code>(ax,&nbsp;features_levels,&nbsp;…[,&nbsp;…])</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">initialize_ax</span></code>(ax,&nbsp;draw_line,&nbsp;with_ruler)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">plot</span></code>([ax,&nbsp;figure_width,&nbsp;draw_line,&nbsp;…])</td>
-<td>Plot all the features in the same Matplotlib ax</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">plot_feature</span></code>(ax,&nbsp;feature,&nbsp;level)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">plot_sequence</span></code>(ax[,&nbsp;location,&nbsp;y_offset,&nbsp;…])</td>
-<td>Plot a sequence of nucleotides at the bottom of the plot.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">plot_translation</span></code>(ax[,&nbsp;location,&nbsp;y_offset,&nbsp;…])</td>
-<td>Plot a sequence of amino-acids at the bottom of the plot.</td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">plot_with_bokeh</span></code>([figure_width])</td>
-<td>Plot the graphic record using Bokeh.</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">position_to_angle</span></code>(position)</td>
-<td></td>
-</tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal"><span class="pre">split_overflowing_features_circularly</span></code>()</td>
-<td>Split the features that overflow over the edge for circular constructs (inplace).</td>
-</tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal"><span class="pre">to_biopython_record</span></code>(sequence)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p><strong>labels_spacing</strong></p>
+<blockquote>
+<div><p>Distance in basepairs to keep between labels to avoid “quasi-collisions”</p>
+</div></blockquote>
+<p><strong>**kw</strong></p>
+<blockquote>
+<div><p>Other keyword arguments - do not use, these parameters are allowed for
+making it easier to use GraphicRecord and CircularGraphicRecord
+interchangeably.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.coordinates_in_plot">
+<code class="sig-name descname">coordinates_in_plot</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.coordinates_in_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.coordinates_in_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a sequence position and height level to (x, y) coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.determine_annotation_height">
+<code class="sig-name descname">determine_annotation_height</code><span class="sig-paren">(</span><em class="sig-param">max_annotations_level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.determine_annotation_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.determine_annotation_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Auto-select the annotations height.</p>
+<p>Annotation height is 0.2 at most, or else whatever will make
+the figure a 5*radius tall rectangle where the circular plasmid
+occupies the bottom-2 5th and the annotations occupy the top-3 5th.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.finalize_ax">
+<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">minimum_yspan=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.finalize_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Final display range and figure dimension tweakings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.initialize_ax">
+<code class="sig-name descname">initialize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">draw_line</em>, <em class="sig-param">with_ruler</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.initialize_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.initialize_ax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the ax with a circular line, sets limits, aspect etc.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.plot_feature">
+<code class="sig-name descname">plot_feature</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">feature</em>, <em class="sig-param">level</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.plot_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.plot_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an ArrowWedge representing the feature at the giben height
+level.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.CircularGraphicRecord.position_to_angle">
+<code class="sig-name descname">position_to_angle</code><span class="sig-paren">(</span><em class="sig-param">position</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.position_to_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.position_to_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a sequence position into an angle in the figure.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
-<div class="section" id="module-dna_features_viewer.GraphicFeature">
-<span id="graphicfeature"></span><h1>GraphicFeature<a class="headerlink" href="#module-dna_features_viewer.GraphicFeature" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="graphicfeature">
+<h1>GraphicFeature<a class="headerlink" href="#graphicfeature" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature">
-<em class="property">class </em><code class="descclassname">dna_features_viewer.GraphicFeature.</code><code class="descname">GraphicFeature</code><span class="sig-paren">(</span><em>start=None</em>, <em>end=None</em>, <em>strand=None</em>, <em>label=None</em>, <em>color='#000080'</em>, <em>thickness=14</em>, <em>linewidth=1.0</em>, <em>html=None</em>, <em>open_left=False</em>, <em>open_right=False</em>, <em>**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicFeature">
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicFeature</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">strand=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">color='#000080'</em>, <em class="sig-param">thickness=14</em>, <em class="sig-param">linewidth=1.0</em>, <em class="sig-param">linecolor='#000000'</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">open_left=False</em>, <em class="sig-param">open_right=False</em>, <em class="sig-param">box_linewidth=1</em>, <em class="sig-param">box_color='auto'</em>, <em class="sig-param">**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Genetic Feature to be plotted.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>start, end</strong></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>start, end</strong></p>
 <blockquote>
 <div><p>Coordinates of the feature in the final sequence.</p>
 </div></blockquote>
@@ -666,250 +722,147 @@ anti-sense, or no directionality.</p>
 <div><p>Color of the feature, any Matplotlib-compatible format is accepted,
 such as “white”, “w”, “#ffffff”, (1,1,1), etc.</p>
 </div></blockquote>
+<p><strong>linecolor</strong></p>
+<blockquote>
+<div><p>Color of the feature’s border, any Matplotlib-compatible format is
+accepted, such as “white”, “w”, “#ffffff”, (1,1,1), etc.</p>
+</div></blockquote>
+<p><strong>box_color</strong></p>
+<blockquote>
+<div><p>Color of the label box. Set to None for no box around the label.
+Leave to “auto” for a box color that is a lightened version of the
+feature’s color.</p>
+</div></blockquote>
 <p><strong>data</strong></p>
-<blockquote class="last">
+<blockquote>
 <div><p>Any other keyword is kept into the feature.data[] dictionary.</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.length" title="dna_features_viewer.GraphicFeature.GraphicFeature.length"><code class="xref py py-obj docutils literal"><span class="pre">length</span></code></a></td>
-<td>Return the length of the feature (end-start)</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.x_center" title="dna_features_viewer.GraphicFeature.GraphicFeature.x_center"><code class="xref py py-obj docutils literal"><span class="pre">x_center</span></code></a></td>
-<td>Return the x-center of the feature, (start+end)/2</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.crop" title="dna_features_viewer.GraphicFeature.GraphicFeature.crop"><code class="xref py py-obj docutils literal"><span class="pre">crop</span></code></a>(window)</td>
-<td>Return a the fragment of the feature that is in the window.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.from_biopython_feature" title="dna_features_viewer.GraphicFeature.GraphicFeature.from_biopython_feature"><code class="xref py py-obj docutils literal"><span class="pre">from_biopython_feature</span></code></a>(feature,&nbsp;**props)</td>
-<td>Create a GraphicalFeature from a Biopython.Feature object.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.overlaps_with" title="dna_features_viewer.GraphicFeature.GraphicFeature.overlaps_with"><code class="xref py py-obj docutils literal"><span class="pre">overlaps_with</span></code></a>(other)</td>
-<td>Return True iff the feature’s location overlaps with feature <cite>other</cite></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#dna_features_viewer.GraphicFeature.GraphicFeature.split_in_two" title="dna_features_viewer.GraphicFeature.GraphicFeature.split_in_two"><code class="xref py py-obj docutils literal"><span class="pre">split_in_two</span></code></a>([x_coord])</td>
-<td>Return two features by cutting this feature at x_coord.</td>
-</tr>
-</tbody>
-</table>
+<p><strong>fontdict</strong></p>
+<blockquote>
+<div><p>A Matplotlib fontdict for the font to be used in the label, e.g.
+<code class="docutils literal notranslate"><span class="pre">size=11</span></code>, <code class="docutils literal notranslate"><span class="pre">weight='bold'</span></code>, <code class="docutils literal notranslate"><span class="pre">family='Helvetica'</span></code>, etc.</p>
+</div></blockquote>
+</dd>
+</dl>
 <dl class="method">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.crop">
-<code class="descname">crop</code><span class="sig-paren">(</span><em>window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.crop" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicFeature.crop">
+<code class="sig-name descname">crop</code><span class="sig-paren">(</span><em class="sig-param">window</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.crop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a the fragment of the feature that is in the window.</p>
 <p>If there is no overlap between the feature location and the window,
 None is returned.</p>
 </dd></dl>
 
-<dl class="staticmethod">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.from_biopython_feature">
-<em class="property">static </em><code class="descname">from_biopython_feature</code><span class="sig-paren">(</span><em>feature</em>, <em>**props</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.from_biopython_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.from_biopython_feature" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="dna_features_viewer.GraphicFeature.from_biopython_feature">
+<em class="property">static </em><code class="sig-name descname">from_biopython_feature</code><span class="sig-paren">(</span><em class="sig-param">feature</em>, <em class="sig-param">**props</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.from_biopython_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.from_biopython_feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a GraphicalFeature from a Biopython.Feature object.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.length">
-<code class="descname">length</code><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.length" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="dna_features_viewer.GraphicFeature.length">
+<em class="property">property </em><code class="sig-name descname">length</code><a class="headerlink" href="#dna_features_viewer.GraphicFeature.length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the length of the feature (end-start)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.overlaps_with">
-<code class="descname">overlaps_with</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.overlaps_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.overlaps_with" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicFeature.overlaps_with">
+<code class="sig-name descname">overlaps_with</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.overlaps_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.overlaps_with" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True iff the feature’s location overlaps with feature <cite>other</cite></p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.split_in_two">
-<code class="descname">split_in_two</code><span class="sig-paren">(</span><em>x_coord=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.split_in_two"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.split_in_two" title="Permalink to this definition">¶</a></dt>
+<dt id="dna_features_viewer.GraphicFeature.split_in_two">
+<code class="sig-name descname">split_in_two</code><span class="sig-paren">(</span><em class="sig-param">x_coord=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.split_in_two"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.split_in_two" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return two features by cutting this feature at x_coord.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="dna_features_viewer.GraphicFeature.GraphicFeature.x_center">
-<code class="descname">x_center</code><a class="headerlink" href="#dna_features_viewer.GraphicFeature.GraphicFeature.x_center" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="dna_features_viewer.GraphicFeature.x_center">
+<em class="property">property </em><code class="sig-name descname">x_center</code><a class="headerlink" href="#dna_features_viewer.GraphicFeature.x_center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the x-center of the feature, (start+end)/2</p>
 </dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="module-dna_features_viewer.tools">
-<span id="tools"></span><h1>Tools<a class="headerlink" href="#module-dna_features_viewer.tools" title="Permalink to this headline">¶</a></h1>
-<p>Useful functions for the library</p>
-<dl class="class">
-<dt id="dna_features_viewer.tools.Graph">
-<em class="property">class </em><code class="descclassname">dna_features_viewer.tools.</code><code class="descname">Graph</code><span class="sig-paren">(</span><em>nodes</em>, <em>edges</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/tools.html#Graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.tools.Graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Minimal implementation of non-directional graphs.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nodes</strong></p>
+<div class="section" id="module-dna_features_viewer.biotools">
+<span id="biotools"></span><h1>Biotools<a class="headerlink" href="#module-dna_features_viewer.biotools" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="dna_features_viewer.biotools.annotate_biopython_record">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">annotate_biopython_record</code><span class="sig-paren">(</span><em class="sig-param">seqrecord</em>, <em class="sig-param">location='full'</em>, <em class="sig-param">feature_type='misc_feature'</em>, <em class="sig-param">margin=0</em>, <em class="sig-param">**qualifiers</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#annotate_biopython_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.annotate_biopython_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a feature to a Biopython SeqRecord.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>seqrecord</strong></p>
 <blockquote>
-<div><p>A list of objects. They must be hashable</p>
+<div><p>The biopython seqrecord to be annotated.</p>
 </div></blockquote>
-<p><strong>edges</strong></p>
-<blockquote class="last">
-<div><p>A list of the form [(n1,n2), (n3,n4)…] where (n1, n2) represents
-an edge between nodes n1 and n2</p>
+<p><strong>location</strong></p>
+<blockquote>
+<div><p>Either (start, end) or (start, end, strand). (strand defaults to +1)</p>
 </div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<p><strong>feature_type</strong></p>
+<blockquote>
+<div><p>The type associated with the feature</p>
+</div></blockquote>
+<p><strong>margin</strong></p>
+<blockquote>
+<div><p>Number of extra bases added on each side of the given location.</p>
+</div></blockquote>
+<p><strong>qualifiers</strong></p>
+<blockquote>
+<div><p>Dictionnary that will be the Biopython feature’s <cite>qualifiers</cite> attribute.</p>
+</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
-<dt id="dna_features_viewer.tools.bokeh_feature_patch">
-<code class="descclassname">dna_features_viewer.tools.</code><code class="descname">bokeh_feature_patch</code><span class="sig-paren">(</span><em>self</em>, <em>start</em>, <em>end</em>, <em>strand</em>, <em>width=0.3</em>, <em>level=0</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/tools.html#bokeh_feature_patch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.tools.bokeh_feature_patch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a dict with points coordinates of a Bokeh Feature arrow.</p>
+<dt id="dna_features_viewer.biotools.complement">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">complement</code><span class="sig-paren">(</span><em class="sig-param">dna_sequence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#complement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.complement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the complement of the DNA sequence.</p>
+<p>For instance <code class="docutils literal notranslate"><span class="pre">complement(&quot;ATGCCG&quot;)</span></code> returns <code class="docutils literal notranslate"><span class="pre">&quot;TACGGC&quot;</span></code>.</p>
+<p>Uses BioPython for speed.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="dna_features_viewer.tools.change_luminosity">
-<code class="descclassname">dna_features_viewer.tools.</code><code class="descname">change_luminosity</code><span class="sig-paren">(</span><em>color</em>, <em>luminosity=None</em>, <em>factor=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/tools.html#change_luminosity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.tools.change_luminosity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a version of the color with different luminosity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>color</strong></p>
-<blockquote>
-<div><p>A color in any Matplotlib-compatible format such as “white”, “w”,
-(1,1,1), “#ffffff”, etc.</p>
-</div></blockquote>
-<p><strong>luminosity</strong></p>
-<blockquote>
-<div><p>A float in 0-1. If provided, the returned color has this level of
-luminosity.</p>
-</div></blockquote>
-<p><strong>factor</strong></p>
-<blockquote class="last">
-<div><p>Only used if <cite>luminosity</cite> is not set. The luminosity of the new image
-is (1 - (1-L)/(factor + 1)), where L is the current luminosity.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dt id="dna_features_viewer.biotools.reverse_complement">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">reverse_complement</code><span class="sig-paren">(</span><em class="sig-param">sequence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#reverse_complement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.reverse_complement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the reverse-complement of the DNA sequence.</p>
+<p>For instance <code class="docutils literal notranslate"><span class="pre">complement(&quot;ATGCCG&quot;)</span></code> returns <code class="docutils literal notranslate"><span class="pre">&quot;GCCGTA&quot;</span></code>.</p>
+<p>Uses BioPython for speed.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="dna_features_viewer.tools.compute_features_levels">
-<code class="descclassname">dna_features_viewer.tools.</code><code class="descname">compute_features_levels</code><span class="sig-paren">(</span><em>features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/tools.html#compute_features_levels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.tools.compute_features_levels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the vertical levels on which the features should be displayed
-in order to avoid collisions.</p>
-<p><cite>features</cite> must be a list of <cite>dna_features_viewer.GraphicFeature</cite>.</p>
-<p>The method used is basically a graph coloring:
-- The nodes of the graph are features and they will be colored with a level
-- Two nodes are neighbors iff their features’s locations overlap
-- Levels are attributed to nodes iteratively starting with the nodes</p>
-<blockquote>
-<div>corresponding to the largest features.</div></blockquote>
-<ul class="simple">
-<li>A node receives the lowest level (starting at 0) that is not already
-the level of one of its neighbors.</li>
-</ul>
-</dd></dl>
-
-<dl class="function">
-<dt id="dna_features_viewer.tools.get_text_box">
-<code class="descclassname">dna_features_viewer.tools.</code><code class="descname">get_text_box</code><span class="sig-paren">(</span><em>text</em>, <em>margin=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/tools.html#get_text_box"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.tools.get_text_box" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the coordinates of a Matplotlib Text.</p>
-<p><cite>text</cite> is a Matplotlib text obtained with ax.text().
-This returns <cite>(x1,y1, x2, y2)</cite> where (x1,y1) is the lower left corner
-and (x2, y2) is the upper right corner of the text, in data coordinates.
-If a margin m is supplied, the returned result is (x1-m, y1-m, x2+m, y2+m)</p>
+<dt id="dna_features_viewer.biotools.translate">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param">dna_sequence</em>, <em class="sig-param">long_form=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate the DNA sequence into an amino-acids sequence MLKYQT…</p>
 </dd></dl>
 
 </div>
 
 
-           </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="index.html" class="btn btn-neutral" title="DNA Features Viewer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← Installation</a>
+  </li>
+  <li class="next">
+    <a href="examples/by_hand.html"
+       title="next chapter">Define a graphic record “by hand” →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
     </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, Edinburgh Genome Foundry.
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+    
+    
+  </body>
 </html>

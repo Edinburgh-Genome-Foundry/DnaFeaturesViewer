@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+      <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="../../../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../../index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="../../../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../../index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#more-biology-software">Reference</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../ref.html" class="reference internal ">BiopythonTranslator</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#more-biology-software">Examples</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../examples/by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples/custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples/from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples/sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples/with_gc_plot.html" class="reference internal ">Plot sequence with GC content plot</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for dna_features_viewer.CircularGraphicRecord.CircularGraphicRecord</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Implements the CircularGraphicRecord class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..GraphicRecord</span> <span class="k">import</span> <span class="n">GraphicRecord</span>
+<span class="kn">from</span> <span class="nn">.ArrowWedge</span> <span class="k">import</span> <span class="n">ArrowWedge</span>
+
+
+<div class="viewcode-block" id="CircularGraphicRecord"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord">[docs]</a><span class="k">class</span> <span class="nc">CircularGraphicRecord</span><span class="p">(</span><span class="n">GraphicRecord</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set of Genetic Features of a same DNA sequence, to be plotted together.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sequence_length</span>
+<span class="sd">      Length of the DNA sequence, in number of nucleotides</span>
+
+<span class="sd">    features</span>
+<span class="sd">      list of GraphicalFeature objects.</span>
+
+<span class="sd">    top_position</span>
+<span class="sd">      The index in the sequence that will end up at the top of the circle</span>
+
+<span class="sd">    feature_level_height</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature arrows.</span>
+
+<span class="sd">    annotation_height</span>
+<span class="sd">      Width in inches of one &quot;level&quot; for feature annotations.</span>
+
+<span class="sd">    labels_spacing</span>
+<span class="sd">      Distance in basepairs to keep between labels to avoid &quot;quasi-collisions&quot;</span>
+
+<span class="sd">    **kw</span>
+<span class="sd">      Other keyword arguments - do not use, these parameters are allowed for</span>
+<span class="sd">      making it easier to use GraphicRecord and CircularGraphicRecord</span>
+<span class="sd">      interchangeably.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sequence_length</span><span class="p">,</span>
+        <span class="n">features</span><span class="p">,</span>
+        <span class="n">top_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">feature_level_height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">annotation_height</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">labels_spacing</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kw</span>
+    <span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">features</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_position</span> <span class="o">=</span> <span class="n">top_position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span> <span class="o">=</span> <span class="n">feature_level_height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">annotation_height</span> <span class="o">=</span> <span class="n">annotation_height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">=</span> <span class="n">labels_spacing</span>
+
+<div class="viewcode-block" id="CircularGraphicRecord.initialize_ax"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.initialize_ax">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_ax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">draw_line</span><span class="p">,</span> <span class="n">with_ruler</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the ax with a circular line, sets limits, aspect etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">draw_line</span><span class="p">:</span>
+            <span class="n">circle</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Circle</span><span class="p">(</span>
+                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">circle</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">with_ruler</span><span class="p">:</span>
+            <span class="c1"># only display the xaxis ticks</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_frame_on</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># don&#39;t display anything</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CircularGraphicRecord.finalize_ax"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.finalize_ax">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_ax</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">features_levels</span><span class="p">,</span>
+        <span class="n">annotations_max_level</span><span class="p">,</span>
+        <span class="n">auto_figure_height</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">minimum_yspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Final display range and figure dimension tweakings.&quot;&quot;&quot;</span>
+        <span class="n">annotation_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_annotation_height</span><span class="p">(</span>
+            <span class="n">annotations_max_level</span>
+        <span class="p">)</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">radius</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">annotation_height</span> <span class="o">*</span> <span class="p">(</span><span class="n">annotations_max_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">minimum_yspan</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">annotation_height</span> <span class="o">*</span> <span class="n">minimum_yspan</span> <span class="o">+</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span> <span class="o">*</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="o">-</span><span class="n">xmin</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">auto_figure_height</span><span class="p">:</span>
+            <span class="n">figure_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="n">figure_width</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CircularGraphicRecord.plot_feature"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.plot_feature">[docs]</a>    <span class="k">def</span> <span class="nf">plot_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot an ArrowWedge representing the feature at the giben height</span>
+<span class="sd">        level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">a_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+        <span class="n">a_start</span><span class="p">,</span> <span class="n">a_end</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">a_start</span><span class="p">,</span> <span class="n">a_end</span><span class="p">])</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">level</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">ArrowWedge</span><span class="p">(</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">),</span>
+            <span class="n">r</span><span class="p">,</span>
+            <span class="n">a_start</span><span class="p">,</span>
+            <span class="n">a_end</span><span class="p">,</span>
+            <span class="mf">0.7</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span><span class="p">,</span>
+            <span class="n">direction</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">strand</span><span class="p">,</span>
+            <span class="n">edgecolor</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">linecolor</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">linewidth</span><span class="p">,</span>
+            <span class="n">facecolor</span><span class="o">=</span><span class="n">feature</span><span class="o">.</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CircularGraphicRecord.position_to_angle"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.position_to_angle">[docs]</a>    <span class="k">def</span> <span class="nf">position_to_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert a sequence position into an angle in the figure.&quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">360.0</span> <span class="o">*</span> <span class="p">(</span><span class="n">position</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_position</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span>
+        <span class="k">return</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">a</span></div>
+
+<div class="viewcode-block" id="CircularGraphicRecord.coordinates_in_plot"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.coordinates_in_plot">[docs]</a>    <span class="k">def</span> <span class="nf">coordinates_in_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert a sequence position and height level to (x, y) coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">level</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position_to_angle</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+        <span class="n">rad_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rad_angle</span><span class="p">),</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rad_angle</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">]</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="CircularGraphicRecord.determine_annotation_height"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.CircularGraphicRecord.determine_annotation_height">[docs]</a>    <span class="k">def</span> <span class="nf">determine_annotation_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_annotations_level</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Auto-select the annotations height.</span>
+
+<span class="sd">        Annotation height is 0.2 at most, or else whatever will make</span>
+<span class="sd">        the figure a 5*radius tall rectangle where the circular plasmid</span>
+<span class="sd">        occupies the bottom-2 5th and the annotations occupy the top-3 5th.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">max_annotations_level</span><span class="p">))</span></div></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

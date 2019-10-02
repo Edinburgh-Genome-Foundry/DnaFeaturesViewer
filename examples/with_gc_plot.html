@@ -1,208 +1,242 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Plot sequence with GC content plot &mdash; DnaFeaturesViewer 0.1.0 documentation</title>
-  
-
-  
-  
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
-  
-  
-  
-
-  
-
-  
-  
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Plot sequence with GC content plot</title>
     
+      <link rel="stylesheet" href="../_static/pygments.css">
+      <link rel="stylesheet" href="../_static/theme.css">
+      <link rel="stylesheet" href="../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
 
-  
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
 
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/css/main.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="DnaFeaturesViewer 0.1.0 documentation" href="../index.html"/>
-        <link rel="prev" title="Plot sequence nucleotides and translation" href="sequence_and_translation.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-   
-  <div class="wy-grid-for-nav">
-
+      
+      <script src="../_static/theme-vendors.js"></script>
+      <script src="../_static/theme.js" defer></script>
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
+      <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+  <link rel="prev" title="Plot sequence nucleotides and translation" href="sequence_and_translation.html" /> 
+  </head>
 
-          
-            <a href="../index.html" class="icon icon-home"> DnaFeaturesViewer
-          
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
 
-          
-          </a>
+  <div class="links">
+    <navlinks class="can-hide">
 
-          
-            
-            
-              <div class="version">
-                0.1.0
-              </div>
-            
-          
+  
+    <div class="nav-item">
+      <a href="../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../index.html#more-biology-software"
+         class="nav-link  router-link-active">
+         Examples
+      </a>
+    </div>
+  
 
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
 
-          
-        </div>
 
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
           
+          <navlinks>
             
+
+  
+    <div class="nav-item">
+      <a href="../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../index.html#more-biology-software"
+         class="nav-link  router-link-active">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
             
-              
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#more-biology-software">Reference</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../ref.html" class="reference internal ">BiopythonTranslator</a>
+
             
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#more-biology-software">Examples</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 "><a href="by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Plot sequence with GC content plot</a>
+
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">DNA Features Viewer</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Reference</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../ref.html">BiopythonTranslator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ref.html#module-dna_features_viewer.GraphicRecord">GraphicRecord</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ref.html#module-dna_features_viewer.CircularGraphicRecord">CircularGraphicRecord</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ref.html#module-dna_features_viewer.GraphicFeature">GraphicFeature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ref.html#module-dna_features_viewer.tools">Tools</a></li>
-</ul>
-<p class="caption"><span class="caption-text">Examples</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="by_hand.html">Define a graphic record “by hand”</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_biopython_translator.html">Custom Biopython record translator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="from_genbank.html">Load a graphic record from Genbank</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plot sequence with GC content plot</a></li>
-</ul>
-
+                
+                  <li class="toctree-l2"><a href="#plot-sequence-with-gc-content-plot" class="reference internal">Plot sequence with GC content plot</a></li>
+                
+              </ul>
             
-          
-        </div>
-      </div>
-    </nav>
+          </li>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">DnaFeaturesViewer</a>
-        
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-      <li>Plot sequence with GC content plot</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../_sources/examples/with_gc_plot.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
+      </ul>
+    </div>
   
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+    <li>Plot sequence with GC content plot</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="sequence_and_translation.html"
+       title="previous chapter">← Plot sequence nucleotides and translation</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
             
   <div class="section" id="plot-sequence-with-gc-content-plot">
-<span id="sequenceandtranslation"></span><h1>Plot sequence with GC content plot<a class="headerlink" href="#plot-sequence-with-gc-content-plot" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span id="sequencewithgccontent"></span><h1>Plot sequence with GC content plot<a class="headerlink" href="#plot-sequence-with-gc-content-plot" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;In this example we plot a record&#39;s annotations on top of the curve of the</span>
+<span class="sd">local GC content in the record&#39;s sequence.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="n">BiopythonTranslator</span>
 <span class="kn">from</span> <span class="nn">Bio</span> <span class="k">import</span> <span class="n">SeqIO</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Parse the genbank file, plot annotations</span>
-<span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
-<span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="c1"># Plot the local GC content</span>
 <span class="k">def</span> <span class="nf">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Plot windowed GC content on a designated Matplotlib ax.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">gc_content</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-        <span class="k">return</span> <span class="mf">100.0</span><span class="o">*</span><span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;GC&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="n">yy</span> <span class="o">=</span> <span class="p">[</span><span class="n">gc_content</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">])</span>
-          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)]</span>
-    <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)</span><span class="o">+</span><span class="mi">25</span>
+        <span class="k">return</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;GC&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="n">yy</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">gc_content</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">window_size</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="n">window_size</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="n">window_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GC(%)&quot;</span><span class="p">)</span>
 
+
+<span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
+<span class="n">translator</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span>
+<span class="n">graphic_record</span> <span class="o">=</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
 
-<span class="c1"># Resize the figure to the right height</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>  <span class="c1"># Resize the figure to the right height</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;with_plot.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -212,73 +246,23 @@
 </div>
 
 
-           </div>
-           <div class="articleComments">
-            
-           </div>
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="sequence_and_translation.html" class="btn btn-neutral" title="Plot sequence nucleotides and translation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="sequence_and_translation.html"
+       title="previous chapter">← Plot sequence nucleotides and translation</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
     </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2016, Edinburgh Genome Foundry.
-
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
-
-</footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.1.0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+    
+    
+  </body>
 </html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>dna_features_viewer.biotools</title>
+    
+      <link rel="stylesheet" href="../../_static/pygments.css">
+      <link rel="stylesheet" href="../../_static/theme.css">
+      <link rel="stylesheet" href="../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+      
+      <script src="../../_static/theme-vendors.js"></script>
+      <script src="../../_static/theme.js" defer></script>
+    
+      <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <link rel="index" title="Index" href="../../genindex.html" />
+  <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+  
+    <div class="nav-item">
+      <a href="../../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+  
+    <div class="nav-item">
+      <a href="../../index.html#more-biology-software"
+         class="nav-link ">
+         Reference
+      </a>
+    </div>
+  
+    <div class="nav-item">
+      <a href="../../index.html#more-biology-software"
+         class="nav-link ">
+         Examples
+      </a>
+    </div>
+  
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../index.html#more-biology-software">Reference</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../ref.html" class="reference internal ">BiopythonTranslator</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../index.html#more-biology-software">Examples</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../examples/by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../examples/custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../examples/from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../examples/sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../examples/with_gc_plot.html" class="reference internal ">Plot sequence with GC content plot</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../index.html">Module code</a> &raquo;</li>
+    
+    <li>dna_features_viewer.biotools</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for dna_features_viewer.biotools</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
+<span class="kn">from</span> <span class="nn">Bio.SeqFeature</span> <span class="k">import</span> <span class="n">SeqFeature</span><span class="p">,</span> <span class="n">FeatureLocation</span>
+<span class="kn">from</span> <span class="nn">Bio.PDB.Polypeptide</span> <span class="k">import</span> <span class="n">aa1</span><span class="p">,</span> <span class="n">aa3</span>
+
+
+<div class="viewcode-block" id="complement"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.complement">[docs]</a><span class="k">def</span> <span class="nf">complement</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the complement of the DNA sequence.</span>
+
+<span class="sd">    For instance ``complement(&quot;ATGCCG&quot;)`` returns ``&quot;TACGGC&quot;``.</span>
+
+<span class="sd">    Uses BioPython for speed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Seq</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">)</span><span class="o">.</span><span class="n">complement</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="reverse_complement"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.reverse_complement">[docs]</a><span class="k">def</span> <span class="nf">reverse_complement</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the reverse-complement of the DNA sequence.</span>
+
+<span class="sd">    For instance ``complement(&quot;ATGCCG&quot;)`` returns ``&quot;GCCGTA&quot;``.</span>
+
+<span class="sd">    Uses BioPython for speed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">complement</span><span class="p">(</span><span class="n">sequence</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+<span class="n">aa_short_to_long_form_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">_aa1</span><span class="p">:</span> <span class="n">_aa3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">_aa3</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">_aa1</span><span class="p">,</span> <span class="n">_aa3</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">aa1</span> <span class="o">+</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">aa3</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">])</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Translate the DNA sequence into an amino-acids sequence MLKYQT...&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Seq</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">long_form</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">aa_short_to_long_form_dict</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="k">def</span> <span class="nf">extract_translation</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">strand</span> <span class="o">=</span> <span class="n">location</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="n">strand</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">subsequence</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">strand</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">subsequence</span> <span class="o">=</span> <span class="n">reverse_complement</span><span class="p">(</span><span class="n">subsequence</span><span class="p">)</span>
+    <span class="n">translation</span> <span class="o">=</span> <span class="n">translate</span><span class="p">(</span><span class="n">subsequence</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="n">long_form</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">strand</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">translation</span>
+
+
+<div class="viewcode-block" id="annotate_biopython_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.annotate_biopython_record">[docs]</a><span class="k">def</span> <span class="nf">annotate_biopython_record</span><span class="p">(</span>
+    <span class="n">seqrecord</span><span class="p">,</span>
+    <span class="n">location</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">,</span>
+    <span class="n">feature_type</span><span class="o">=</span><span class="s2">&quot;misc_feature&quot;</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">qualifiers</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add a feature to a Biopython SeqRecord.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    seqrecord</span>
+<span class="sd">      The biopython seqrecord to be annotated.</span>
+
+<span class="sd">    location</span>
+<span class="sd">      Either (start, end) or (start, end, strand). (strand defaults to +1)</span>
+
+<span class="sd">    feature_type</span>
+<span class="sd">      The type associated with the feature</span>
+
+<span class="sd">    margin</span>
+<span class="sd">      Number of extra bases added on each side of the given location.</span>
+
+<span class="sd">    qualifiers</span>
+<span class="sd">      Dictionnary that will be the Biopython feature&#39;s `qualifiers` attribute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">:</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">(</span><span class="n">margin</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seqrecord</span><span class="p">)</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span>
+
+    <span class="n">strand</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="n">seqrecord</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">SeqFeature</span><span class="p">(</span>
+            <span class="n">FeatureLocation</span><span class="p">(</span><span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">strand</span><span class="p">),</span>
+            <span class="n">qualifiers</span><span class="o">=</span><span class="n">qualifiers</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">feature_type</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>
