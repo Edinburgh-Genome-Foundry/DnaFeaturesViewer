@@ -1,102 +1,11 @@
-import matplotlib.pyplot as plt
+"""Implements the CircularGraphicRecord class.
+"""
+
 import matplotlib.patches as mpatches
-from .GraphicRecord import GraphicRecord
 import numpy as np
 
-
-class ArrowWedge(mpatches.Wedge):
-    """Matplotlib patch shaped as a tick fraction of circle with a pointy end.
-
-    This is the patch used by CircularGraphicRecord to draw features.
-    
-    Parameters
-    ----------
-    center
-    
-    radius
-    
-    theta1
-      Start angle of the wedge
-    
-    theta2
-    
-    width
-      Width or thickness of the arrow-wedge.
-    
-    direction
-      Determines whether the pointy end points in direct sense (+1) or
-      indirect sense (-1) or no sense at all (0)
-    """
-
-    def __init__(
-        self, center, radius, theta1, theta2, width, direction=+1, **kwargs
-    ):
-
-        self.direction = direction
-        self.radius = radius
-        mpatches.Wedge.__init__(
-            self, center, radius, theta1, theta2, width, **kwargs
-        )
-        self._recompute_path()
-
-    def _recompute_path(self):
-        """Recompute the full path forming the "tick" arrowed wedge"""
-
-        if self.direction not in [-1, +1]:
-            return mpatches.Wedge._recompute_path(self)
-
-        theta1, theta2 = self.theta1, self.theta2
-        arrow_angle = min(5, abs(theta2 - theta1) / 2)
-        normalized_arrow_width = self.width / 2.0 / self.radius
-        if self.direction == +1:
-            angle_start_arrow = theta1 + arrow_angle
-            arc = mpatches.Path.arc(angle_start_arrow, theta2)
-            outer_arc = arc.vertices[::-1] * (1 + normalized_arrow_width)
-            inner_arc = arc.vertices * (1 - normalized_arrow_width)
-            arrow_vertices = [
-                outer_arc[-1],
-                np.array(
-                    [np.cos(np.deg2rad(theta1)), np.sin(np.deg2rad(theta1))]
-                ),
-                inner_arc[0],
-            ]
-        else:
-            angle_start_arrow = theta2 - arrow_angle
-            arc = mpatches.Path.arc(theta1, angle_start_arrow)
-            outer_arc = (
-                arc.vertices * (self.radius + self.width / 2.0) / self.radius
-            )
-            inner_arc = (
-                arc.vertices[::-1]
-                * (self.radius - self.width / 2.0)
-                / self.radius
-            )
-            arrow_vertices = [
-                outer_arc[-1],
-                np.array(
-                    [np.cos(np.deg2rad(theta2)), np.sin(np.deg2rad(theta2))]
-                ),
-                inner_arc[0],
-            ]
-        p = np.vstack([outer_arc, arrow_vertices, inner_arc])
-
-        path_vertices = np.vstack([p, inner_arc[-1, :], (0, 0)])
-
-        path_codes = np.hstack(
-            [
-                arc.codes,
-                4 * [mpatches.Path.LINETO],
-                arc.codes[1:],
-                mpatches.Path.LINETO,
-                mpatches.Path.CLOSEPOLY,
-            ]
-        )
-        path_codes[len(arc.codes)] = mpatches.Path.LINETO
-
-        # Shift and scale the wedge to the final location.
-        path_vertices *= self.r
-        path_vertices += np.asarray(self.center)
-        self._path = mpatches.Path(path_vertices, path_codes)
+from ..GraphicRecord import GraphicRecord
+from .ArrowWedge import ArrowWedge
 
 
 class CircularGraphicRecord(GraphicRecord):
@@ -119,6 +28,15 @@ class CircularGraphicRecord(GraphicRecord):
 
     annotation_height
       Width in inches of one "level" for feature annotations.
+
+    labels_spacing
+      Distance in basepairs to keep between labels to avoid "quasi-collisions"
+
+    **kw
+      Other keyword arguments - do not use, these parameters are allowed for
+      making it easier to use GraphicRecord and CircularGraphicRecord
+      interchangeably.
+
     """
 
     def __init__(
@@ -141,7 +59,8 @@ class CircularGraphicRecord(GraphicRecord):
         self.labels_spacing = labels_spacing
 
     def initialize_ax(self, ax, draw_line, with_ruler):
-        """Initialize the ax with a circular line, sets limits, aspect etc."""
+        """Initialize the ax with a circular line, sets limits, aspect etc.
+        """
 
         if draw_line:
             circle = mpatches.Circle(
@@ -149,11 +68,13 @@ class CircularGraphicRecord(GraphicRecord):
             )
             ax.add_patch(circle)
         ax.axis("off")
-        if with_ruler:  # only display the xaxis ticks
+        if with_ruler:
+            # only display the xaxis ticks
             ax.set_frame_on(False)
             ax.yaxis.set_visible(False)
             ax.xaxis.tick_bottom()
-        else:  # don't display anything
+        else:
+            # don't display anything
             ax.axis("off")
 
         ax.set_xlim(-1.1 * self.radius, 1.1 * self.radius)
@@ -166,7 +87,7 @@ class CircularGraphicRecord(GraphicRecord):
         features_levels,
         annotations_max_level,
         auto_figure_height=False,
-        ideal_yspan=None,
+        minimum_yspan=None,
     ):
         """Final display range and figure dimension tweakings."""
         annotation_height = self.determine_annotation_height(
@@ -180,8 +101,8 @@ class CircularGraphicRecord(GraphicRecord):
             + self.feature_level_height * (features_levels + 1)
             + annotation_height * (annotations_max_level + 1)
         )
-        if ideal_yspan is not None:
-            ymax = max(annotation_height * ideal_yspan + ymin, ymax)
+        if minimum_yspan is not None:
+            ymax = max(annotation_height * minimum_yspan + ymin, ymax)
         xmin = -self.radius - self.feature_level_height * (features_levels + 1)
         xmax = -xmin
         ax.set_xlim(xmin, xmax)
@@ -231,7 +152,7 @@ class CircularGraphicRecord(GraphicRecord):
 
     def determine_annotation_height(self, max_annotations_level):
         """Auto-select the annotations height.
-        
+
         Annotation height is 0.2 at most, or else whatever will make
         the figure a 5*radius tall rectangle where the circular plasmid
         occupies the bottom-2 5th and the annotations occupy the top-3 5th.

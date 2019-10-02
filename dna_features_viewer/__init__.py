@@ -7,3 +7,12 @@ from .BiopythonTranslator import BiopythonTranslator
 from .biotools import annotate_biopython_record
 
 from .version import __version__
+
+__all__ = [
+    "GraphicRecord",
+    "CircularGraphicRecord",
+    "GraphicFeature",
+    "BiopythonTranslator",
+    "annotate_biopython_record",
+    "__version__",
+]

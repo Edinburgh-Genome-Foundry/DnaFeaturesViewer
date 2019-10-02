@@ -118,7 +118,7 @@ class GraphicFeature:
     @property
     def x_center(self):
         """Return the x-center of the feature, (start+end)/2"""
-        return 0.5 * (self.start + self.end)
+        return 0.5 * (self.start + self.end - 1)
 
     @staticmethod
     def from_biopython_feature(feature, **props):

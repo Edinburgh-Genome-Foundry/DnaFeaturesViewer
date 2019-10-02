@@ -11,6 +11,39 @@ class BiopythonTranslator:
     This can be subclassed to create custom "themes" (see the example
     ``custom_biopython_translator.py`` in the docs).
 
+    This class is meant to be customized by subclassing and changing the
+    methods (``compute_feature_label``, etc.) and/or the attributes
+    (``default_feature_color`` etc).
+
+    Attributes
+    ----------
+
+    default_feature_color = "#7245dc"
+    graphic_record_parameters
+      Dictionnary containing keyword arguments that will be passed to the
+      (Circular)GraphicRecord constructor
+
+    ignored_features_types
+      A list or tuple of strings indicating all the feature types that should
+      always be ignored (i.e. not included in the graphic record) by the
+      translator
+
+    max_label_length
+      Number of characters above which the labels will be printed cut and
+      ended with an ellipsis "…". This is to prevent extra-long labels from
+      polluting the whole plots.
+
+    max_line_length
+      Feature labels with a number of characters above this number will be
+      wrapped on 2 or more lines.
+
+    label_fields
+      This list of strings provides the order in which the different
+      attributes of a Genbank feature will be considered, when automatically
+      determining the feature label. For instance if the list is
+      ["label", "source", "locus_tag"] and a feature has no label but has a
+      "source", the "source" will be displayed in the plots.
+
     Parameters
     ----------
 
@@ -102,7 +135,7 @@ class BiopythonTranslator:
 
     def _format_label(self, label):
         if len(label) > self.max_label_length:
-            label = label[: self.max_label_length - 3] + "..."
+            label = label[: self.max_label_length - 3] + "…"
         label = "\n".join(textwrap.wrap(label, self.max_line_length))
         return label
 
