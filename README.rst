@@ -200,9 +200,6 @@ other sequences statistics, such as the local GC content:
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_gc_plot.png" width="800">
     </p>
 
-.. figure::
-    :align: center
-
 Custom biopython translators
 ----------------------------
 
@@ -263,7 +260,7 @@ Examples in other librairies:
 DNA Chisel
 ~~~~~~~~~~~
 
-This GIF uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with `DNA Chisel <https://github.com/Edinburgh-Genome-Foundry/DnaChisel>`_. It also uses `Proglog <https://github.com/Edinburgh-Genome-Foundry/Proglog>`_ to automatically generate a picture at different time points. See the not-so-great python code for this example `here <https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d>`_.
+This GIF uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with `DNA Chisel <https://github.com/Edinburgh-Genome-Foundry/DnaChisel>`_. It also uses `Proglog <https://github.com/Edinburgh-Genome-Foundry/Proglog>`_ to automatically generate a picture at different time points. See the not-so-great python code for this example `on Gist <https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d>`_.
 
 .. raw:: html
 

@@ -1,12 +1,11 @@
-"""Simple example where a few features are defined "by hand".
-
-The features are then displayed and exported as PNG, first with a linear view,
-then with a circular view.
+"""Simple example where a few features are defined "by hand" and are displayed
+and exported as PNG, first with a linear view, then with a circular
+view.
 """
 
 from dna_features_viewer import (GraphicFeature, GraphicRecord,
                                  CircularGraphicRecord)
-features=[
+features = [
     GraphicFeature(start=5, end=20, strand=+1, color="#ffd700",
                    label="Small feature"),
     GraphicFeature(start=20, end=500, strand=+1, color="#ffcccc",

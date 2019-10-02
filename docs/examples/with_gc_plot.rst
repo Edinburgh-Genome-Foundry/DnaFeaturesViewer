@@ -1,4 +1,4 @@
-.. _sequenceAndTranslation:
+.. _sequenceWithGCContent:
 
 Plot sequence with GC content plot
 ------------------------------------
