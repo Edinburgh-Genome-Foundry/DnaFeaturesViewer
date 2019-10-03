@@ -91,7 +91,7 @@ class MatplotlibPlottableMixin:
         features_levels,
         annotations_max_level,
         auto_figure_height=False,
-        minimum_yspan=None,
+        ideal_yspan=None,
     ):
         """Redefine y-bounds and figure height.
         """
@@ -103,16 +103,16 @@ class MatplotlibPlottableMixin:
         ) + annotation_height * (annotations_max_level + 1)
         ymin = -1
 
-        # ymax could be even bigger if a "minimum_yspan" has been set.
-        if minimum_yspan is not None:
-            ymax = max(minimum_yspan + ymin, ymax)
+        # ymax could be even bigger if a "ideal_yspan" has been set.
+        if ideal_yspan is not None:
+            ymax = max(ideal_yspan + ymin, ymax)
         ax.set_ylim(ymin, ymax)
         if auto_figure_height:
             figure_width = ax.figure.get_size_inches()[0]
             ax.figure.set_size_inches(figure_width, 1 + 0.4 * ymax)
         if self.plots_indexing == "genbank":
             ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
-        return minimum_yspan / (ymax - ymin)
+        return ideal_yspan / (ymax - ymin)
 
     def plot_feature(self, ax, feature, level, linewidth=1.0):
         """Create an Arrow Matplotlib patch with the feature's coordinates.
@@ -214,6 +214,7 @@ class MatplotlibPlottableMixin:
         annotate_inline=False,
         level_offset=0,
         x_lim=None,
+        figure_height=None
     ):
         """Plot all the features in the same Matplotlib ax
 
@@ -259,9 +260,10 @@ class MatplotlibPlottableMixin:
             if (features_levels == {})
             else max(1, max(features_levels.values()))
         )
-        auto_figure_height = ax is None
+        auto_figure_height = (ax is None) and (figure_height is None)
         if ax is None:
-            fig, ax = plt.subplots(1, figsize=(figure_width, max_level))
+            height = figure_height or max_level
+            fig, ax = plt.subplots(1, figsize=(figure_width, height))
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         if x_lim is not None:
             ax.set_xlim(*x_lim)
@@ -269,7 +271,7 @@ class MatplotlibPlottableMixin:
         _, ax_height = bbox.width, bbox.height
 
         overflowing_annotations = []
-        minimum_yspan = 0
+        ideal_yspan = 0
         for feature, level in features_levels.items():
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is not None:
@@ -280,7 +282,7 @@ class MatplotlibPlottableMixin:
                 line_height = height / nlines
                 # Hey look, a magic number!
                 feature_ideal_span = 0.4 * (ax_height / line_height)
-                minimum_yspan = max(minimum_yspan, feature_ideal_span)
+                ideal_yspan = max(ideal_yspan, feature_ideal_span)
                 if overflowing or not annotate_inline:
                     overflowing_annotations.append(
                         GraphicFeature(
@@ -319,7 +321,7 @@ class MatplotlibPlottableMixin:
             features_levels=max([1] + list(features_levels.values())),
             annotations_max_level=max_annotations_level,
             auto_figure_height=auto_figure_height,
-            minimum_yspan=minimum_yspan,
+            ideal_yspan=ideal_yspan,
         )
         return ax, (features_levels, labels_data)
 

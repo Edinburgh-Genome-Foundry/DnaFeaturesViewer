@@ -46,7 +46,7 @@ class CircularGraphicRecord(GraphicRecord):
         top_position=0,
         feature_level_height=0.2,
         annotation_height="auto",
-        labels_spacing=20,
+        labels_spacing=0.2,
         **kw
     ):
 
@@ -87,7 +87,7 @@ class CircularGraphicRecord(GraphicRecord):
         features_levels,
         annotations_max_level,
         auto_figure_height=False,
-        minimum_yspan=None,
+        ideal_yspan=None,
     ):
         """Final display range and figure dimension tweakings."""
         annotation_height = self.determine_annotation_height(
@@ -97,12 +97,11 @@ class CircularGraphicRecord(GraphicRecord):
             features_levels + 1
         )
         ymax = (
-            self.radius
-            + self.feature_level_height * (features_levels + 1)
+            self.feature_level_height * (features_levels + 1)
             + annotation_height * (annotations_max_level + 1)
         )
-        if minimum_yspan is not None:
-            ymax = max(annotation_height * minimum_yspan + ymin, ymax)
+        if ideal_yspan is not None:
+            ymax = max(annotation_height * ideal_yspan + ymin, ymax)
         xmin = -self.radius - self.feature_level_height * (features_levels + 1)
         xmax = -xmin
         ax.set_xlim(xmin, xmax)
@@ -157,4 +156,4 @@ class CircularGraphicRecord(GraphicRecord):
         the figure a 5*radius tall rectangle where the circular plasmid
         occupies the bottom-2 5th and the annotations occupy the top-3 5th.
         """
-        return min(0.2, 3 * self.radius / (1 + max_annotations_level))
+        return min(0.25, 3.0 * self.radius / (1.0 + max_annotations_level))

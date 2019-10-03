@@ -32,7 +32,6 @@ translator = BiopythonTranslator(
 translator.max_line_length = 15
 graphic_record = translator.translate_record(
     record, record_class=CircularGraphicRecord)
-graphic_record.labels_spacing = 30
 
 # ANIMATE INTO A GIF WITH MOVIEPY
 
@@ -40,7 +39,8 @@ duration = 5
 def make_frame(t):
     top_nucleotide_index = t * graphic_record.sequence_length / duration
     graphic_record.top_position = top_nucleotide_index
-    ax, _ = graphic_record.plot(figure_width=8)
+    ax, _ = graphic_record.plot(figure_width=8, figure_height=11)
+    ax.set_ylim(top=2)
     np_image = mplfig_to_npimage(ax.figure)
     plt.close(ax.figure)
     return np_image

@@ -26,8 +26,9 @@ translator = BiopythonTranslator(
     features_filters=(lambda f: f.type not in ["gene", "source"],),
     features_properties=lambda f: {"color": color_map.get(f.type, "white")},
 )
+translator.max_line_length = 15
 graphic_record = translator.translate_record(record)
-graphic_record.labels_spacing = 10
+graphic_record.labels_spacing = 100
 ax, _ = graphic_record.plot(figure_width=8)
 ax.figure.savefig("translator_with_custom_colors.png", bbox_inches="tight")
 

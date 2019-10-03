@@ -18,6 +18,7 @@ def plot_local_gc_content(record, window_size, ax):
     ]
     xx = np.arange(len(record.seq) - window_size) + 25
     ax.fill_between(xx, yy, alpha=0.3)
+    ax.set_ylim(bottom=0)
     ax.set_ylabel("GC(%)")
 
 
@@ -31,4 +32,4 @@ graphic_record.plot(ax=ax1, with_ruler=False)
 plot_local_gc_content(record, window_size=50, ax=ax2)
 
 fig.tight_layout()  # Resize the figure to the right height
-fig.savefig("with_plot.png")
+fig.savefig("with_gc_plot.png")
