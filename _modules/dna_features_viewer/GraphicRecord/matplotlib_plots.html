@@ -37,22 +37,6 @@
   <div class="links">
     <navlinks class="can-hide">
 
-  
-    <div class="nav-item">
-      <a href="../../../index.html#more-biology-software"
-         class="nav-link ">
-         Reference
-      </a>
-    </div>
-  
-    <div class="nav-item">
-      <a href="../../../index.html#more-biology-software"
-         class="nav-link ">
-         Examples
-      </a>
-    </div>
-  
-
 
 
   
@@ -75,22 +59,6 @@
           
           <navlinks>
             
-
-  
-    <div class="nav-item">
-      <a href="../../../index.html#more-biology-software"
-         class="nav-link ">
-         Reference
-      </a>
-    </div>
-  
-    <div class="nav-item">
-      <a href="../../../index.html#more-biology-software"
-         class="nav-link ">
-         Examples
-      </a>
-    </div>
-  
 
 
 
@@ -119,50 +87,17 @@
   
     <div class="sidebar-group">
       <p class="caption">
-        <span class="caption-text"><a href="../../../index.html#more-biology-software">Reference</a></span>
+        <span class="caption-text"><a href="../../../index.html#more-biology-software">more biology software</a></span>
       </p>
       <ul class="">
         
-          <li class="toctree-l1 "><a href="../../../ref.html" class="reference internal ">BiopythonTranslator</a>
+          <li class="toctree-l1 "><a href="../../../ref.html" class="reference internal ">API Reference</a>
 
             
           </li>
 
         
-      </ul>
-    </div>
-  
-    <div class="sidebar-group">
-      <p class="caption">
-        <span class="caption-text"><a href="../../../index.html#more-biology-software">Examples</a></span>
-      </p>
-      <ul class="">
-        
-          <li class="toctree-l1 "><a href="../../../examples/by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="../../../examples/custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="../../../examples/from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="../../../examples/sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="../../../examples/with_gc_plot.html" class="reference internal ">Plot sequence with GC content plot</a>
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
 
             
           </li>
@@ -287,7 +222,7 @@
         <span class="n">features_levels</span><span class="p">,</span>
         <span class="n">annotations_max_level</span><span class="p">,</span>
         <span class="n">auto_figure_height</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">minimum_yspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">ideal_yspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Redefine y-bounds and figure height.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -299,16 +234,16 @@
         <span class="p">)</span> <span class="o">+</span> <span class="n">annotation_height</span> <span class="o">*</span> <span class="p">(</span><span class="n">annotations_max_level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-        <span class="c1"># ymax could be even bigger if a &quot;minimum_yspan&quot; has been set.</span>
-        <span class="k">if</span> <span class="n">minimum_yspan</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">minimum_yspan</span> <span class="o">+</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+        <span class="c1"># ymax could be even bigger if a &quot;ideal_yspan&quot; has been set.</span>
+        <span class="k">if</span> <span class="n">ideal_yspan</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ideal_yspan</span> <span class="o">+</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">auto_figure_height</span><span class="p">:</span>
             <span class="n">figure_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">ymax</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plots_indexing</span> <span class="o">==</span> <span class="s2">&quot;genbank&quot;</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">()])</span>
-        <span class="k">return</span> <span class="n">minimum_yspan</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ideal_yspan</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">plot_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create an Arrow Matplotlib patch with the feature&#39;s coordinates.</span>
@@ -410,6 +345,7 @@
         <span class="n">annotate_inline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">level_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">x_lim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">figure_height</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot all the features in the same Matplotlib ax</span>
 
@@ -455,9 +391,10 @@
             <span class="k">if</span> <span class="p">(</span><span class="n">features_levels</span> <span class="o">==</span> <span class="p">{})</span>
             <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">features_levels</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
         <span class="p">)</span>
-        <span class="n">auto_figure_height</span> <span class="o">=</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">auto_figure_height</span> <span class="o">=</span> <span class="p">(</span><span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">figure_height</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="n">max_level</span><span class="p">))</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">figure_height</span> <span class="ow">or</span> <span class="n">max_level</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">figure_width</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initialize_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">draw_line</span><span class="o">=</span><span class="n">draw_line</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="n">with_ruler</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">x_lim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">*</span><span class="n">x_lim</span><span class="p">)</span>
@@ -465,7 +402,7 @@
         <span class="n">_</span><span class="p">,</span> <span class="n">ax_height</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
 
         <span class="n">overflowing_annotations</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">minimum_yspan</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ideal_yspan</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">features_levels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_feature</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -476,7 +413,7 @@
                 <span class="n">line_height</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="n">nlines</span>
                 <span class="c1"># Hey look, a magic number!</span>
                 <span class="n">feature_ideal_span</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="p">(</span><span class="n">ax_height</span> <span class="o">/</span> <span class="n">line_height</span><span class="p">)</span>
-                <span class="n">minimum_yspan</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">minimum_yspan</span><span class="p">,</span> <span class="n">feature_ideal_span</span><span class="p">)</span>
+                <span class="n">ideal_yspan</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ideal_yspan</span><span class="p">,</span> <span class="n">feature_ideal_span</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">overflowing</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">annotate_inline</span><span class="p">:</span>
                     <span class="n">overflowing_annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                         <span class="n">GraphicFeature</span><span class="p">(</span>
@@ -515,7 +452,7 @@
             <span class="n">features_levels</span><span class="o">=</span><span class="nb">max</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">features_levels</span><span class="o">.</span><span class="n">values</span><span class="p">())),</span>
             <span class="n">annotations_max_level</span><span class="o">=</span><span class="n">max_annotations_level</span><span class="p">,</span>
             <span class="n">auto_figure_height</span><span class="o">=</span><span class="n">auto_figure_height</span><span class="p">,</span>
-            <span class="n">minimum_yspan</span><span class="o">=</span><span class="n">minimum_yspan</span><span class="p">,</span>
+            <span class="n">ideal_yspan</span><span class="o">=</span><span class="n">ideal_yspan</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="n">features_levels</span><span class="p">,</span> <span class="n">labels_data</span><span class="p">)</span>
 

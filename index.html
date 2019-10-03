@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-      <title>Installation</title>
+      <title>DNA Features Viewer</title>
     
       <link rel="stylesheet" href="_static/pygments.css">
       <link rel="stylesheet" href="_static/theme.css">
@@ -24,7 +24,7 @@
       <link rel="shortcut icon" href="_static/favicon.ico"/>
   <link rel="index" title="Index" href="genindex.html" />
   <link rel="search" title="Search" href="search.html" />
-  <link rel="next" title="BiopythonTranslator" href="ref.html" /> 
+  <link rel="next" title="API Reference" href="ref.html" /> 
   </head>
 
   <body>
@@ -37,22 +37,6 @@
 
   <div class="links">
     <navlinks class="can-hide">
-
-  
-    <div class="nav-item">
-      <a href="#more-biology-software"
-         class="nav-link ">
-         Reference
-      </a>
-    </div>
-  
-    <div class="nav-item">
-      <a href="#more-biology-software"
-         class="nav-link ">
-         Examples
-      </a>
-    </div>
-  
 
 
 
@@ -76,22 +60,6 @@
           
           <navlinks>
             
-
-  
-    <div class="nav-item">
-      <a href="#more-biology-software"
-         class="nav-link ">
-         Reference
-      </a>
-    </div>
-  
-    <div class="nav-item">
-      <a href="#more-biology-software"
-         class="nav-link ">
-         Examples
-      </a>
-    </div>
-  
 
 
 
@@ -120,50 +88,17 @@
   
     <div class="sidebar-group">
       <p class="caption">
-        <span class="caption-text"><a href="#more-biology-software">Reference</a></span>
+        <span class="caption-text"><a href="#more-biology-software">more biology software</a></span>
       </p>
       <ul class="">
         
-          <li class="toctree-l1 "><a href="ref.html" class="reference internal ">BiopythonTranslator</a>
+          <li class="toctree-l1 "><a href="ref.html" class="reference internal ">API Reference</a>
 
             
           </li>
 
         
-      </ul>
-    </div>
-  
-    <div class="sidebar-group">
-      <p class="caption">
-        <span class="caption-text"><a href="#more-biology-software">Examples</a></span>
-      </p>
-      <ul class="">
-        
-          <li class="toctree-l1 "><a href="examples/by_hand.html" class="reference internal ">Define a graphic record “by hand”</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="examples/custom_biopython_translator.html" class="reference internal ">Custom Biopython record translator</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="examples/from_genbank.html" class="reference internal ">Load a graphic record from Genbank</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="examples/sequence_and_translation.html" class="reference internal ">Plot sequence nucleotides and translation</a>
-
-            
-          </li>
-
-        
-          <li class="toctree-l1 "><a href="examples/with_gc_plot.html" class="reference internal ">Plot sequence with GC content plot</a>
+          <li class="toctree-l1 "><a href="examples.html" class="reference internal ">Examples</a>
 
             
           </li>
@@ -181,14 +116,14 @@
   <ul class="breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
     
-    <li>Installation</li>
+    <li>DNA Features Viewer</li>
   </ul>
   
 
   <ul class="page-nav">
   <li class="next">
     <a href="ref.html"
-       title="next chapter">BiopythonTranslator →</a>
+       title="next chapter">API Reference →</a>
   </li>
 </ul>
   
@@ -198,14 +133,16 @@
             
   <p align="center">
 <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/title.png" width="350">
-</p><a class="reference external image-reference" href="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer"><img alt="Travis CI build status" src="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master" /></a>
+</p><div class="section" id="dna-features-viewer">
+<h1>DNA Features Viewer<a class="headerlink" href="#dna-features-viewer" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer"><img alt="Travis CI build status" src="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master"><img alt="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" src="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" /></a>
 <p>DNA Features Viewer (full documentation <a class="reference external" href="https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/">here</a>) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:</p>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
 </p><p>Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.</p>
 <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>If you have PIP installed, just type in a terminal:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">sudo</span><span class="p">)</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">dna_features_viewer</span>
 </pre></div>
@@ -220,9 +157,9 @@
 </div>
 </div>
 <div class="section" id="examples-of-use">
-<h1>Examples of use<a class="headerlink" href="#examples-of-use" title="Permalink to this headline">¶</a></h1>
+<h2>Examples of use<a class="headerlink" href="#examples-of-use" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="basic-plots">
-<h2>Basic plots<a class="headerlink" href="#basic-plots" title="Permalink to this headline">¶</a></h2>
+<h3>Basic plots<a class="headerlink" href="#basic-plots" title="Permalink to this headline">¶</a></h3>
 <p>In this first example we define features “by hand”:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">GraphicFeature</span><span class="p">,</span> <span class="n">GraphicRecord</span>
 <span class="n">features</span><span class="o">=</span><span class="p">[</span>
@@ -250,7 +187,7 @@ a circular plot of the construct:</p>
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png" width="800">
 </p></div>
 <div class="section" id="nucleotide-sequences-translations-and-cropping">
-<h2>Nucleotide sequences, translations, and cropping<a class="headerlink" href="#nucleotide-sequences-translations-and-cropping" title="Permalink to this headline">¶</a></h2>
+<h3>Nucleotide sequences, translations, and cropping<a class="headerlink" href="#nucleotide-sequences-translations-and-cropping" title="Permalink to this headline">¶</a></h3>
 <p>DNA features viewer allows to plot nucleotide or amino acid sequences under
 the record plot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">GraphicFeature</span><span class="p">,</span> <span class="n">GraphicRecord</span>
@@ -282,7 +219,7 @@ the record plot:</p>
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/overview_and_detail.png" width="900">
 </p></div>
 <div class="section" id="reading-the-features-from-a-genbank-file">
-<h2>Reading the features from a GenBank file<a class="headerlink" href="#reading-the-features-from-a-genbank-file" title="Permalink to this headline">¶</a></h2>
+<h3>Reading the features from a GenBank file<a class="headerlink" href="#reading-the-features-from-a-genbank-file" title="Permalink to this headline">¶</a></h3>
 <p>DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">BiopythonTranslator</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="s2">&quot;my_sequence.gb&quot;</span><span class="p">)</span>
@@ -295,7 +232,7 @@ the record plot:</p>
 It enables to chose which categories of features to plot, the color of the different features.</p>
 </div>
 <div class="section" id="displaying-the-features-along-with-other-plots">
-<h2>Displaying the features along with other plots<a class="headerlink" href="#displaying-the-features-along-with-other-plots" title="Permalink to this headline">¶</a></h2>
+<h3>Displaying the features along with other plots<a class="headerlink" href="#displaying-the-features-along-with-other-plots" title="Permalink to this headline">¶</a></h3>
 <p>As it uses Matplotlib, Dna Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -331,7 +268,7 @@ other sequences statistics, such as the local GC content:</p>
 </p></div>
 </div>
 <div class="section" id="custom-biopython-translators">
-<h1>Custom biopython translators<a class="headerlink" href="#custom-biopython-translators" title="Permalink to this headline">¶</a></h1>
+<h2>Custom biopython translators<a class="headerlink" href="#custom-biopython-translators" title="Permalink to this headline">¶</a></h2>
 <p>Dna Features Viewer allows to define “themes” by using custom record translators
 instead of the default <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code>. Here is an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">BiopythonTranslator</span>
@@ -382,16 +319,16 @@ instead of the default <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="section" id="examples-in-other-librairies">
-<h1>Examples in other librairies:<a class="headerlink" href="#examples-in-other-librairies" title="Permalink to this headline">¶</a></h1>
+<h2>Examples in other librairies:<a class="headerlink" href="#examples-in-other-librairies" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="dna-chisel">
-<h2>DNA Chisel<a class="headerlink" href="#dna-chisel" title="Permalink to this headline">¶</a></h2>
+<h3>DNA Chisel<a class="headerlink" href="#dna-chisel" title="Permalink to this headline">¶</a></h3>
 <p>This GIF uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with <a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/DnaChisel">DNA Chisel</a>. It also uses <a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/Proglog">Proglog</a> to automatically generate a picture at different time points. See the not-so-great python code for this example <a class="reference external" href="https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d">on Gist</a>.</p>
 <p align="center">
 <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaChisel/master/docs/_static/images/dnachisel_algorithm.gif" width="800">
 <br />
 </p></div>
 <div class="section" id="geneblocks">
-<h2>GeneBlocks<a class="headerlink" href="#geneblocks" title="Permalink to this headline">¶</a></h2>
+<h3>GeneBlocks<a class="headerlink" href="#geneblocks" title="Permalink to this headline">¶</a></h3>
 <p>GeneBlocks computes “diffs” of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence’s features.</p>
 <p align="center">
 <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/GeneBlocks/master/examples/diff_blocks.png" width="800">
@@ -399,26 +336,16 @@ instead of the default <code class="docutils literal notranslate"><span class="p
 </p></div>
 </div>
 <div class="section" id="license-mit">
-<h1>License=MIT<a class="headerlink" href="#license-mit" title="Permalink to this headline">¶</a></h1>
+<h2>License=MIT<a class="headerlink" href="#license-mit" title="Permalink to this headline">¶</a></h2>
 <p>Dna Features Viewer is an open-source software originally written at the <a class="reference external" href="http://genomefoundry.org">Edinburgh Genome Foundry</a> by <a class="reference external" href="https://github.com/Zulko">Zulko</a>
 and <a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer">released on Github</a> under the MIT licence.
 Everyone is welcome to contribute !</p>
 </div>
 <div class="section" id="more-biology-software">
-<h1>More biology software<a class="headerlink" href="#more-biology-software" title="Permalink to this headline">¶</a></h1>
+<h2>More biology software<a class="headerlink" href="#more-biology-software" title="Permalink to this headline">¶</a></h2>
 <a class="reference external image-reference" href="https://edinburgh-genome-foundry.github.io/"><img alt="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png" /></a>
 <p>Dna Features Viewer is part of the <a class="reference external" href="https://edinburgh-genome-foundry.github.io/">EGF Codons</a> synthetic biology software suite for DNA design, manufacturing and validation.</p>
 <div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Examples</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/by_hand.html">Define a graphic record “by hand”</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/custom_biopython_translator.html">Custom Biopython record translator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/from_genbank.html">Load a graphic record from Genbank</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/sequence_and_translation.html">Plot sequence nucleotides and translation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples/with_gc_plot.html">Plot sequence with GC content plot</a></li>
-</ul>
 </div>
 <div style='text-align: left; margin-bottom: 4em'>
     <a href="https://twitter.com/share" class="twitter-share-button"
@@ -432,6 +359,7 @@ Everyone is welcome to contribute !</p>
     <iframe src="http://ghbtns.com/github-btn.html?user=Edinburgh-Genome-Foundry&repo=DnaFeaturesViewer&type=watch&count=true&size=large"
     allowtransparency="true" frameborder="0" scrolling="0" width="152px" height="30px" margin-bottom="30px"></iframe>
 </div></div>
+</div>
 
 
           </div>
@@ -439,7 +367,7 @@ Everyone is welcome to contribute !</p>
             <div class="inner"><ul class="page-nav">
   <li class="next">
     <a href="ref.html"
-       title="next chapter">BiopythonTranslator →</a>
+       title="next chapter">API Reference →</a>
   </li>
 </ul><div class="footer" role="contentinfo">
       &#169; Copyright 2016, Edinburgh Genome Foundry.

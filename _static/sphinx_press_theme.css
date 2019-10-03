@@ -109,3 +109,8 @@ blockquote h2 {
 .section {
     opacity: 1.0 !important;
 }
+
+/* MAKES SPHINX SYNTAX figure:: :align:center WORK AGAIN */
+.figure.align-center {
+    text-align: center
+}
