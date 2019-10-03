@@ -161,14 +161,41 @@
 
 
 <div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Translate the DNA sequence into an amino-acids sequence MLKYQT...&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Translate the DNA sequence into an amino-acids sequence MLKYQT...</span>
+
+<span class="sd">    If long_form is true, a list of 3-letter amino acid representations</span>
+<span class="sd">    is returned instead ([&#39;Ala&#39;, &#39;Ser&#39;, ...]).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Seq</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">long_form</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">aa_short_to_long_form_dict</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<span class="k">def</span> <span class="nf">extract_translation</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="extract_graphical_translation"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.extract_graphical_translation">[docs]</a><span class="k">def</span> <span class="nf">extract_graphical_translation</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a string of the &quot;graphical&quot; translation of a sequence&#39;s subsegment.</span>
+
+<span class="sd">    Here &quot;graphical&quot; means that the amino acid sequence is always given</span>
+<span class="sd">    left-to-right, as it will appear under the sequence in the plot. This matters</span>
+<span class="sd">    when the location is on the -1 strand. In this case, the amino-acids are</span>
+<span class="sd">    determined by (part of) the reverse-complement of the sequence, however</span>
+<span class="sd">    the sequence returned will be the mirror of the translated sequence, as</span>
+<span class="sd">    this is the left-to-right order in which the codons corresponding to the</span>
+<span class="sd">    amino-acids appear in the sequence.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sequence</span>
+<span class="sd">      An &quot;ATGC&quot; string.</span>
+
+<span class="sd">    location</span>
+<span class="sd">      Either (start, end) or (start, end, strand), with strand in (0, 1, -1).</span>
+
+<span class="sd">    long_form</span>
+<span class="sd">      if True, a list of 3-letter amino acid representations is returned instead</span>
+<span class="sd">      ([&#39;Ala&#39;, &#39;Ser&#39;, ...]).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">strand</span> <span class="o">=</span> <span class="n">location</span>
     <span class="k">else</span><span class="p">:</span>
@@ -180,7 +207,7 @@
     <span class="n">translation</span> <span class="o">=</span> <span class="n">translate</span><span class="p">(</span><span class="n">subsequence</span><span class="p">,</span> <span class="n">long_form</span><span class="o">=</span><span class="n">long_form</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">strand</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">translation</span>
+    <span class="k">return</span> <span class="n">translation</span></div>
 
 
 <div class="viewcode-block" id="annotate_biopython_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.annotate_biopython_record">[docs]</a><span class="k">def</span> <span class="nf">annotate_biopython_record</span><span class="p">(</span>

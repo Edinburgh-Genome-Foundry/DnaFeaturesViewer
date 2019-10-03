@@ -137,7 +137,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
 <span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">MaxNLocator</span>
 
-<span class="kn">from</span> <span class="nn">..biotools</span> <span class="k">import</span> <span class="n">extract_translation</span>
+<span class="kn">from</span> <span class="nn">..biotools</span> <span class="k">import</span> <span class="n">extract_graphical_translation</span>
 <span class="kn">from</span> <span class="nn">..compute_features_levels</span> <span class="k">import</span> <span class="n">compute_features_levels</span>
 <span class="kn">from</span> <span class="nn">..GraphicFeature</span> <span class="k">import</span> <span class="n">GraphicFeature</span>
 
@@ -568,7 +568,7 @@
         <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">e</span> <span class="o">-</span> <span class="p">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">e</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">new_loc</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">strand</span>
-            <span class="n">translation</span> <span class="o">=</span> <span class="n">extract_translation</span><span class="p">(</span>
+            <span class="n">translation</span> <span class="o">=</span> <span class="n">extract_graphical_translation</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">,</span>
                 <span class="n">location</span><span class="o">=</span><span class="n">new_loc</span><span class="p">,</span>
                 <span class="n">long_form</span><span class="o">=</span><span class="n">long_form_translation</span><span class="p">,</span>

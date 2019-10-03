@@ -330,31 +330,34 @@
 
 <span class="c1"># DOWNLOAD THE PLASMID&#39;s RECORD FROM NCBI</span>
 
-<span class="n">handle</span> <span class="o">=</span> <span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s2">&quot;nucleotide&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1473096477</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s2">&quot;gb&quot;</span><span class="p">,</span>
-                       <span class="n">retmode</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+<span class="n">handle</span> <span class="o">=</span> <span class="n">Entrez</span><span class="o">.</span><span class="n">efetch</span><span class="p">(</span>
+    <span class="n">db</span><span class="o">=</span><span class="s2">&quot;nucleotide&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">1473096477</span><span class="p">,</span> <span class="n">rettype</span><span class="o">=</span><span class="s2">&quot;gb&quot;</span><span class="p">,</span> <span class="n">retmode</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+<span class="p">)</span>
 <span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
 
 <span class="c1"># CREATE THE GRAPHIC RECORD WITH DNA_FEATURES_VIEWER</span>
 
 <span class="n">color_map</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;rep_origin&#39;</span><span class="p">:</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;CDS&#39;</span><span class="p">:</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;regulatory&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;misc_recomb&#39;</span><span class="p">:</span> <span class="s1">&#39;darkblue&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;misc_feature&#39;</span><span class="p">:</span> <span class="s1">&#39;lightblue&#39;</span><span class="p">,</span>
-    
+    <span class="s2">&quot;rep_origin&quot;</span><span class="p">:</span> <span class="s2">&quot;yellow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CDS&quot;</span><span class="p">:</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;regulatory&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;misc_recomb&quot;</span><span class="p">:</span> <span class="s2">&quot;darkblue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;misc_feature&quot;</span><span class="p">:</span> <span class="s2">&quot;lightblue&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 <span class="n">translator</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">(</span>
-    <span class="n">features_filters</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">],),</span>
-    <span class="n">features_properties</span><span class="o">=</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">color_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">)}</span>
+    <span class="n">features_filters</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">],),</span>
+    <span class="n">features_properties</span><span class="o">=</span><span class="k">lambda</span> <span class="n">f</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s2">&quot;white&quot;</span><span class="p">)},</span>
 <span class="p">)</span>
 <span class="n">translator</span><span class="o">.</span><span class="n">max_line_length</span> <span class="o">=</span> <span class="mi">15</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span>
-    <span class="n">record</span><span class="p">,</span> <span class="n">record_class</span><span class="o">=</span><span class="n">CircularGraphicRecord</span><span class="p">)</span>
+    <span class="n">record</span><span class="p">,</span> <span class="n">record_class</span><span class="o">=</span><span class="n">CircularGraphicRecord</span>
+<span class="p">)</span>
 
 <span class="c1"># ANIMATE INTO A GIF WITH MOVIEPY</span>
 
 <span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span>
+
+
 <span class="k">def</span> <span class="nf">make_frame</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
     <span class="n">top_nucleotide_index</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">sequence_length</span> <span class="o">/</span> <span class="n">duration</span>
     <span class="n">graphic_record</span><span class="o">.</span><span class="n">top_position</span> <span class="o">=</span> <span class="n">top_nucleotide_index</span>
@@ -363,6 +366,7 @@
     <span class="n">np_image</span> <span class="o">=</span> <span class="n">mplfig_to_npimage</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np_image</span>
+
 
 <span class="n">clip</span> <span class="o">=</span> <span class="n">mpe</span><span class="o">.</span><span class="n">VideoClip</span><span class="p">(</span><span class="n">make_frame</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">duration</span><span class="p">)</span>
 <span class="n">small_clip</span> <span class="o">=</span> <span class="n">clip</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">x1</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">x2</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">y2</span><span class="o">=-</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>

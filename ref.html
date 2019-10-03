@@ -763,6 +763,36 @@ None is returned.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="dna_features_viewer.biotools.extract_graphical_translation">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">extract_graphical_translation</code><span class="sig-paren">(</span><em class="sig-param">sequence</em>, <em class="sig-param">location</em>, <em class="sig-param">long_form=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#extract_graphical_translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.extract_graphical_translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string of the “graphical” translation of a sequence’s subsegment.</p>
+<p>Here “graphical” means that the amino acid sequence is always given
+left-to-right, as it will appear under the sequence in the plot. This matters
+when the location is on the -1 strand. In this case, the amino-acids are
+determined by (part of) the reverse-complement of the sequence, however
+the sequence returned will be the mirror of the translated sequence, as
+this is the left-to-right order in which the codons corresponding to the
+amino-acids appear in the sequence.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sequence</strong></p>
+<blockquote>
+<div><p>An “ATGC” string.</p>
+</div></blockquote>
+<p><strong>location</strong></p>
+<blockquote>
+<div><p>Either (start, end) or (start, end, strand), with strand in (0, 1, -1).</p>
+</div></blockquote>
+<p><strong>long_form</strong></p>
+<blockquote>
+<div><p>if True, a list of 3-letter amino acid representations is returned instead
+([‘Ala’, ‘Ser’, …]).</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="dna_features_viewer.biotools.reverse_complement">
 <code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">reverse_complement</code><span class="sig-paren">(</span><em class="sig-param">sequence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#reverse_complement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.reverse_complement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the reverse-complement of the DNA sequence.</p>
@@ -774,6 +804,8 @@ None is returned.</p>
 <dt id="dna_features_viewer.biotools.translate">
 <code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param">dna_sequence</em>, <em class="sig-param">long_form=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.translate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate the DNA sequence into an amino-acids sequence MLKYQT…</p>
+<p>If long_form is true, a list of 3-letter amino acid representations
+is returned instead ([‘Ala’, ‘Ser’, …]).</p>
 </dd></dl>
 
 </div>
