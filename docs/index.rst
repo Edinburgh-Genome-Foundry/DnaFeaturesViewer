@@ -2,19 +2,12 @@
 
 .. toctree::
     :hidden:
-    :caption: Reference
     :maxdepth: 1
 
     ref
+    examples
 
-.. toctree::
-    :caption: Examples
-
-    examples/by_hand
-    examples/custom_biopython_translator
-    examples/from_genbank
-    examples/sequence_and_translation
-    examples/with_gc_plot
+    
 
 .. raw:: html
     

@@ -4,6 +4,9 @@
     <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/title.png" width="350">
     </p>
 
+DNA Features Viewer
+===================
+
 .. image:: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
    :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
    :alt: Travis CI build status
