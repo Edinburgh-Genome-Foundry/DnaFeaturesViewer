@@ -97,6 +97,12 @@
           </li>
 
         
+          <li class="toctree-l1 "><a href="../../tips.html" class="reference internal ">Tips</a>
+
+            
+          </li>
+
+        
           <li class="toctree-l1 "><a href="../../examples.html" class="reference internal ">Examples</a>
 
             
@@ -132,7 +138,6 @@
 <span></span><span class="kn">from</span> <span class="nn">.GraphicRecord</span> <span class="k">import</span> <span class="n">GraphicRecord</span>
 <span class="kn">from</span> <span class="nn">.CircularGraphicRecord</span> <span class="k">import</span> <span class="n">CircularGraphicRecord</span>
 <span class="kn">from</span> <span class="nn">.GraphicFeature</span> <span class="k">import</span> <span class="n">GraphicFeature</span>
-<span class="kn">import</span> <span class="nn">textwrap</span>
 <span class="kn">from</span> <span class="nn">Bio</span> <span class="k">import</span> <span class="n">SeqIO</span>
 
 
@@ -191,8 +196,6 @@
     <span class="n">default_feature_color</span> <span class="o">=</span> <span class="s2">&quot;#7245dc&quot;</span>
     <span class="n">graphic_record_parameters</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">ignored_features_types</span> <span class="o">=</span> <span class="p">()</span>
-    <span class="n">max_label_length</span> <span class="o">=</span> <span class="mi">50</span>
-    <span class="n">max_line_length</span> <span class="o">=</span> <span class="mi">40</span>
     <span class="n">label_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;locus_tag&quot;</span><span class="p">,</span> <span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_filters</span><span class="o">=</span><span class="p">(),</span> <span class="n">features_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -240,21 +243,7 @@
             <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_features_types</span>
         <span class="p">]</span>
 
-<div class="viewcode-block" id="BiopythonTranslator.compute_feature_label"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_label">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Gets the &#39;label&#39; of the feature.</span>
-
-<span class="sd">        This method looks for the first non-empty qualifier of the feature</span>
-<span class="sd">        in this order ``label``, ``source``, ``locus_tag``, ``note``, which</span>
-<span class="sd">        means that you can provide a label with, for instance</span>
-<span class="sd">        ``feature.qualifiers[&#39;note&#39;] = &#39;some note&#39;``.</span>
-
-<span class="sd">        To change the behaviour, create a subclass of ``BiopythonTranslator``</span>
-<span class="sd">        and overwrite this method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_label_text</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">_determine_label_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">compute_feature_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_fields</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">:</span>
@@ -264,15 +253,9 @@
             <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
 
-    <span class="k">def</span> <span class="nf">_format_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_label_length</span><span class="p">:</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_label_length</span> <span class="o">-</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;…&quot;</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_line_length</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">label</span>
-
 <div class="viewcode-block" id="BiopythonTranslator.compute_feature_html"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_html">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the &#39;label&#39; of the feature.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_determine_label_text</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_feature_label</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BiopythonTranslator.translate_feature"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.BiopythonTranslator.translate_feature">[docs]</a>    <span class="k">def</span> <span class="nf">translate_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Translate a Biopython feature into a Dna Features Viewer feature.&quot;&quot;&quot;</span>

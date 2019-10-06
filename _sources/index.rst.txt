@@ -6,6 +6,7 @@
     :caption: DNA Features Viewer
 
     ref
+    tips
     examples
 
 

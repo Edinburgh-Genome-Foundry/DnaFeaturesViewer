@@ -97,6 +97,12 @@
           </li>
 
         
+          <li class="toctree-l1 "><a href="../../../tips.html" class="reference internal ">Tips</a>
+
+            
+          </li>
+
+        
           <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
 
             
@@ -129,11 +135,12 @@
           <div class="content" role="main">
             
   <h1>Source code for dna_features_viewer.GraphicRecord.GraphicRecord</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
+<span></span><span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
 <span class="kn">from</span> <span class="nn">Bio.SeqRecord</span> <span class="k">import</span> <span class="n">SeqRecord</span>
 <span class="kn">from</span> <span class="nn">Bio.SeqFeature</span> <span class="k">import</span> <span class="n">FeatureLocation</span><span class="p">,</span> <span class="n">SeqFeature</span>
 <span class="kn">from</span> <span class="nn">Bio.Alphabet</span> <span class="k">import</span> <span class="n">DNAAlphabet</span>
-
 
 <span class="kn">from</span> <span class="nn">.matplotlib_plots</span> <span class="k">import</span> <span class="n">MatplotlibPlottableMixin</span>
 <span class="kn">from</span> <span class="nn">.bokeh_plots</span> <span class="k">import</span> <span class="n">BokehPlottableMixin</span>
@@ -167,8 +174,31 @@
 <span class="sd">      Indicates which standard to use to show nucleotide indices in the plots.</span>
 <span class="sd">      If &#39;biopython&#39;, the standard python indexing is used (starting at 0).</span>
 <span class="sd">      If &#39;genbank&#39;, the indexing follows the Genbank standard (starting at 1).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    labels_spacing</span>
+<span class="sd">      Number of pixels that will &quot;pad&quot; every labels to force some horizontal</span>
+<span class="sd">      space between two labels or between a label and the borders of a feature. </span>
 
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">      default_font_family</span>
+<span class="sd">        Default font to use for a feature that doesn&#39;t declare a font.</span>
+<span class="sd">      </span>
+<span class="sd">      default_ruler_color</span>
+<span class="sd">        Default ruler color to use when no color is given at plot() time.</span>
+<span class="sd">    </span>
+<span class="sd">      default_box_color</span>
+<span class="sd">        Default box color for non-inline annotations. If set to None, no</span>
+<span class="sd">        boxes will be drawn unless the features declare a box_color.</span>
+<span class="sd">        If &quot;auto&quot;, a color (clearer version of the feature&#39;s color) will be</span>
+<span class="sd">        computed, for all features also declaring their box_color as &quot;auto&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">default_font_family</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">default_ruler_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
+    <span class="n">default_box_color</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+    
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sequence_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -177,7 +207,7 @@
         <span class="n">feature_level_height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">first_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">plots_indexing</span><span class="o">=</span><span class="s2">&quot;biopython&quot;</span><span class="p">,</span>
-        <span class="n">labels_spacing</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">labels_spacing</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">sequence_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
@@ -268,7 +298,18 @@
                 <span class="n">new_features</span> <span class="o">+=</span> <span class="p">[</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">new_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">new_features</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">new_features</span></div>
+
+    <span class="k">def</span> <span class="nf">_format_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">max_label_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_label_length</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span> <span class="n">max_label_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;…&quot;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">label</span>
+    
+    <span class="k">def</span> <span class="nf">compute_padding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="n">ax_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">())</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="n">xmax</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

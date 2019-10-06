@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-      <title>Python Module Index</title>
+      <title>Tips</title>
     
       <link rel="stylesheet" href="_static/pygments.css">
       <link rel="stylesheet" href="_static/theme.css">
@@ -24,9 +24,8 @@
       <link rel="shortcut icon" href="_static/favicon.ico"/>
   <link rel="index" title="Index" href="genindex.html" />
   <link rel="search" title="Search" href="search.html" />
- 
-
-
+  <link rel="next" title="Examples" href="examples.html" />
+  <link rel="prev" title="API Reference" href="ref.html" /> 
   </head>
 
   <body>
@@ -92,7 +91,7 @@
       <p class="caption">
         <span class="caption-text"><a href="index.html#more-biology-software">DNA Features Viewer</a></span>
       </p>
-      <ul class="">
+      <ul class="current">
         
           <li class="toctree-l1 "><a href="ref.html" class="reference internal ">API Reference</a>
 
@@ -100,8 +99,14 @@
           </li>
 
         
-          <li class="toctree-l1 "><a href="tips.html" class="reference internal ">Tips</a>
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Tips</a>
 
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#setting-the-default-font" class="reference internal">Setting the default font</a></li>
+                
+              </ul>
             
           </li>
 
@@ -124,45 +129,66 @@
   <ul class="breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
     
-    <li>Python Module Index</li>
+    <li>Tips</li>
   </ul>
   
 
   <ul class="page-nav">
+  <li class="prev">
+    <a href="ref.html"
+       title="previous chapter">← API Reference</a>
+  </li>
+  <li class="next">
+    <a href="examples.html"
+       title="next chapter">Examples →</a>
+  </li>
 </ul>
   
 </div>
 <hr>
           <div class="content" role="main">
             
+  <div class="section" id="tips">
+<h1>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setting-the-default-font">
+<h2>Setting the default font<a class="headerlink" href="#setting-the-default-font" title="Permalink to this headline">¶</a></h2>
+<p>The simplest way to change the font for all texts plotted is to change
+the Matplotlib default with the following lines at the beginning of the script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Walter Turncoat&quot;</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/example_default_font_rc.png" src="_images/example_default_font_rc.png" />
+</div>
+<p>You can also set a default for the label text only by providing a
+<code class="docutils literal notranslate"><span class="pre">default_font_family</span></code> to either a GraphicRecord instance, or (for a global
+effect) to the GraphicRecord class itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graphic_record</span> <span class="o">=</span> <span class="n">GraphicRecord</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">graphic_record</span><span class="o">.</span><span class="n">default_font_family</span> <span class="o">=</span> <span class="s1">&#39;Walter Turncoat&#39;</span>
 
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-d"><strong>d</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-d"><td></td><td>
-       <strong>d</strong></td><td></td></tr>
-     <tr>
-       <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">dna_features_viewer</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="ref.html#module-dna_features_viewer.biotools"><code class="xref">dna_features_viewer.biotools</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+<span class="c1"># OR FOR A GLOBAL EFFECT:</span>
+<span class="n">GraphicRecord</span><span class="o">.</span><span class="n">default_font_family</span> <span class="o">=</span> <span class="s1">&#39;Walter Turncoat&#39;</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/example_default_font.png" src="_images/example_default_font.png" />
+</div>
+</div>
+</div>
 
 
           </div>
           <div class="page-nav">
             <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="ref.html"
+       title="previous chapter">← API Reference</a>
+  </li>
+  <li class="next">
+    <a href="examples.html"
+       title="next chapter">Examples →</a>
+  </li>
 </ul><div class="footer" role="contentinfo">
       &#169; Copyright 2016, Edinburgh Genome Foundry.
     <br>

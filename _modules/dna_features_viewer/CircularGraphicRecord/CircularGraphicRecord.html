@@ -97,6 +97,12 @@
           </li>
 
         
+          <li class="toctree-l1 "><a href="../../../tips.html" class="reference internal ">Tips</a>
+
+            
+          </li>
+
+        
           <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
 
             
@@ -177,7 +183,7 @@
         <span class="n">top_position</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">feature_level_height</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
         <span class="n">annotation_height</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
-        <span class="n">labels_spacing</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">labels_spacing</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kw</span>
     <span class="p">):</span>
 
@@ -287,7 +293,13 @@
 <span class="sd">        the figure a 5*radius tall rectangle where the circular plasmid</span>
 <span class="sd">        occupies the bottom-2 5th and the annotations occupy the top-3 5th.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">max_annotations_level</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">max_annotations_level</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">compute_padding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
+        <span class="n">ax_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">())</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
