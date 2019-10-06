@@ -30,14 +30,41 @@ aa_short_to_long_form_dict = {
 
 
 def translate(dna_sequence, long_form=False):
-    """Translate the DNA sequence into an amino-acids sequence MLKYQT..."""
+    """Translate the DNA sequence into an amino-acids sequence MLKYQT...
+
+    If long_form is true, a list of 3-letter amino acid representations
+    is returned instead (['Ala', 'Ser', ...]).
+    """
     result = str(Seq(dna_sequence).translate())
     if long_form:
         result = [aa_short_to_long_form_dict[aa] for aa in result]
     return result
 
 
-def extract_translation(sequence, location, long_form=False):
+def extract_graphical_translation(sequence, location, long_form=False):
+    """Return a string of the "graphical" translation of a sequence's subsegment.
+
+    Here "graphical" means that the amino acid sequence is always given
+    left-to-right, as it will appear under the sequence in the plot. This matters
+    when the location is on the -1 strand. In this case, the amino-acids are
+    determined by (part of) the reverse-complement of the sequence, however
+    the sequence returned will be the mirror of the translated sequence, as
+    this is the left-to-right order in which the codons corresponding to the
+    amino-acids appear in the sequence.
+
+    Parameters
+    ----------
+    sequence
+      An "ATGC" string.
+
+    location
+      Either (start, end) or (start, end, strand), with strand in (0, 1, -1).
+
+    long_form
+      if True, a list of 3-letter amino acid representations is returned instead
+      (['Ala', 'Ser', ...]).
+
+    """
     if len(location) == 3:
         start, end, strand = location
     else:

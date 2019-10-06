@@ -1,14 +1,16 @@
 """Useful functions for the library"""
 
+import colorsys
+
 import numpy
-from matplotlib.colors import colorConverter
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.ticker import MaxNLocator
 
-from ..biotools import extract_translation
+from ..biotools import extract_graphical_translation
 from ..compute_features_levels import compute_features_levels
 from ..GraphicFeature import GraphicFeature
+from matplotlib.colors import colorConverter
 
 
 def change_luminosity(color, luminosity=None, factor=1):
@@ -56,8 +58,9 @@ def get_text_box(text, margin=0):
 
 
 class MatplotlibPlottableMixin:
+    """Class mixin for matplotlib-related methods."""
 
-    def initialize_ax(self, ax, draw_line, with_ruler):
+    def initialize_ax(self, ax, draw_line, with_ruler, ruler_color=None):
         """Initialize the ax: remove axis, draw a horizontal line, etc.
 
         Parameters
@@ -70,6 +73,7 @@ class MatplotlibPlottableMixin:
           True/False to draw the indices indicators along the line.
 
         """
+        ruler_color = ruler_color or self.default_ruler_color
         start, end = self.span
         plot_start, plot_end = start - 0.8, end - 0.2
         if draw_line:
@@ -79,6 +83,8 @@ class MatplotlibPlottableMixin:
             ax.set_frame_on(False)
             ax.yaxis.set_visible(False)
             ax.xaxis.tick_bottom()
+            if ruler_color is not None:
+                ax.tick_params(axis="x", colors=ruler_color)
         else:  # don't display anything
             ax.axis("off")
 
@@ -98,13 +104,18 @@ class MatplotlibPlottableMixin:
 
         # Compute the "natural" ymax
         annotation_height = self.determine_annotation_height(None)
-        ymax = self.feature_level_height * (
-            features_levels + 1
-        ) + annotation_height * (annotations_max_level + 1)
+        features_ymax = self.feature_level_height * (features_levels + 1)
+        annotations_ymax = annotation_height * annotations_max_level
+        ymax = features_ymax + annotations_ymax
+        # ymax = self.feature_level_height * (
+        #     features_levels + 1
+        # ) + annotation_height * (
+        #     annotations_max_level + (annotations_max_level > 0)
+        # )
         ymin = -1
 
         # ymax could be even bigger if a "ideal_yspan" has been set.
-        if ideal_yspan is not None:
+        if (ideal_yspan is not None) and not (auto_figure_height):
             ymax = max(ideal_yspan + ymin, ymax)
         ax.set_ylim(ymin, ymax)
         if auto_figure_height:
@@ -163,7 +174,26 @@ class MatplotlibPlottableMixin:
         ax.add_patch(patch)
         return patch
 
-    def annotate_feature(self, ax, feature, level):
+    def autoselect_label_color(self, background_color):
+        """Autselect a color for the label font.
+
+        In the current method the label will be black on clear backrgounds,
+        and white on dark backgrounds.
+        """
+        r, g, b = colorConverter.to_rgb(background_color)
+        luminosity = 0.299 * r + 0.587 * g + 0.114 * b
+        return "black" if (luminosity > 0.4) else "white"
+
+    def annotate_feature(
+        self,
+        ax,
+        feature,
+        level,
+        inline=False,
+        max_label_length=50,
+        max_line_length=30,
+        padding=0,
+    ):
         """Create a Matplotlib Text with the feature's label.
 
         The x-coordinates of the text are determined by the feature's
@@ -180,29 +210,72 @@ class MatplotlibPlottableMixin:
         """
         bg_color = change_luminosity(feature.color, luminosity=0.95)
         x, y = self.coordinates_in_plot(feature.x_center, level)
+        label = feature.label
+        if not inline:
+            label = self._format_label(
+                label,
+                max_label_length=max_label_length,
+                max_line_length=max_line_length,
+            )
+        nlines = len(label.split("\n"))
+        fontdict = dict(**feature.fontdict)
+        if "family" not in fontdict and (self.default_font_family is not None):
+            fontdict["family"] = self.default_font_family
+        if inline and ("color" not in fontdict):
+            color = self.autoselect_label_color(background_color=feature.color)
+            fontdict["color"] = color
         box_color = feature.box_color
-        text = ax.text(
-            x,
-            y,
-            feature.label,
-            horizontalalignment="center",
-            verticalalignment="center",
-            bbox=None
-            if (box_color is None)
-            else dict(
+        if box_color == "auto":
+            box_color = self.default_box_color
+        bbox = None
+        if (box_color is not None) and not inline:
+            bbox = dict(
                 boxstyle="round",
                 fc=bg_color if box_color == "auto" else box_color,
                 ec="0.5",
                 lw=feature.box_linewidth,
-            ),
-            fontdict=feature.fontdict,
+            )
+        text = ax.text(
+            x,
+            y,
+            label,
+            horizontalalignment="center",
+            verticalalignment="center",
+            bbox=bbox,
+            fontdict=fontdict,
             zorder=2,
         )
         x1, y1, x2, y2 = get_text_box(text)
-        x1 -= self.labels_spacing
-        x2 += self.labels_spacing
+        x1 -= padding
+        x2 += padding
         overflowing = (x1 < feature.start) or (x2 > feature.end)
-        return text, overflowing, (x1, x2), (y2 - y1)
+        return text, overflowing, nlines, (x1, x2), (y2 - y1)
+
+    def position_annotation(self, feature, ax, level, annotate_inline):
+        padding = self.compute_padding(ax)
+        if annotate_inline:
+            text, overflowing, lines, (x1, x2), height = self.annotate_feature(
+                ax=ax,
+                feature=feature,
+                level=level,
+                inline=True,
+                padding=padding,
+            )
+            
+            if overflowing:
+                text.remove()
+                text, _, lines, (x1, x2), height = self.annotate_feature(
+                    ax=ax,
+                    feature=feature,
+                    level=level,
+                    inline=False,
+                    padding=padding,
+                )
+            return text, overflowing, lines, (x1, x2), height
+        else:
+            return self.annotate_feature(
+                ax=ax, feature=feature, level=level, padding=padding
+            )
 
     def plot(
         self,
@@ -210,11 +283,14 @@ class MatplotlibPlottableMixin:
         figure_width=8,
         draw_line=True,
         with_ruler=True,
+        ruler_color=None,
         plot_sequence=False,
-        annotate_inline=False,
+        annotate_inline=True,
+        max_label_length=50,
+        max_line_length=30,
         level_offset=0,
         x_lim=None,
-        figure_height=None
+        figure_height=None,
     ):
         """Plot all the features in the same Matplotlib ax
 
@@ -267,33 +343,39 @@ class MatplotlibPlottableMixin:
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         if x_lim is not None:
             ax.set_xlim(*x_lim)
-        bbox = ax.get_window_extent()
-        _, ax_height = bbox.width, bbox.height
-
         overflowing_annotations = []
+        renderer = ax.figure.canvas.get_renderer()
+        bbox = ax.get_window_extent(renderer)
+        ax_height = bbox.height
         ideal_yspan = 0
         for feature, level in features_levels.items():
             self.plot_feature(ax=ax, feature=feature, level=level)
-            if feature.label is not None:
-                text, overflowing, (x1, x2), height = self.annotate_feature(
-                    ax=ax, feature=feature, level=level
-                )
-                nlines = len(feature.label.split("\n"))
-                line_height = height / nlines
-                # Hey look, a magic number!
-                feature_ideal_span = 0.4 * (ax_height / line_height)
-                ideal_yspan = max(ideal_yspan, feature_ideal_span)
-                if overflowing or not annotate_inline:
-                    overflowing_annotations.append(
-                        GraphicFeature(
-                            start=x1,
-                            end=x2,
-                            feature=feature,
-                            text=text,
-                            feature_level=level,
-                            nlines=nlines,
-                        )
+            if feature.label is None:
+                continue
+            text, overflowing, nlines, (
+                x1,
+                x2,
+            ), height = self.position_annotation(
+                feature, ax, level, annotate_inline
+            )
+            # print (height)
+            # nlines = len(feature.label.split("\n"))
+            line_height = height / nlines
+            # Hey look, a magic number!
+            feature_ideal_span = 0.4 * (ax_height / line_height)
+            ideal_yspan = max(ideal_yspan, feature_ideal_span)
+            # print ("ideal_yspan", ideal_yspan, line_height, ax_height)
+            if overflowing or not annotate_inline:
+                overflowing_annotations.append(
+                    GraphicFeature(
+                        start=x1,
+                        end=x2,
+                        feature=feature,
+                        text=text,
+                        feature_level=level,
+                        nlines=nlines,
                     )
+                )
         annotations_levels = compute_features_levels(overflowing_annotations)
         max_annotations_level = max([0] + list(annotations_levels.values()))
         annotation_height = self.determine_annotation_height(max_level)
@@ -437,7 +519,7 @@ class MatplotlibPlottableMixin:
         end = min(end, e - ((end - e) % 3))
         if translation is None:
             new_loc = start - self.first_index, end - self.first_index, strand
-            translation = extract_translation(
+            translation = extract_graphical_translation(
                 self.sequence,
                 location=new_loc,
                 long_form=long_form_translation,

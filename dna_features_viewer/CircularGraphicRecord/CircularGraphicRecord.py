@@ -46,7 +46,7 @@ class CircularGraphicRecord(GraphicRecord):
         top_position=0,
         feature_level_height=0.2,
         annotation_height="auto",
-        labels_spacing=0.2,
+        labels_spacing=12,
         **kw
     ):
 
@@ -157,3 +157,9 @@ class CircularGraphicRecord(GraphicRecord):
         occupies the bottom-2 5th and the annotations occupy the top-3 5th.
         """
         return min(0.25, 3.0 * self.radius / (1.0 + max_annotations_level))
+
+    def compute_padding(self, ax):
+        ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
+        xmin, xmax = ax.get_xlim()
+        result = self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)
+        return 2 * self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)

@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-
 class GraphicFeature:
     """Genetic Feature to be plotted.
 

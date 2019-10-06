@@ -17,7 +17,7 @@ record = GraphicRecord(sequence=250*"ATGC", features=[
 zoom_start, zoom_end = 398, 428 # coordinates of the "detail"
 cropped_record = record.crop((zoom_start, zoom_end))
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 3))
 
 # PLOT THE WHOLE SEQUENCE
 

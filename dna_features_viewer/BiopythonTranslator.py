@@ -1,7 +1,6 @@
 from .GraphicRecord import GraphicRecord
 from .CircularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
-import textwrap
 from Bio import SeqIO
 
 
@@ -60,8 +59,6 @@ class BiopythonTranslator:
     default_feature_color = "#7245dc"
     graphic_record_parameters = {}
     ignored_features_types = ()
-    max_label_length = 50
-    max_line_length = 40
     label_fields = ["label", "source", "locus_tag", "note", "gene", "product"]
 
     def __init__(self, features_filters=(), features_properties=None):
@@ -110,20 +107,6 @@ class BiopythonTranslator:
         ]
 
     def compute_feature_label(self, feature):
-        """Gets the 'label' of the feature.
-
-        This method looks for the first non-empty qualifier of the feature
-        in this order ``label``, ``source``, ``locus_tag``, ``note``, which
-        means that you can provide a label with, for instance
-        ``feature.qualifiers['note'] = 'some note'``.
-
-        To change the behaviour, create a subclass of ``BiopythonTranslator``
-        and overwrite this method.
-        """
-        label = self._determine_label_text(feature)
-        return self._format_label(label)
-
-    def _determine_label_text(self, feature):
         label = feature.type
         for key in self.label_fields:
             if key in feature.qualifiers:
@@ -133,15 +116,9 @@ class BiopythonTranslator:
             label = "|".join(label)
         return label
 
-    def _format_label(self, label):
-        if len(label) > self.max_label_length:
-            label = label[: self.max_label_length - 3] + "…"
-        label = "\n".join(textwrap.wrap(label, self.max_line_length))
-        return label
-
     def compute_feature_html(self, feature):
         """Gets the 'label' of the feature."""
-        return self._determine_label_text(feature)
+        return self.compute_feature_label(feature)
 
     def translate_feature(self, feature):
         """Translate a Biopython feature into a Dna Features Viewer feature."""

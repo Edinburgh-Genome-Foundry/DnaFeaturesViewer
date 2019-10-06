@@ -11,7 +11,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
 from dna_features_viewer import __version__
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -41,7 +40,10 @@ templates_path = ["_templates"]
 pygments_style = "monokai"
 html_theme_options = {
     "external_links": [
-        ('Github', "https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer")
+        (
+            "Github",
+            "https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer",
+        )
     ]
 }
 # The suffix of source filenames.
@@ -184,11 +186,11 @@ htmlhelp_basename = "DnaFeaturesViewerdoc"
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #'papersize': 'letterpaper',
+    # 'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    #'pointsize': '10pt',
+    # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
-    #'preamble': '',
+    # 'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples

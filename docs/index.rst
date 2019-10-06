@@ -3,9 +3,12 @@
 .. toctree::
     :hidden:
     :maxdepth: 1
+    :caption: DNA Features Viewer
 
     ref
+    tips
     examples
+
 
     
 

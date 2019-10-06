@@ -1,8 +1,9 @@
+import textwrap
+
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.SeqFeature import FeatureLocation, SeqFeature
 from Bio.Alphabet import DNAAlphabet
-
 
 from .matplotlib_plots import MatplotlibPlottableMixin
 from .bokeh_plots import BokehPlottableMixin
@@ -36,8 +37,31 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
       Indicates which standard to use to show nucleotide indices in the plots.
       If 'biopython', the standard python indexing is used (starting at 0).
       If 'genbank', the indexing follows the Genbank standard (starting at 1).
-    """
+    
+    labels_spacing
+      Number of pixels that will "pad" every labels to force some horizontal
+      space between two labels or between a label and the borders of a feature. 
 
+    Attributes
+    ----------
+
+      default_font_family
+        Default font to use for a feature that doesn't declare a font.
+      
+      default_ruler_color
+        Default ruler color to use when no color is given at plot() time.
+    
+      default_box_color
+        Default box color for non-inline annotations. If set to None, no
+        boxes will be drawn unless the features declare a box_color.
+        If "auto", a color (clearer version of the feature's color) will be
+        computed, for all features also declaring their box_color as "auto".
+    """
+    
+    default_font_family = None
+    default_ruler_color = 'grey'
+    default_box_color = 'auto'
+    
     def __init__(
         self,
         sequence_length=None,
@@ -46,7 +70,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         feature_level_height=1,
         first_index=0,
         plots_indexing="biopython",
-        labels_spacing=10,
+        labels_spacing=8,
     ):
         if sequence_length is None:
             sequence_length = len(sequence)
@@ -138,3 +162,14 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
             else:
                 new_features.append(f)
         self.features = new_features
+
+    def _format_label(self, label, max_label_length=50, max_line_length=40):
+        if len(label) > max_label_length:
+            label = label[: max_label_length - 1] + "…"
+        label = "\n".join(textwrap.wrap(label, max_line_length))
+        return label
+    
+    def compute_padding(self, ax):
+        ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
+        xmax = ax.get_xlim()[1]
+        return self.labels_spacing * xmax / (1.0 * ax_width)
