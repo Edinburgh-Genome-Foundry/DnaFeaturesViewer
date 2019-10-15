@@ -90,7 +90,6 @@ class BokehPlottableMixin:
                             feature.start,
                             feature.end,
                             feature.strand,
-                            self.sequence_length,
                             level=level,
                             color=feature.color,
                             label=feature.label,
