@@ -109,7 +109,7 @@ class BiopythonTranslator:
     def compute_feature_label(self, feature):
         label = feature.type
         for key in self.label_fields:
-            if key in feature.qualifiers:
+            if key in feature.qualifiers and len(feature.qualifiers[key]):
                 label = feature.qualifiers[key]
                 break
         if isinstance(label, list):
