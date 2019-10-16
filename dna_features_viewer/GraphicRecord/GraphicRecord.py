@@ -171,5 +171,5 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     
     def compute_padding(self, ax):
         ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
-        xmax = ax.get_xlim()[1]
-        return self.labels_spacing * xmax / (1.0 * ax_width)
+        xmin, xmax = ax.get_xlim()
+        return self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)
