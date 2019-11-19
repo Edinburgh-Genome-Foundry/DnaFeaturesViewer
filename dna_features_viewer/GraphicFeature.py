@@ -102,7 +102,7 @@ class GraphicFeature:
         return copy
 
     def overlaps_with(self, other):
-        """Return True iff the feature's location overlaps with feature `other`
+        """Return True if the feature's location overlaps with feature `other`
         """
         loc1, loc2 = (self.start, self.end), (other.start, other.end)
         loc1, loc2 = sorted(loc1), sorted(loc2)
