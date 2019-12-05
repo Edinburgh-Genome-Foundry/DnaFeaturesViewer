@@ -13,52 +13,11 @@ from ..GraphicFeature import GraphicFeature
 from matplotlib.colors import colorConverter
 
 
-def change_luminosity(color, luminosity=None, factor=None):
-    """Return a version of the color with different luminosity.
-
-    Parameters
-    ----------
-    color
-      A color in any Matplotlib-compatible format such as "white", "w",
-      (1,1,1), "#ffffff", etc.
-    luminosity
-      A float in 0-1. If provided, the returned color has this level of
-      luminosity.
-    factor
-      Only used if `luminosity` is not set. Positive factors increase
-      luminosity and negative factors decrease it. More precisely, the
-      luminosity of the new color is L^(-factor), where L is the current
-      luminosity, between 0 and 1. 
-    """
-    r, g, b = colorConverter.to_rgb(color)
-    h, l, s = colorsys.rgb_to_hls(r, g, b)
-    if luminosity is not None:
-        new_l = luminosity
-    else:
-        new_l = l ** (-factor)
-    return colorsys.hls_to_rgb(h, new_l, s)
-
-
-def get_text_box(text, margin=0):
-    """Return the coordinates of a Matplotlib Text.
-
-    `text` is a Matplotlib text obtained with ax.text().
-    This returns `(x1,y1, x2, y2)` where (x1,y1) is the lower left corner
-    and (x2, y2) is the upper right corner of the text, in data coordinates.
-    If a margin m is supplied, the returned result is (x1-m, y1-m, x2+m, y2+m)
-    """
-    renderer = text.axes.figure.canvas.get_renderer()
-    bbox = text.get_window_extent(renderer)  # bounding box
-    __x1, y1, __x2, y2 = bbox.get_points().flatten()
-    bbox = bbox.transformed(text.axes.transData.inverted())
-    x1, _, x2, _ = bbox.get_points().flatten()
-    return [x1, y1, x2, y2]
-
-
 class MatplotlibPlottableMixin:
     """Class mixin for matplotlib-related methods."""
 
     default_elevate_outline_annotations = False
+    default_strand_in_label_threshold = None
 
     def initialize_ax(self, ax, draw_line, with_ruler, ruler_color=None):
         """Initialize the ax: remove axis, draw a horizontal line, etc.
@@ -371,6 +330,7 @@ class MatplotlibPlottableMixin:
         max_label_length=50,
         max_line_length=30,
         level_offset=0,
+        strand_in_label_threshold='default',
         elevate_outline_annotations="default",
         x_lim=None,
         figure_height=None,
@@ -409,7 +369,13 @@ class MatplotlibPlottableMixin:
           same ax.
         
         elevate_outline_annotations
-          If true, every 
+          If true, every text annotation will be above every feature. If false,
+          text annotations will be as close as possible to the features.
+        
+        strand_in_label_pixel_threshold
+          Number N such that, when provided, every feature with a graphical
+          width in pixels below N will have its strand indicated in the label
+          by an a left/right arrow
 
         x_lim
           Horizontal axis limits to be set at the end.
@@ -418,6 +384,9 @@ class MatplotlibPlottableMixin:
         if elevate_outline_annotations == "default":
             default = self.default_elevate_outline_annotations
             elevate_outline_annotations = default
+        if strand_in_label_threshold == "default":
+            default = self.default_strand_in_label_threshold
+            strand_in_label_threshold = default
 
         features_levels = compute_features_levels(self.features)
 
@@ -435,10 +404,11 @@ class MatplotlibPlottableMixin:
 
         def strand_in_label(f):
             """Anything under 0.1 inches in the figure"""
+            if strand_in_label_threshold is None:
+                return False
             width_pixel = self._get_ax_width(ax, unit="pixel")
-            min_pixels = 7  # Hey look, a magic number!
             f_pixels = 1.0 * width_pixel * f.length / self.sequence_length
-            return f_pixels < min_pixels
+            return f_pixels < strand_in_label_threshold
 
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         if x_lim is not None:
@@ -695,3 +665,45 @@ class MatplotlibPlottableMixin:
                     zorder=-1000,
                     facecolor=background[i % 2],
                 )
+
+
+def change_luminosity(color, luminosity=None, factor=None):
+    """Return a version of the color with different luminosity.
+
+    Parameters
+    ----------
+    color
+      A color in any Matplotlib-compatible format such as "white", "w",
+      (1,1,1), "#ffffff", etc.
+    luminosity
+      A float in 0-1. If provided, the returned color has this level of
+      luminosity.
+    factor
+      Only used if `luminosity` is not set. Positive factors increase
+      luminosity and negative factors decrease it. More precisely, the
+      luminosity of the new color is L^(-factor), where L is the current
+      luminosity, between 0 and 1. 
+    """
+    r, g, b = colorConverter.to_rgb(color)
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    if luminosity is not None:
+        new_l = luminosity
+    else:
+        new_l = l ** (-factor)
+    return colorsys.hls_to_rgb(h, new_l, s)
+
+
+def get_text_box(text, margin=0):
+    """Return the coordinates of a Matplotlib Text.
+
+    `text` is a Matplotlib text obtained with ax.text().
+    This returns `(x1,y1, x2, y2)` where (x1,y1) is the lower left corner
+    and (x2, y2) is the upper right corner of the text, in data coordinates.
+    If a margin m is supplied, the returned result is (x1-m, y1-m, x2+m, y2+m)
+    """
+    renderer = text.axes.figure.canvas.get_renderer()
+    bbox = text.get_window_extent(renderer)  # bounding box
+    __x1, y1, __x2, y2 = bbox.get_points().flatten()
+    bbox = bbox.transformed(text.axes.transData.inverted())
+    x1, _, x2, _ = bbox.get_points().flatten()
+    return [x1, y1, x2, y2]
