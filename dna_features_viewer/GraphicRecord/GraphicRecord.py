@@ -113,7 +113,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
 
     def crop(self, window):
         s, e = window
-        if (s < 0) or (e >= self.sequence_length):
+        if (s < 0) or (e > self.sequence_length):
             raise ValueError("out-of-bound cropping")
         new_features = []
         for f in self.features:

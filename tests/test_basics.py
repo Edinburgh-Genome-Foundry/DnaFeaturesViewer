@@ -68,6 +68,7 @@ def test_from_genbank(tmpdir):
     target_file = os.path.join(str(tmpdir), "from_genbank.png")
     ax.figure.savefig(target_file)
 
+
 def test_from_record(tmpdir):
     record = load_record(example_genbank)
     annotate_biopython_record(record, label="bla", color="blue")
@@ -190,6 +191,15 @@ def test_cropping():
     assert len(cropped_record.features) == 3
 
 
+def test_cropping_on_the_edge():
+    repeated_sequence = "ATGCATGCAT"
+    graphic_record = GraphicRecord(
+        sequence_length=1000, sequence=100 * repeated_sequence
+    )
+    small_gr = graphic_record.crop((990, 1000))
+    assert small_gr.sequence == repeated_sequence
+
+
 def test_to_biopython_record():
     record = GraphicRecord(
         sequence_length=50,
@@ -229,6 +239,7 @@ def test_sequence_and_translation_plotting():
     ax, _ = record.plot(figure_width=5)
     record.plot_sequence(ax)
     record.plot_translation(ax, (8, 23), fontdict={"weight": "bold"})
+
 
 def test_BlackBoxlessLabelTranslator(tmpdir):
     translator = BlackBoxlessLabelTranslator()
