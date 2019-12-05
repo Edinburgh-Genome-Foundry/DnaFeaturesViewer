@@ -274,7 +274,7 @@ This GIF uses DNA Features Viewer to plot the progress in the optimization of a 
 
 GeneBlocks
 ~~~~~~~~~~
-GeneBlocks computes "diffs" of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence's features.
+`GeneBlocks <https://github.com/Edinburgh-Genome-Foundry/Geneblocks>`_ is a Python library which computes "diffs" of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence's features.
 
 .. raw:: html
 

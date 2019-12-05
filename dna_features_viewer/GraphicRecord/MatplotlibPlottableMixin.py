@@ -13,7 +13,7 @@ from ..GraphicFeature import GraphicFeature
 from matplotlib.colors import colorConverter
 
 
-def change_luminosity(color, luminosity=None, factor=1):
+def change_luminosity(color, luminosity=None, factor=None):
     """Return a version of the color with different luminosity.
 
     Parameters
@@ -25,19 +25,18 @@ def change_luminosity(color, luminosity=None, factor=1):
       A float in 0-1. If provided, the returned color has this level of
       luminosity.
     factor
-      Only used if `luminosity` is not set. The luminosity of the new image
-      is (1 - (1-L)/(factor + 1)), where L is the current luminosity.
+      Only used if `luminosity` is not set. Positive factors increase
+      luminosity and negative factors decrease it. More precisely, the
+      luminosity of the new color is L^(-factor), where L is the current
+      luminosity, between 0 and 1. 
     """
-    res = numpy.array(colorConverter.to_rgb(color))
+    r, g, b = colorConverter.to_rgb(color)
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
     if luminosity is not None:
-        if luminosity == 1:
-            return (1, 1, 1)
-        mean = res.sum() / 3.0
-        factor = (luminosity - mean) / (1.0 - luminosity)
-    if factor == -1:
-        return numpy.array([1.0, 1.0, 1.0])
+        new_l = luminosity
     else:
-        return (factor + res) / (factor + 1)
+        new_l = l ** (-factor)
+    return colorsys.hls_to_rgb(h, new_l, s)
 
 
 def get_text_box(text, margin=0):
@@ -59,6 +58,9 @@ def get_text_box(text, margin=0):
 
 class MatplotlibPlottableMixin:
     """Class mixin for matplotlib-related methods."""
+
+    default_elevate_outline_annotations = False
+    min_linear_arrow_size_inch = 0.15
 
     def initialize_ax(self, ax, draw_line, with_ruler, ruler_color=None):
         """Initialize the ax: remove axis, draw a horizontal line, etc.
@@ -99,7 +101,9 @@ class MatplotlibPlottableMixin:
         auto_figure_height=False,
         ideal_yspan=None,
     ):
-        """Redefine y-bounds and figure height.
+        """Prettify the figure with some last changes.
+        
+        Changes include redefining y-bounds and figure height.
         """
 
         # Compute the "natural" ymax
@@ -125,6 +129,15 @@ class MatplotlibPlottableMixin:
             ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
         return ideal_yspan / (ymax - ymin)
 
+    @staticmethod
+    def _get_ax_width(ax, unit="inches"):
+        transform = ax.figure.dpi_scale_trans.inverted()
+        bbox = ax.get_window_extent().transformed(transform)
+        width = bbox.width
+        if unit == "pixel":
+            width *= ax.figure.dpi
+        return width
+
     def plot_feature(self, ax, feature, level, linewidth=1.0):
         """Create an Arrow Matplotlib patch with the feature's coordinates.
 
@@ -148,11 +161,12 @@ class MatplotlibPlottableMixin:
         head_is_cut = (feature.strand == 1 and feature.open_right) or (
             feature.strand == -1 and feature.open_left
         )
-        head_length = (
-            0.001
-            if (is_undirected or head_is_cut)
-            else max(0.6 * feature.thickness, 5)
-        )
+        if is_undirected or head_is_cut:
+            head_length = 0.001
+        else:
+            width_pixel = self._get_ax_width(ax, unit="pixel")
+            head_length = 0.5 * width_pixel * feature.length / self.sequence_length
+            head_length = min(head_length, 0.6 * feature.thickness)
 
         arrowstyle = mpatches.ArrowStyle.Simple(
             head_width=feature.thickness,
@@ -182,7 +196,7 @@ class MatplotlibPlottableMixin:
         """
         r, g, b = colorConverter.to_rgb(background_color)
         luminosity = 0.299 * r + 0.587 * g + 0.114 * b
-        return "black" if (luminosity > 0.4) else "white"
+        return "black" if (luminosity >= 0.5) else "white"
 
     def annotate_feature(
         self,
@@ -193,6 +207,7 @@ class MatplotlibPlottableMixin:
         max_label_length=50,
         max_line_length=30,
         padding=0,
+        indicate_strand_in_label=False,
     ):
         """Create a Matplotlib Text with the feature's label.
 
@@ -208,9 +223,14 @@ class MatplotlibPlottableMixin:
         The x-coordinates of the patch are determined by the feature's
         `start` and `end` while the y-coordinates are determined by the `level`
         """
-        bg_color = change_luminosity(feature.color, luminosity=0.95)
         x, y = self.coordinates_in_plot(feature.x_center, level)
         label = feature.label
+        if indicate_strand_in_label:
+            if feature.strand == -1:
+                label = "⇦" + label
+            if feature.strand == 1:
+                label = label + "⇨"
+
         if not inline:
             label = self._format_label(
                 label,
@@ -229,6 +249,7 @@ class MatplotlibPlottableMixin:
             box_color = self.default_box_color
         bbox = None
         if (box_color is not None) and not inline:
+            bg_color = change_luminosity(feature.color, luminosity=0.95)
             bbox = dict(
                 boxstyle="round",
                 fc=bg_color if box_color == "auto" else box_color,
@@ -251,7 +272,16 @@ class MatplotlibPlottableMixin:
         overflowing = (x1 < feature.start) or (x2 > feature.end)
         return text, overflowing, nlines, (x1, x2), (y2 - y1)
 
-    def position_annotation(self, feature, ax, level, annotate_inline):
+    def place_annotation(
+        self,
+        feature,
+        ax,
+        level,
+        annotate_inline,
+        max_line_length,
+        max_label_length,
+        indicate_strand_in_label=False,
+    ):
         padding = self.compute_padding(ax)
         if annotate_inline:
             text, overflowing, lines, (x1, x2), height = self.annotate_feature(
@@ -260,8 +290,11 @@ class MatplotlibPlottableMixin:
                 level=level,
                 inline=True,
                 padding=padding,
+                max_label_length=max_label_length,
+                max_line_length=max_line_length,
+                indicate_strand_in_label=indicate_strand_in_label,
             )
-            
+
             if overflowing:
                 text.remove()
                 text, _, lines, (x1, x2), height = self.annotate_feature(
@@ -270,6 +303,9 @@ class MatplotlibPlottableMixin:
                     level=level,
                     inline=False,
                     padding=padding,
+                    max_label_length=max_label_length,
+                    max_line_length=max_line_length,
+                    indicate_strand_in_label=indicate_strand_in_label,
                 )
             return text, overflowing, lines, (x1, x2), height
         else:
@@ -289,6 +325,7 @@ class MatplotlibPlottableMixin:
         max_label_length=50,
         max_line_length=30,
         level_offset=0,
+        elevate_outline_annotations="default",
         x_lim=None,
         figure_height=None,
     ):
@@ -328,7 +365,13 @@ class MatplotlibPlottableMixin:
         x_lim
           Horizontal axis limits to be set at the end.
         """
+
+        if elevate_outline_annotations == "default":
+            default = self.default_elevate_outline_annotations
+            elevate_outline_annotations = default
+
         features_levels = compute_features_levels(self.features)
+
         for f in features_levels:
             features_levels[f] += level_offset
         max_level = (
@@ -340,6 +383,14 @@ class MatplotlibPlottableMixin:
         if ax is None:
             height = figure_height or max_level
             fig, ax = plt.subplots(1, figsize=(figure_width, height))
+
+        def strand_in_label(f):
+            """Anything under 0.1 inches in the figure"""
+            width_pixel = self._get_ax_width(ax, unit="pixel")
+            min_pixels = 7  # Hey look, a magic number!
+            f_pixels = 1.0 * width_pixel * f.length / self.sequence_length
+            return f_pixels < min_pixels
+
         self.initialize_ax(ax, draw_line=draw_line, with_ruler=with_ruler)
         if x_lim is not None:
             ax.set_xlim(*x_lim)
@@ -348,23 +399,31 @@ class MatplotlibPlottableMixin:
         bbox = ax.get_window_extent(renderer)
         ax_height = bbox.height
         ideal_yspan = 0
-        for feature, level in features_levels.items():
+        sorted_features_levels = sorted(
+            features_levels.items(), key=lambda o: -o[0].length
+        )
+        for feature, level in sorted_features_levels:
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is None:
                 continue
-            text, overflowing, nlines, (
-                x1,
-                x2,
-            ), height = self.position_annotation(
-                feature, ax, level, annotate_inline
+            (
+                text,
+                overflowing,
+                nlines,
+                (x1, x2,),
+                height,
+            ) = self.place_annotation(
+                feature=feature,
+                ax=ax,
+                level=level,
+                annotate_inline=annotate_inline,
+                max_line_length=max_line_length,
+                max_label_length=max_label_length,
+                indicate_strand_in_label=strand_in_label(feature),
             )
-            # print (height)
-            # nlines = len(feature.label.split("\n"))
             line_height = height / nlines
-            # Hey look, a magic number!
             feature_ideal_span = 0.4 * (ax_height / line_height)
             ideal_yspan = max(ideal_yspan, feature_ideal_span)
-            # print ("ideal_yspan", ideal_yspan, line_height, ax_height)
             if overflowing or not annotate_inline:
                 overflowing_annotations.append(
                     GraphicFeature(
@@ -374,23 +433,46 @@ class MatplotlibPlottableMixin:
                         text=text,
                         feature_level=level,
                         nlines=nlines,
+                        color=feature.color,
+                        label_link_color=feature.label_link_color,
                     )
                 )
-        annotations_levels = compute_features_levels(overflowing_annotations)
+        if elevate_outline_annotations:
+            annotations_levels = compute_features_levels(
+                overflowing_annotations
+            )
+        else:
+            for f in self.features:
+                f.data.update(dict(nlines=1, fixed_level=features_levels[f]))
+            annotations_levels = compute_features_levels(
+                overflowing_annotations + self.features
+            )
+            annotations_levels = {
+                f: annotations_levels[f] for f in overflowing_annotations
+            }
+
         max_annotations_level = max([0] + list(annotations_levels.values()))
         annotation_height = self.determine_annotation_height(max_level)
         labels_data = {}
         for feature, level in annotations_levels.items():
             text = feature.data["text"]
             x, y = text.get_position()
-            new_y = (max_level + 1) * self.feature_level_height + (
-                level
-            ) * annotation_height
+            if elevate_outline_annotations:
+                new_y = (max_level + 1) * self.feature_level_height + (
+                    level
+                ) * annotation_height
+            else:
+                new_y = annotation_height * level
             text.set_position((x, new_y))
             fx, fy = self.coordinates_in_plot(
                 feature.data["feature"].x_center, feature.data["feature_level"]
             )
-            ax.plot([x, fx], [new_y, fy], c="k", lw=0.5, zorder=1)
+
+            # PLOT THE LABEL-TO
+            link_color = feature.label_link_color
+            if link_color == "auto":
+                link_color = change_luminosity(feature.color, luminosity=0.2)
+            ax.plot([x, fx], [new_y, fy], c=link_color, lw=0.5, zorder=1)
             labels_data[feature.data["feature"]] = dict(
                 feature_y=fy, annotation_y=new_y
             )

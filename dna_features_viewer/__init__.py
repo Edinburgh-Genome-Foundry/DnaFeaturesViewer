@@ -3,8 +3,11 @@
 from .GraphicRecord import GraphicRecord
 from .CircularGraphicRecord import CircularGraphicRecord
 from .GraphicFeature import GraphicFeature
-from .BiopythonTranslator import BiopythonTranslator
-from .biotools import annotate_biopython_record
+from .BiopythonTranslator import (
+    BiopythonTranslator,
+    BlackBoxlessLabelTranslator,
+)
+from .biotools import load_record, annotate_biopython_record
 
 from .version import __version__
 
@@ -13,6 +16,7 @@ __all__ = [
     "CircularGraphicRecord",
     "GraphicFeature",
     "BiopythonTranslator",
+    "BlackBoxlessLabelTranslator",
     "annotate_biopython_record",
     "__version__",
 ]

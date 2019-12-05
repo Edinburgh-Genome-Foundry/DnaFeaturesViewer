@@ -1,6 +1,8 @@
+import textwrap
 from Bio.Seq import Seq
 from Bio.SeqFeature import SeqFeature, FeatureLocation
 from Bio.PDB.Polypeptide import aa1, aa3
+from Bio import SeqIO
 
 
 def complement(dna_sequence):
@@ -79,6 +81,11 @@ def extract_graphical_translation(sequence, location, long_form=False):
     return translation
 
 
+def load_record(path):
+    """Load a Genbank file """
+    return SeqIO.read(path, "genbank")
+
+
 def annotate_biopython_record(
     seqrecord,
     location="full",
@@ -117,3 +124,24 @@ def annotate_biopython_record(
             type=feature_type,
         )
     )
+
+
+def find_narrowest_text_wrap(text, max_line_length):
+    """Wrap the text into a multi-line text minimizing the longest line length.
+
+    This is done by first wrapping the text using max_line_length, then
+    attempt new wraps by iteratively decreasing the line_length, as long as the
+    number of lines stays the same as with max_line_length.
+    """
+    narrowest_wrap = textwrap.wrap(text, max_line_length)
+    narrowest_width = max([len(l) for l in narrowest_wrap])
+    for line_length in range(max_line_length - 1, 0, -1):
+        wrap = textwrap.wrap(text, line_length)
+        if len(wrap) <= len(narrowest_wrap):
+            width = max([len(l) for l in wrap])
+            if width < narrowest_width:
+                narrowest_wrap = wrap
+                narrowest_width = width
+        else:
+            break
+    return "\n".join(narrowest_wrap)

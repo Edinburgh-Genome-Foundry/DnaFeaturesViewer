@@ -7,25 +7,25 @@ SOURCE      .
   ORGANISM  .
             .
 FEATURES             Location/Qualifiers
-     restriction_site3686..3705
+     restriction_site3686..3693
                      /label="AarI site"
-     restriction_site568..587
+     restriction_site568..576
                      /label="BamHI site"
                      /note="Remark: I really like BamHI"
      CDS             complement(3213..4163)
                      /label="Gene aaCI"
-     restriction_site1368..1387
+     restriction_site1368..1376
                      /label="EcorI site"
                      /note="Site added because I like EcoRI"
-     restriction_site958
+     restriction_site958..966
                      /label="AarI site"
      CDS             1411..1802
                      /label="Gene barK"
-     restriction_site2168..2187
+     restriction_site2168..2176
                      /label="BamHI site"
-     restriction_site2886..2905
+     restriction_site2886..2892
                      /label="EcorI site"
-     restriction_site4486..4505
+     restriction_site4486..4492
                      /label="AarI site"
      CDS             1835..2551
                      /label="Gene kanR"

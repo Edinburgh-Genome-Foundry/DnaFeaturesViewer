@@ -18,7 +18,15 @@ import matplotlib.pyplot as plt
 
 class BokehPlottableMixin:
     def bokeh_feature_patch(
-        self, start, end, strand, width=0.3, level=0, **kwargs
+        self,
+        start,
+        end,
+        strand,
+        figure_width=5,
+        width=0.4,
+        level=0,
+        arrow_width_inches=0.05,
+        **kwargs
     ):
         """Return a dict with points coordinates of a Bokeh Feature arrow.
 
@@ -30,14 +38,12 @@ class BokehPlottableMixin:
         """
         hw = width / 2.0
         x1, x2 = (start, end) if (strand >= 0) else (end, start)
+        bp_per_width = figure_width / self.sequence_length
+        delta = arrow_width_inches / bp_per_width
         if strand >= 0:
-            head_base = max(
-                x1, x2 - max(0.025 * self.sequence_length, 0.025 * (x2 - x1))
-            )
+            head_base = max(x1, x2 - delta)
         else:
-            head_base = min(
-                x1, x2 + max(0.025 * self.sequence_length, 0.025 * (x1 - x2))
-            )
+            head_base = min(x1, x2 + delta)
         result = dict(
             xs=[x1, x1, head_base, x2, head_base, x1],
             ys=[e + level for e in [-hw, hw, hw, 0, -hw, -hw]],
@@ -64,6 +70,7 @@ class BokehPlottableMixin:
         ax, (features_levels, plot_data) = self.plot(figure_width=figure_width)
         width, height = [int(100 * e) for e in ax.figure.get_size_inches()]
         plt.close(ax.figure)
+        height = int(0.5 * height)
         max_y = max(
             [data["annotation_y"] for f, data in plot_data.items()]
             + list(features_levels.values())
@@ -90,6 +97,7 @@ class BokehPlottableMixin:
                             feature.start,
                             feature.end,
                             feature.strand,
+                            figure_width=figure_width,
                             level=level,
                             color=feature.color,
                             label=feature.label,

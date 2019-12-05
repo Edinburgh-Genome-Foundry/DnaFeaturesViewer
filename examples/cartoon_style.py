@@ -9,25 +9,37 @@ We use Matplotlib's built-in xkcd() function, and a few tweaks:
 - We set plt.rcParams["font.family"] for a nice font for the
   ruler.
 """
-import matplotlib.pyplot as plt
-from dna_features_viewer import (GraphicFeature, GraphicRecord,
-                                 CircularGraphicRecord)
+
+from matplotlib import rc_context
+from dna_features_viewer import GraphicFeature, GraphicRecord
+
+rc_context(
+    {
+        "font.family": ["Walter Turncoat"],
+        "path.sketch": (1.5, 300, 1),  # scale, length, randomness
+    }
+)
+
 features = [
-    GraphicFeature(start=20, end=500, strand=+1, color="#ffcccc",
-                   label="Gene 1 with a name"),
-    GraphicFeature(start=400, end=700, strand=-1, color="#cffccc",
-                   label="Gene 2"),
-    GraphicFeature(start=600, end=900, strand=+1, color="#0000ff",
-                   label="Gene 3"),
+    GraphicFeature(
+        start=20,
+        end=500,
+        strand=+1,
+        color="#ffcccc",
+        label="Gene 1 with a very, very long name",
+        box_linewidth=0,
+        box_color='white'
+    ),
+    GraphicFeature(
+        start=400, end=700, strand=-1, color="#cffccc", label="Gene 2"
+    ),
+    GraphicFeature(
+        start=600, end=900, strand=+1, color="#0000ff", label="Gene 3"
+    )
 ]
 
 record = GraphicRecord(sequence_length=1000, features=features)
-record.default_box_color = None
-record.default_font_family = 'Walter Turncoat'
 
-with plt.xkcd():
-    plt.rcParams["font.family"] = 'Permanent Marker' # ruler font
-    plt.rcParams["xtick.labelsize"] = 'small'
-    ax, _ = record.plot(figure_width=5, annotate_inline=False)
-    ax.figure.tight_layout()
-    ax.figure.savefig("cartoon_style.png", dpi=200)
+ax, _ = record.plot(figure_width=3)
+ax.figure.tight_layout()
+ax.figure.savefig("cartoon_style.png", dpi=200)

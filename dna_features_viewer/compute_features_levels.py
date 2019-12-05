@@ -34,7 +34,7 @@ def compute_features_levels(features):
 
     The method used is basically a graph coloring:
     - The nodes of the graph are features and they will be colored with a level
-    - Two nodes are neighbors iff their features's locations overlap
+    - Two nodes are neighbors if and only if their features's locations overlap
     - Levels are attributed to nodes iteratively starting with the nodes
       corresponding to the largest features.
     - A node receives the lowest level (starting at 0) that is not already
@@ -46,11 +46,14 @@ def compute_features_levels(features):
         if f1.overlaps_with(f2)
     ]
     graph = Graph(features, edges)
-    levels = {n: None for n in graph.nodes}
+    levels = {
+        n: None if "fixed_level" not in n.data else n.data["fixed_level"]
+        for n in graph.nodes
+    }
 
     def collision(base_level, node):
-        """Return True iff the node placed at base_level collides with
-        its neighbors in the graph."""
+        """Return whether the node placed at base_level collides with its
+        neighbors in the graph."""
         for neighbor in graph.neighbors[node]:
             level = levels[neighbor]
             if level is None:

@@ -39,6 +39,8 @@ class CircularGraphicRecord(GraphicRecord):
 
     """
 
+    default_elevate_outline_annotations = True
+
     def __init__(
         self,
         sequence_length,
@@ -121,11 +123,11 @@ class CircularGraphicRecord(GraphicRecord):
         a_start, a_end = sorted([a_start, a_end])
         r = self.radius + level * self.feature_level_height
         patch = ArrowWedge(
-            (0, -self.radius),
-            r,
-            a_start,
-            a_end,
-            0.7 * self.feature_level_height,
+            center=(0, -self.radius),
+            radius=r,
+            theta1=a_start,
+            theta2=a_end,
+            width=0.7 * self.feature_level_height,
             direction=feature.strand,
             edgecolor=feature.linecolor,
             linewidth=feature.linewidth,

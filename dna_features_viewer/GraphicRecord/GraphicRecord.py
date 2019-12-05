@@ -1,12 +1,12 @@
-import textwrap
+from ..biotools import find_narrowest_text_wrap
 
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from Bio.SeqFeature import FeatureLocation, SeqFeature
 from Bio.Alphabet import DNAAlphabet
 
-from .matplotlib_plots import MatplotlibPlottableMixin
-from .bokeh_plots import BokehPlottableMixin
+from .MatplotlibPlottableMixin import MatplotlibPlottableMixin
+from .BokehPlottableMixin import BokehPlottableMixin
 
 
 class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
@@ -61,6 +61,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     default_font_family = None
     default_ruler_color = 'grey'
     default_box_color = 'auto'
+
     
     def __init__(
         self,
@@ -131,8 +132,9 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     def determine_annotation_height(self, levels):
         """By default the ideal annotation level height is the same as the
         feature_level_height."""
-        # Improve me: ideally, annotation width would be linked to the height
-        # of one line of text, so dependent on font size and ax height/span.
+        # TODO: Improve me! ideally, annotation width would be linked to the 
+        # height of one line of text, so dependent on font size and ax
+        # height/span.
         return self.feature_level_height
 
     def coordinates_in_plot(self, x, level):
@@ -166,7 +168,8 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     def _format_label(self, label, max_label_length=50, max_line_length=40):
         if len(label) > max_label_length:
             label = label[: max_label_length - 1] + "…"
-        label = "\n".join(textwrap.wrap(label, max_line_length))
+        if len(label) > max_line_length:
+            label = find_narrowest_text_wrap(label, max_line_length)
         return label
     
     def compute_padding(self, ax):
