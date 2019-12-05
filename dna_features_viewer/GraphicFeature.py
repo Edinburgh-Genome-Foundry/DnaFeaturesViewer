@@ -19,10 +19,16 @@ class GraphicFeature:
     color
       Color of the feature, any Matplotlib-compatible format is accepted,
       such as "white", "w", "#ffffff", (1,1,1), etc.
-    
+
     linecolor
       Color of the feature's border, any Matplotlib-compatible format is
       accepted, such as "white", "w", "#ffffff", (1,1,1), etc.
+
+    linewidth
+      Width of the line (=edge) surrounding the graphic feature, in pixels.
+
+    thickness
+      Vertical span of the feature
 
     box_color
       Color of the label box. Set to None for no box around the label.
@@ -35,6 +41,23 @@ class GraphicFeature:
     fontdict
       A Matplotlib fontdict for the font to be used in the label, e.g.
       ``size=11``, ``weight='bold'``, ``family='Helvetica'``, etc.
+
+    open_left, open_right
+      Set to True if this feature does not end on the right or left because it
+      is a cropped version of a bigger feature.
+
+    box_linewidth
+      Width of the line delimiting the text box when the annotation is outside
+      the graphic feature. Set to 0 for no box borders
+
+    box_color
+      Background color of the annotation's text box. If left to "auto" the
+      color will be a lighter version of the feature's color.
+
+    label_link_color
+      Color of the line linking the text annotation to its respective graphic
+      feature. Set to auto for the line to automatically be a darker version
+      of the feature's color.
     """
 
     feature_type = "feature"
