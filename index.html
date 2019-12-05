@@ -229,13 +229,16 @@ the record plot:</p>
 <p>DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">BiopythonTranslator</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="s2">&quot;my_sequence.gb&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
-</p><p>The class <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code> determines how the genbank information is transformed into graphical features.
-It enables to chose which categories of features to plot, the color of the different features.</p>
+</p><p>The class <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code> determines how the genbank information is
+transformed into graphical features. It enables to chose which categories of
+features to plot, the color of the different features.</p>
+<p>Note here the use of <code class="docutils literal notranslate"><span class="pre">strand_in_label_threshold=5</span></code> to indicate the strand with
+an arrow in the annotation text for every feature less than ~5 pixels in width.</p>
 </div>
 <div class="section" id="displaying-the-features-along-with-other-plots">
 <h3>Displaying the features along with other plots<a class="headerlink" href="#displaying-the-features-along-with-other-plots" title="Permalink to this headline">¶</a></h3>
@@ -251,7 +254,7 @@ other sequences statistics, such as the local GC content:</p>
 <span class="c1"># Parse the genbank file, plot annotations</span>
 <span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="c1"># Plot the local GC content</span>
