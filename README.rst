@@ -150,7 +150,7 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
 
     from dna_features_viewer import BiopythonTranslator
     graphic_record = BiopythonTranslator().translate_record("my_sequence.gb")
-    ax, _ = graphic_record.plot(figure_width=10)
+    ax, _ = graphic_record.plot(figure_width=10, strand_in_label_threshold=7)
 
 .. raw:: html
 
@@ -158,8 +158,12 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
     </p>
 
-The class ``BiopythonTranslator`` determines how the genbank information is transformed into graphical features.
-It enables to chose which categories of features to plot, the color of the different features.
+The class ``BiopythonTranslator`` determines how the genbank information is
+transformed into graphical features. It enables to chose which categories of
+features to plot, the color of the different features.
+
+Note here the use of ``strand_in_label_threshold=5`` to indicate the strand with
+an arrow in the annotation text for every feature less than ~5 pixels in width.
 
 Displaying the features along with other plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,7 +183,7 @@ other sequences statistics, such as the local GC content:
     # Parse the genbank file, plot annotations
     record = SeqIO.read("example_sequence.gb", "genbank")
     graphic_record = BiopythonTranslator().translate_record(record)
-    ax, levels = graphic_record.plot()
+    ax, levels = graphic_record.plot(strand_in_label_threshold=5)
     graphic_record.plot(ax=ax1, with_ruler=False)
 
     # Plot the local GC content
