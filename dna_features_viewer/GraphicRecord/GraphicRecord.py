@@ -56,6 +56,11 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         boxes will be drawn unless the features declare a box_color.
         If "auto", a color (clearer version of the feature's color) will be
         computed, for all features also declaring their box_color as "auto".
+
+      default_elevate_outline_annotations
+        Value to use for elevate_outline_annotations when no specific value is
+        given at ``graphic_record.plot(...)`` time. Set to true to have all
+        text annotations appears above all features, or false else.
     """
     
     default_font_family = None

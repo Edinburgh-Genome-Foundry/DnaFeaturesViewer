@@ -117,6 +117,8 @@ class CircularGraphicRecord(GraphicRecord):
     def plot_feature(self, ax, feature, level):
         """Plot an ArrowWedge representing the feature at the giben height
         level.
+
+
         """
         a_start = self.position_to_angle(feature.start)
         a_end = self.position_to_angle(feature.end)
@@ -161,7 +163,7 @@ class CircularGraphicRecord(GraphicRecord):
         return min(0.25, 3.0 * self.radius / (1.0 + max_annotations_level))
 
     def compute_padding(self, ax):
+        ""
         ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
         xmin, xmax = ax.get_xlim()
-        result = self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)
         return 2 * self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)

@@ -47,7 +47,11 @@ class ArrowWedge(mpatches.Wedge):
         self._recompute_path()
 
     def _recompute_path(self):
-        """Recompute the full path forming the "tick" arrowed wedge"""
+        """Recompute the full path forming the "tick" arrowed wedge
+        
+        This method overwrites "mpatches.Wedge._recompute_path" in the
+        super-class.
+        """
 
         if self.direction not in [-1, +1]:
             return mpatches.Wedge._recompute_path(self)

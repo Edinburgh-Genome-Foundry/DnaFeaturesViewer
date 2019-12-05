@@ -49,10 +49,9 @@ def get_text_box(text, margin=0):
     """
     renderer = text.axes.figure.canvas.get_renderer()
     bbox = text.get_window_extent(renderer)  # bounding box
-    bbox_data = bbox
-    x1, y1, x2, y2 = bbox_data.get_points().flatten()
-    bbox_data = bbox.transformed(text.axes.transData.inverted())
-    x1, _, x2, _ = bbox_data.get_points().flatten()
+    __x1, y1, __x2, y2 = bbox.get_points().flatten()
+    bbox = bbox.transformed(text.axes.transData.inverted())
+    x1, _, x2, _ = bbox.get_points().flatten()
     return [x1, y1, x2, y2]
 
 
@@ -60,7 +59,6 @@ class MatplotlibPlottableMixin:
     """Class mixin for matplotlib-related methods."""
 
     default_elevate_outline_annotations = False
-    min_linear_arrow_size_inch = 0.15
 
     def initialize_ax(self, ax, draw_line, with_ruler, ruler_color=None):
         """Initialize the ax: remove axis, draw a horizontal line, etc.
@@ -104,6 +102,26 @@ class MatplotlibPlottableMixin:
         """Prettify the figure with some last changes.
         
         Changes include redefining y-bounds and figure height.
+
+        Parameters
+        ==========
+        ax
+          ax on which the record was plotted
+        
+        features_levels
+          
+        annotations_max_level
+          Number indicating to the method the maximum height for an
+          annotation, so the method can set ymax accordingly
+
+        auto_figure_height
+          If true, the figure'height will be automatically re-set to a nice
+          value (counting ~0.4inch per level in the figure).
+
+        ideal_yspan
+          if provided, can help the method select a better ymax to make sure
+          all constraints fit.
+
         """
 
         # Compute the "natural" ymax
@@ -111,11 +129,6 @@ class MatplotlibPlottableMixin:
         features_ymax = self.feature_level_height * (features_levels + 1)
         annotations_ymax = annotation_height * annotations_max_level
         ymax = features_ymax + annotations_ymax
-        # ymax = self.feature_level_height * (
-        #     features_levels + 1
-        # ) + annotation_height * (
-        #     annotations_max_level + (annotations_max_level > 0)
-        # )
         ymin = -1
 
         # ymax could be even bigger if a "ideal_yspan" has been set.
@@ -130,7 +143,8 @@ class MatplotlibPlottableMixin:
         return ideal_yspan / (ymax - ymin)
 
     @staticmethod
-    def _get_ax_width(ax, unit="inches"):
+    def _get_ax_width(ax, unit="inch"):
+        """Return the ax's width in 'inches' or 'pixel'."""
         transform = ax.figure.dpi_scale_trans.inverted()
         bbox = ax.get_window_extent().transformed(transform)
         width = bbox.width
@@ -282,8 +296,39 @@ class MatplotlibPlottableMixin:
         max_label_length,
         indicate_strand_in_label=False,
     ):
+        """"Place an annotation in the figure. Decide on inline vs. outline.
+        
+        Parameters
+        ----------
+
+        feature
+          Graphic feature to place in the figure
+        
+        ax
+          Matplotlib ax in which to place the feature.
+        
+        level
+          level at which the annotation should be placed
+          
+        annotate_inline
+          If true, the plotter will attempt to annotate inline, and fall back
+          to outline annotation.
+
+        max_line_length
+          If an annotation label's length exceeds this number the label will
+          wrap over several lines.
+
+        max_label_length,
+          If an annotation label's length exceeds this number the label will
+          be cut with an ellipsis (...).
+
+        indicate_strand_in_label
+          If True, then the label will be represented as "<= label" or
+          "label =>" with an arrow representing the strand.
+        """
         padding = self.compute_padding(ax)
         if annotate_inline:
+            # FIRST ATTEMPT TO ANNOTATE INSIDE THE FEATURE. CHECK FOR OVERFLOW
             text, overflowing, lines, (x1, x2), height = self.annotate_feature(
                 ax=ax,
                 feature=feature,
@@ -294,7 +339,8 @@ class MatplotlibPlottableMixin:
                 max_line_length=max_line_length,
                 indicate_strand_in_label=indicate_strand_in_label,
             )
-
+            
+            # IF OVERFLOW, REMOVE THE TEXT AND PLACE IT AGAIN, OUTLINE.
             if overflowing:
                 text.remove()
                 text, _, lines, (x1, x2), height = self.annotate_feature(
@@ -361,6 +407,9 @@ class MatplotlibPlottableMixin:
           All features and annotations will be pushed up by "level_offset". Can
           be useful when plotting several sets of features successively on a
           same ax.
+        
+        elevate_outline_annotations
+          If true, every 
 
         x_lim
           Horizontal axis limits to be set at the end.
@@ -399,6 +448,10 @@ class MatplotlibPlottableMixin:
         bbox = ax.get_window_extent(renderer)
         ax_height = bbox.height
         ideal_yspan = 0
+        
+        # sorting features from larger to smaller to make smaller features
+        # appear "on top" of smaller ones, in case it happens. May be useless
+        # now.
         sorted_features_levels = sorted(
             features_levels.items(), key=lambda o: -o[0].length
         )
@@ -425,6 +478,11 @@ class MatplotlibPlottableMixin:
             feature_ideal_span = 0.4 * (ax_height / line_height)
             ideal_yspan = max(ideal_yspan, feature_ideal_span)
             if overflowing or not annotate_inline:
+                # trick here: we are representing text annotations as
+                # GraphicFeatures so we can place them using
+                # compute_features_levels().
+                # We are also storing all the info necessary for label plotting
+                # in these pseudo-graphic-features.
                 overflowing_annotations.append(
                     GraphicFeature(
                         start=x1,
@@ -437,6 +495,11 @@ class MatplotlibPlottableMixin:
                         label_link_color=feature.label_link_color,
                     )
                 )
+        
+        # There are two ways to plot annotations: evelated, all above all the
+        # graphic feature. Or at the same levels as the graphic features (
+        # every annotation above its respective feature, but some annotations
+        # can be below some features).
         if elevate_outline_annotations:
             annotations_levels = compute_features_levels(
                 overflowing_annotations
