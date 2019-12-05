@@ -28,6 +28,6 @@ translator = BiopythonTranslator(
 )
 translator.max_line_length = 15
 graphic_record = translator.translate_record(record)
-ax, _ = graphic_record.plot(figure_width=8)
+ax, _ = graphic_record.plot(figure_width=8, strand_in_label_threshold=7)
 ax.figure.savefig("translator_with_custom_colors.png", bbox_inches="tight")
 

@@ -28,7 +28,7 @@ graphic_record = translator.translate_record(record)
 
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
 ax, levels = graphic_record.plot()
-graphic_record.plot(ax=ax1, with_ruler=False)
+graphic_record.plot(ax=ax1, with_ruler=False, strand_in_label_threshold=4)
 plot_local_gc_content(record, window_size=50, ax=ax2)
 
 fig.tight_layout()  # Resize the figure to the right height

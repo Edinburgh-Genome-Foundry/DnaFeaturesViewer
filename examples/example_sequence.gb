@@ -9,23 +9,23 @@ SOURCE      .
 FEATURES             Location/Qualifiers
      restriction_site3686..3693
                      /label="AarI site"
-     restriction_site568..576
+     restriction_site950..957
                      /label="BamHI site"
                      /note="Remark: I really like BamHI"
      CDS             complement(3213..4163)
                      /label="Gene aaCI"
-     restriction_site1368..1376
+     restriction_site4400..4406
                      /label="EcorI site"
                      /note="Site added because I like EcoRI"
-     restriction_site958..966
+     restriction_site1250..1257
                      /label="AarI site"
      CDS             1411..1802
                      /label="Gene barK"
-     restriction_site2168..2176
+     restriction_site2800..2806
                      /label="BamHI site"
-     restriction_site2886..2892
+     restriction_site200..206
                      /label="EcorI site"
-     restriction_site4486..4492
+     restriction_sitecomplement(2700..2707)
                      /label="AarI site"
      CDS             1835..2551
                      /label="Gene kanR"
@@ -33,7 +33,7 @@ FEATURES             Location/Qualifiers
      CDS             complement(333..1193)
                      /label="Gene aaCI"
      promoter        1805..1834
-                     /label="kanR promoter"
+                     /label="promoter"
      terminator      2552..2602
                      /label="kanR terminator"
 ORIGIN
