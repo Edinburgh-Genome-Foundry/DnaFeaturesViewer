@@ -135,15 +135,15 @@
           <div class="content" role="main">
             
   <h1>Source code for dna_features_viewer.GraphicRecord.GraphicRecord</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">textwrap</span>
+<span></span><span class="kn">from</span> <span class="nn">..biotools</span> <span class="k">import</span> <span class="n">find_narrowest_text_wrap</span>
 
 <span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
 <span class="kn">from</span> <span class="nn">Bio.SeqRecord</span> <span class="k">import</span> <span class="n">SeqRecord</span>
 <span class="kn">from</span> <span class="nn">Bio.SeqFeature</span> <span class="k">import</span> <span class="n">FeatureLocation</span><span class="p">,</span> <span class="n">SeqFeature</span>
 <span class="kn">from</span> <span class="nn">Bio.Alphabet</span> <span class="k">import</span> <span class="n">DNAAlphabet</span>
 
-<span class="kn">from</span> <span class="nn">.matplotlib_plots</span> <span class="k">import</span> <span class="n">MatplotlibPlottableMixin</span>
-<span class="kn">from</span> <span class="nn">.bokeh_plots</span> <span class="k">import</span> <span class="n">BokehPlottableMixin</span>
+<span class="kn">from</span> <span class="nn">.MatplotlibPlottableMixin</span> <span class="k">import</span> <span class="n">MatplotlibPlottableMixin</span>
+<span class="kn">from</span> <span class="nn">.BokehPlottableMixin</span> <span class="k">import</span> <span class="n">BokehPlottableMixin</span>
 
 
 <div class="viewcode-block" id="GraphicRecord"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.GraphicRecord">[docs]</a><span class="k">class</span> <span class="nc">GraphicRecord</span><span class="p">(</span><span class="n">MatplotlibPlottableMixin</span><span class="p">,</span> <span class="n">BokehPlottableMixin</span><span class="p">):</span>
@@ -193,11 +193,17 @@
 <span class="sd">        boxes will be drawn unless the features declare a box_color.</span>
 <span class="sd">        If &quot;auto&quot;, a color (clearer version of the feature&#39;s color) will be</span>
 <span class="sd">        computed, for all features also declaring their box_color as &quot;auto&quot;.</span>
+
+<span class="sd">      default_elevate_outline_annotations</span>
+<span class="sd">        Value to use for elevate_outline_annotations when no specific value is</span>
+<span class="sd">        given at ``graphic_record.plot(...)`` time. Set to true to have all</span>
+<span class="sd">        text annotations appears above all features, or false else.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">default_font_family</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">default_ruler_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
     <span class="n">default_box_color</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -249,7 +255,7 @@
 
     <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
         <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">window</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;out-of-bound cropping&quot;</span><span class="p">)</span>
         <span class="n">new_features</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
@@ -268,8 +274,9 @@
 <div class="viewcode-block" id="GraphicRecord.determine_annotation_height"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.GraphicRecord.determine_annotation_height">[docs]</a>    <span class="k">def</span> <span class="nf">determine_annotation_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;By default the ideal annotation level height is the same as the</span>
 <span class="sd">        feature_level_height.&quot;&quot;&quot;</span>
-        <span class="c1"># Improve me: ideally, annotation width would be linked to the height</span>
-        <span class="c1"># of one line of text, so dependent on font size and ax height/span.</span>
+        <span class="c1"># TODO: Improve me! ideally, annotation width would be linked to the </span>
+        <span class="c1"># height of one line of text, so dependent on font size and ax</span>
+        <span class="c1"># height/span.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span></div>
 
 <div class="viewcode-block" id="GraphicRecord.coordinates_in_plot"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.GraphicRecord.coordinates_in_plot">[docs]</a>    <span class="k">def</span> <span class="nf">coordinates_in_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
@@ -303,13 +310,14 @@
     <span class="k">def</span> <span class="nf">_format_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">max_label_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_line_length</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_label_length</span><span class="p">:</span>
             <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[:</span> <span class="n">max_label_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;…&quot;</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_line_length</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">find_narrowest_text_wrap</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
     
     <span class="k">def</span> <span class="nf">compute_padding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">ax_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">())</span><span class="o">.</span><span class="n">width</span>
-        <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="n">xmax</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

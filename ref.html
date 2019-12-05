@@ -162,7 +162,7 @@
 <h2>BiopythonTranslator<a class="headerlink" href="#biopythontranslator" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dna_features_viewer.BiopythonTranslator">
-<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">BiopythonTranslator</code><span class="sig-paren">(</span><em class="sig-param">features_filters=()</em>, <em class="sig-param">features_properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">BiopythonTranslator</code><span class="sig-paren">(</span><em class="sig-param">features_filters=()</em>, <em class="sig-param">features_properties=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator" title="Permalink to this definition">¶</a></dt>
 <dd><p>A translator from SeqRecords to dna_features_viewer GraphicRecord.</p>
 <p>This can be subclassed to create custom “themes” (see the example
 <code class="docutils literal notranslate"><span class="pre">custom_biopython_translator.py</span></code> in the docs).</p>
@@ -199,12 +199,6 @@ This only works if you haven’t redefined <code class="docutils literal notrans
 <tr class="row-odd"><td><p><strong>ignored_features_types</strong></p></td>
 <td><p>A list or tuple of strings indicating all the feature types that should always be ignored (i.e. not included in the graphic record) by the translator</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>max_label_length</strong></p></td>
-<td><p>Number of characters above which the labels will be printed cut and ended with an ellipsis “…”. This is to prevent extra-long labels from polluting the whole plots.</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>max_line_length</strong></p></td>
-<td><p>Feature labels with a number of characters above this number will be wrapped on 2 or more lines.</p></td>
-</tr>
 <tr class="row-even"><td><p><strong>label_fields</strong></p></td>
 <td><p>This list of strings provides the order in which the different attributes of a Genbank feature will be considered, when automatically determining the feature label. For instance if the list is [“label”, “source”, “locus_tag”] and a feature has no label but has a “source”, the “source” will be displayed in the plots.</p></td>
 </tr>
@@ -212,19 +206,19 @@ This only works if you haven’t redefined <code class="docutils literal notrans
 </table>
 <dl class="method">
 <dt id="dna_features_viewer.BiopythonTranslator.compute_feature_box_color">
-<code class="sig-name descname">compute_feature_box_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_color" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_feature_box_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a box_color for this feature.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth">
-<code class="sig-name descname">compute_feature_box_linewidth</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_linewidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_feature_box_linewidth</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_box_linewidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a box_linewidth for this feature.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dna_features_viewer.BiopythonTranslator.compute_feature_color">
-<code class="sig-name descname">compute_feature_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_color" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_feature_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a color for this feature.</p>
 <p>If the feature has a <code class="docutils literal notranslate"><span class="pre">color</span></code> qualifier it will be used. Otherwise,
 the classe’s <code class="docutils literal notranslate"><span class="pre">default_feature_color</span></code> is used.</p>
@@ -234,40 +228,40 @@ and overwrite this method.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.BiopythonTranslator.compute_feature_fontdict">
-<code class="sig-name descname">compute_feature_fontdict</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_fontdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_fontdict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_feature_fontdict</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_fontdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_fontdict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a font dict for this feature.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="dna_features_viewer.BiopythonTranslator.compute_feature_html">
-<code class="sig-name descname">compute_feature_html</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.compute_feature_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_html" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_feature_html</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_html" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the ‘label’ of the feature.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.BiopythonTranslator.translate_feature">
-<code class="sig-name descname">translate_feature</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.translate_feature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Translate a Biopython feature into a Dna Features Viewer feature.</p>
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_label">
+<code class="sig-name descname">compute_feature_label</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the label of the feature.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dna_features_viewer.BiopythonTranslator.translate_record">
-<code class="sig-name descname">translate_record</code><span class="sig-paren">(</span><em class="sig-param">record</em>, <em class="sig-param">record_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator.html#BiopythonTranslator.translate_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.translate_record" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new GraphicRecord from a BioPython Record object.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>record</strong></p>
-<blockquote>
-<div><p>A BioPython Record object or the path to a Genbank file.</p>
-</div></blockquote>
-<p><strong>record_class</strong></p>
-<blockquote>
-<div><p>The graphic record class to use, e.g. GraphicRecord (default) or
-CircularGraphicRecord. Strings ‘circular’ and ‘linear’ can also be
-provided.</p>
-</div></blockquote>
-</dd>
-</dl>
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_label_link_color">
+<code class="sig-name descname">compute_feature_label_link_color</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_label_link_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_label_link_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the color of the line linking the label to its feature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_feature_linewidth">
+<code class="sig-name descname">compute_feature_linewidth</code><span class="sig-paren">(</span><em class="sig-param">feature</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_feature_linewidth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_feature_linewidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the edge width of the feature’s arrow/rectangle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.BiopythonTranslator.compute_filtered_features">
+<code class="sig-name descname">compute_filtered_features</code><span class="sig-paren">(</span><em class="sig-param">features</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/BiopythonTranslator/BiopythonTranslator.html#BiopythonTranslator.compute_filtered_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.BiopythonTranslator.compute_filtered_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of features minus the ignored ones.</p>
+<p>By the method keeps any feature whose type is not in
+ignored_features_types and for which all filter(f) pass</p>
 </dd></dl>
 
 </dd></dl>
@@ -320,18 +314,18 @@ space between two labels or between a label and the borders of a feature.</p>
 <p class="rubric">Attributes</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 95%" />
+<col style="width: 3%" />
+<col style="width: 97%" />
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>default_font_family</strong></p></td>
-<td><p>Default font to use for a feature that doesn’t declare a font.  default_ruler_color Default ruler color to use when no color is given at plot() time.  default_box_color Default box color for non-inline annotations. If set to None, no boxes will be drawn unless the features declare a box_color. If “auto”, a color (clearer version of the feature’s color) will be computed, for all features also declaring their box_color as “auto”.</p></td>
+<td><p>Default font to use for a feature that doesn’t declare a font.  default_ruler_color Default ruler color to use when no color is given at plot() time.  default_box_color Default box color for non-inline annotations. If set to None, no boxes will be drawn unless the features declare a box_color. If “auto”, a color (clearer version of the feature’s color) will be computed, for all features also declaring their box_color as “auto”.  default_elevate_outline_annotations Value to use for elevate_outline_annotations when no specific value is given at <code class="docutils literal notranslate"><span class="pre">graphic_record.plot(...)</span></code> time. Set to true to have all text annotations appears above all features, or false else.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.annotate_feature">
-<code class="sig-name descname">annotate_feature</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">feature</em>, <em class="sig-param">level</em>, <em class="sig-param">inline=False</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">padding=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.annotate_feature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate_feature</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">feature</em>, <em class="sig-param">level</em>, <em class="sig-param">inline=False</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">padding=0</em>, <em class="sig-param">indicate_strand_in_label=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.annotate_feature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Matplotlib Text with the feature’s label.</p>
 <p>The x-coordinates of the text are determined by the feature’s
 <cite>x_center</cite> while the y-coordinates are determined by the <cite>level</cite>.</p>
@@ -353,7 +347,7 @@ and white on dark backgrounds.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.bokeh_feature_patch">
-<code class="sig-name descname">bokeh_feature_patch</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">end</em>, <em class="sig-param">strand</em>, <em class="sig-param">width=0.3</em>, <em class="sig-param">level=0</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.bokeh_feature_patch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bokeh_feature_patch</code><span class="sig-paren">(</span><em class="sig-param">start</em>, <em class="sig-param">end</em>, <em class="sig-param">strand</em>, <em class="sig-param">figure_width=5</em>, <em class="sig-param">width=0.4</em>, <em class="sig-param">level=0</em>, <em class="sig-param">arrow_width_inches=0.05</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.bokeh_feature_patch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a dict with points coordinates of a Bokeh Feature arrow.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -378,7 +372,32 @@ feature_level_height.</p>
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.finalize_ax">
 <code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">ideal_yspan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
-<dd><p>Redefine y-bounds and figure height.</p>
+<dd><p>Prettify the figure with some last changes.</p>
+<p>Changes include redefining y-bounds and figure height.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ax</strong></p>
+<blockquote>
+<div><p>ax on which the record was plotted</p>
+</div></blockquote>
+<p><strong>features_levels</strong></p>
+<p><strong>annotations_max_level</strong></p>
+<blockquote>
+<div><p>Number indicating to the method the maximum height for an
+annotation, so the method can set ymax accordingly</p>
+</div></blockquote>
+<p><strong>auto_figure_height</strong></p>
+<blockquote>
+<div><p>If true, the figure’height will be automatically re-set to a nice
+value (counting ~0.4inch per level in the figure).</p>
+</div></blockquote>
+<p><strong>ideal_yspan</strong></p>
+<blockquote>
+<div><p>if provided, can help the method select a better ymax to make sure
+all constraints fit.</p>
+</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -400,8 +419,50 @@ feature_level_height.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.place_annotation">
+<code class="sig-name descname">place_annotation</code><span class="sig-paren">(</span><em class="sig-param">feature</em>, <em class="sig-param">ax</em>, <em class="sig-param">level</em>, <em class="sig-param">annotate_inline</em>, <em class="sig-param">max_line_length</em>, <em class="sig-param">max_label_length</em>, <em class="sig-param">indicate_strand_in_label=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.place_annotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>“Place an annotation in the figure. Decide on inline vs. outline.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>feature</strong></p>
+<blockquote>
+<div><p>Graphic feature to place in the figure</p>
+</div></blockquote>
+<p><strong>ax</strong></p>
+<blockquote>
+<div><p>Matplotlib ax in which to place the feature.</p>
+</div></blockquote>
+<p><strong>level</strong></p>
+<blockquote>
+<div><p>level at which the annotation should be placed</p>
+</div></blockquote>
+<p><strong>annotate_inline</strong></p>
+<blockquote>
+<div><p>If true, the plotter will attempt to annotate inline, and fall back
+to outline annotation.</p>
+</div></blockquote>
+<p><strong>max_line_length</strong></p>
+<blockquote>
+<div><p>If an annotation label’s length exceeds this number the label will
+wrap over several lines.</p>
+</div></blockquote>
+<p><strong>max_label_length,</strong></p>
+<blockquote>
+<div><p>If an annotation label’s length exceeds this number the label will
+be cut with an ellipsis (…).</p>
+</div></blockquote>
+<p><strong>indicate_strand_in_label</strong></p>
+<blockquote>
+<div><p>If True, then the label will be represented as “&lt;= label” or
+“label =&gt;” with an arrow representing the strand.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">figure_width=8</em>, <em class="sig-param">draw_line=True</em>, <em class="sig-param">with_ruler=True</em>, <em class="sig-param">ruler_color=None</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">annotate_inline=True</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">level_offset=0</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">figure_height=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">figure_width=8</em>, <em class="sig-param">draw_line=True</em>, <em class="sig-param">with_ruler=True</em>, <em class="sig-param">ruler_color=None</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">annotate_inline=True</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">level_offset=0</em>, <em class="sig-param">strand_in_label_threshold='default'</em>, <em class="sig-param">elevate_outline_annotations='default'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">figure_height=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot all the features in the same Matplotlib ax</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -439,6 +500,17 @@ corresponding feature if there is sufficient space.</p>
 <div><p>All features and annotations will be pushed up by “level_offset”. Can
 be useful when plotting several sets of features successively on a
 same ax.</p>
+</div></blockquote>
+<p><strong>elevate_outline_annotations</strong></p>
+<blockquote>
+<div><p>If true, every text annotation will be above every feature. If false,
+text annotations will be as close as possible to the features.</p>
+</div></blockquote>
+<p><strong>strand_in_label_pixel_threshold</strong></p>
+<blockquote>
+<div><p>Number N such that, when provided, every feature with a graphical
+width in pixels below N will have its strand indicated in the label
+by an a left/right arrow</p>
 </div></blockquote>
 <p><strong>x_lim</strong></p>
 <blockquote>
@@ -656,7 +728,7 @@ level.</p>
 <h2>GraphicFeature<a class="headerlink" href="#graphicfeature" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dna_features_viewer.GraphicFeature">
-<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicFeature</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">strand=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">color='#000080'</em>, <em class="sig-param">thickness=14</em>, <em class="sig-param">linewidth=1.0</em>, <em class="sig-param">linecolor='#000000'</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">open_left=False</em>, <em class="sig-param">open_right=False</em>, <em class="sig-param">box_linewidth=1</em>, <em class="sig-param">box_color='auto'</em>, <em class="sig-param">**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicFeature</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">strand=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">color='#000080'</em>, <em class="sig-param">thickness=14</em>, <em class="sig-param">linewidth=1.0</em>, <em class="sig-param">linecolor='#000000'</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">open_left=False</em>, <em class="sig-param">open_right=False</em>, <em class="sig-param">box_linewidth=1</em>, <em class="sig-param">box_color='auto'</em>, <em class="sig-param">label_link_color='black'</em>, <em class="sig-param">**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Genetic Feature to be plotted.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -683,6 +755,14 @@ such as “white”, “w”, “#ffffff”, (1,1,1), etc.</p>
 <div><p>Color of the feature’s border, any Matplotlib-compatible format is
 accepted, such as “white”, “w”, “#ffffff”, (1,1,1), etc.</p>
 </div></blockquote>
+<p><strong>linewidth</strong></p>
+<blockquote>
+<div><p>Width of the line (=edge) surrounding the graphic feature, in pixels.</p>
+</div></blockquote>
+<p><strong>thickness</strong></p>
+<blockquote>
+<div><p>Vertical span of the feature</p>
+</div></blockquote>
 <p><strong>box_color</strong></p>
 <blockquote>
 <div><p>Color of the label box. Set to None for no box around the label.
@@ -697,6 +777,27 @@ feature’s color.</p>
 <blockquote>
 <div><p>A Matplotlib fontdict for the font to be used in the label, e.g.
 <code class="docutils literal notranslate"><span class="pre">size=11</span></code>, <code class="docutils literal notranslate"><span class="pre">weight='bold'</span></code>, <code class="docutils literal notranslate"><span class="pre">family='Helvetica'</span></code>, etc.</p>
+</div></blockquote>
+<p><strong>open_left, open_right</strong></p>
+<blockquote>
+<div><p>Set to True if this feature does not end on the right or left because it
+is a cropped version of a bigger feature.</p>
+</div></blockquote>
+<p><strong>box_linewidth</strong></p>
+<blockquote>
+<div><p>Width of the line delimiting the text box when the annotation is outside
+the graphic feature. Set to 0 for no box borders</p>
+</div></blockquote>
+<p><strong>box_color</strong></p>
+<blockquote>
+<div><p>Background color of the annotation’s text box. If left to “auto” the
+color will be a lighter version of the feature’s color.</p>
+</div></blockquote>
+<p><strong>label_link_color</strong></p>
+<blockquote>
+<div><p>Color of the line linking the text annotation to its respective graphic
+feature. Set to auto for the line to automatically be a darker version
+of the feature’s color.</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -723,7 +824,7 @@ None is returned.</p>
 <dl class="method">
 <dt id="dna_features_viewer.GraphicFeature.overlaps_with">
 <code class="sig-name descname">overlaps_with</code><span class="sig-paren">(</span><em class="sig-param">other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature.overlaps_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature.overlaps_with" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return True iff the feature’s location overlaps with feature <cite>other</cite></p>
+<dd><p>Return whether the feature’s location overlaps with feature <cite>other</cite></p>
 </dd></dl>
 
 <dl class="method">
@@ -809,6 +910,21 @@ amino-acids appear in the sequence.</p>
 </div></blockquote>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dna_features_viewer.biotools.find_narrowest_text_wrap">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">find_narrowest_text_wrap</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">max_line_length</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#find_narrowest_text_wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.find_narrowest_text_wrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap the text into a multi-line text minimizing the longest line length.</p>
+<p>This is done by first wrapping the text using max_line_length, then
+attempt new wraps by iteratively decreasing the line_length, as long as the
+number of lines stays the same as with max_line_length.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dna_features_viewer.biotools.load_record">
+<code class="sig-prename descclassname">dna_features_viewer.biotools.</code><code class="sig-name descname">load_record</code><span class="sig-paren">(</span><em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/biotools.html#load_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.biotools.load_record" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a Genbank file</p>
 </dd></dl>
 
 <dl class="function">

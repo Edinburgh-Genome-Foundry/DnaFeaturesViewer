@@ -145,7 +145,7 @@
 <a class="reference external image-reference" href="https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master"><img alt="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" src="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" /></a>
 <p>DNA Features Viewer (full documentation <a class="reference external" href="https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/">here</a>) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:</p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
 </p><p>Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -183,11 +183,11 @@
 </pre></div>
 </div>
 <p align="center">
-<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
 </p><p>If we replace <cite>GraphicRecord</cite> by <cite>CircularGraphicRecord</cite> in the code above we obtain
 a circular plot of the construct:</p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png" width="443">
+<img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand_circular.png" width="443">
 </p><p>It is also possible to generate interactive (browser-based) plots by using <code class="docutils literal notranslate"><span class="pre">plot_with_bokeh</span></code> instead of <code class="docutils literal notranslate"><span class="pre">plot</span></code>:</p>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/plot_with_bokeh.png" width="800">
@@ -335,7 +335,7 @@ instead of the default <code class="docutils literal notranslate"><span class="p
 </p></div>
 <div class="section" id="geneblocks">
 <h3>GeneBlocks<a class="headerlink" href="#geneblocks" title="Permalink to this headline">¶</a></h3>
-<p>GeneBlocks computes “diffs” of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence’s features.</p>
+<p><a class="reference external" href="https://github.com/Edinburgh-Genome-Foundry/Geneblocks">GeneBlocks</a> is a Python library which computes “diffs” of constructs two sequences, indicating all the changes (additions, deletions, mutations). It uses DNA Features Viewer to display these changesx along with the other sequence’s features.</p>
 <p align="center">
 <img alt="DNA Chisel algorithm" title="DNA Chisel" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/GeneBlocks/master/examples/diff_blocks.png" width="800">
 <br />

@@ -135,9 +135,11 @@
           <div class="content" role="main">
             
   <h1>Source code for dna_features_viewer.biotools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
+<span></span><span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="k">import</span> <span class="n">Seq</span>
 <span class="kn">from</span> <span class="nn">Bio.SeqFeature</span> <span class="k">import</span> <span class="n">SeqFeature</span><span class="p">,</span> <span class="n">FeatureLocation</span>
 <span class="kn">from</span> <span class="nn">Bio.PDB.Polypeptide</span> <span class="k">import</span> <span class="n">aa1</span><span class="p">,</span> <span class="n">aa3</span>
+<span class="kn">from</span> <span class="nn">Bio</span> <span class="k">import</span> <span class="n">SeqIO</span>
 
 
 <div class="viewcode-block" id="complement"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.complement">[docs]</a><span class="k">def</span> <span class="nf">complement</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">):</span>
@@ -216,6 +218,11 @@
     <span class="k">return</span> <span class="n">translation</span></div>
 
 
+<div class="viewcode-block" id="load_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.load_record">[docs]</a><span class="k">def</span> <span class="nf">load_record</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load a Genbank file &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="annotate_biopython_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.annotate_biopython_record">[docs]</a><span class="k">def</span> <span class="nf">annotate_biopython_record</span><span class="p">(</span>
     <span class="n">seqrecord</span><span class="p">,</span>
     <span class="n">location</span><span class="o">=</span><span class="s2">&quot;full&quot;</span><span class="p">,</span>
@@ -254,6 +261,27 @@
             <span class="nb">type</span><span class="o">=</span><span class="n">feature_type</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="find_narrowest_text_wrap"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.find_narrowest_text_wrap">[docs]</a><span class="k">def</span> <span class="nf">find_narrowest_text_wrap</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrap the text into a multi-line text minimizing the longest line length.</span>
+
+<span class="sd">    This is done by first wrapping the text using max_line_length, then</span>
+<span class="sd">    attempt new wraps by iteratively decreasing the line_length, as long as the</span>
+<span class="sd">    number of lines stays the same as with max_line_length.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">narrowest_wrap</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">)</span>
+    <span class="n">narrowest_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">narrowest_wrap</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">line_length</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_line_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">wrap</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">line_length</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wrap</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">narrowest_wrap</span><span class="p">):</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">wrap</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="n">narrowest_width</span><span class="p">:</span>
+                <span class="n">narrowest_wrap</span> <span class="o">=</span> <span class="n">wrap</span>
+                <span class="n">narrowest_width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">narrowest_wrap</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

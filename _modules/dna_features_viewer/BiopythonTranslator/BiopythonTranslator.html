@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>dna_features_viewer.BiopythonTranslator.BiopythonTranslator</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+      <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#more-biology-software">DNA Features Viewer</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../ref.html" class="reference internal ">API Reference</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../tips.html" class="reference internal ">Tips</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>dna_features_viewer.BiopythonTranslator.BiopythonTranslator</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for dna_features_viewer.BiopythonTranslator.BiopythonTranslator</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.BiopythonTranslatorBase</span> <span class="k">import</span> <span class="n">BiopythonTranslatorBase</span>
+
+
+<div class="viewcode-block" id="BiopythonTranslator"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator">[docs]</a><span class="k">class</span> <span class="nc">BiopythonTranslator</span><span class="p">(</span><span class="n">BiopythonTranslatorBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A translator from SeqRecords to dna_features_viewer GraphicRecord.</span>
+
+<span class="sd">    This can be subclassed to create custom &quot;themes&quot; (see the example</span>
+<span class="sd">    ``custom_biopython_translator.py`` in the docs).</span>
+
+<span class="sd">    This class is meant to be customized by subclassing and changing the</span>
+<span class="sd">    methods (``compute_feature_label``, etc.) and/or the attributes</span>
+<span class="sd">    (``default_feature_color`` etc).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    default_feature_color = &quot;#7245dc&quot;</span>
+<span class="sd">    graphic_record_parameters</span>
+<span class="sd">      Dictionnary containing keyword arguments that will be passed to the</span>
+<span class="sd">      (Circular)GraphicRecord constructor</span>
+
+<span class="sd">    ignored_features_types</span>
+<span class="sd">      A list or tuple of strings indicating all the feature types that should</span>
+<span class="sd">      always be ignored (i.e. not included in the graphic record) by the</span>
+<span class="sd">      translator</span>
+
+<span class="sd">    label_fields</span>
+<span class="sd">      This list of strings provides the order in which the different</span>
+<span class="sd">      attributes of a Genbank feature will be considered, when automatically</span>
+<span class="sd">      determining the feature label. For instance if the list is</span>
+<span class="sd">      [&quot;label&quot;, &quot;source&quot;, &quot;locus_tag&quot;] and a feature has no label but has a</span>
+<span class="sd">      &quot;source&quot;, the &quot;source&quot; will be displayed in the plots.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    features_filters</span>
+<span class="sd">      List of filters (some_biopython_feature) =&gt; True/False.</span>
+<span class="sd">      Only features passing all the filters are kept.</span>
+<span class="sd">      This only works if you haven&#39;t redefined ``compute_filtered_features``</span>
+
+<span class="sd">    features_properties</span>
+<span class="sd">      A function (feature)=&gt; properties_dict</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">default_feature_color</span> <span class="o">=</span> <span class="s2">&quot;#7245dc&quot;</span>
+    <span class="n">ignored_features_types</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">label_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;locus_tag&quot;</span><span class="p">,</span> <span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_filters</span><span class="o">=</span><span class="p">(),</span> <span class="n">features_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features_filters</span> <span class="o">=</span> <span class="n">features_filters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features_properties</span> <span class="o">=</span> <span class="n">features_properties</span>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_color"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_color">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a color for this feature.</span>
+
+<span class="sd">        If the feature has a ``color`` qualifier it will be used. Otherwise,</span>
+<span class="sd">        the classe&#39;s ``default_feature_color`` is used.</span>
+
+<span class="sd">        To change the behaviour, create a subclass of ``BiopythonTranslator``</span>
+<span class="sd">        and overwrite this method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">color</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_feature_color</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_fontdict"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_fontdict">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_fontdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a font dict for this feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_box_linewidth"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_box_linewidth">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_box_linewidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a box_linewidth for this feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">0.3</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_box_color"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_box_color">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_box_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a box_color for this feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;auto&quot;</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_label_link_color"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_label_link_color">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_label_link_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the color of the line linking the label to its feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;black&quot;</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_filtered_features"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_filtered_features">[docs]</a>    <span class="k">def</span> <span class="nf">compute_filtered_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of features minus the ignored ones.</span>
+<span class="sd">        </span>
+<span class="sd">        By the method keeps any feature whose type is not in</span>
+<span class="sd">        ignored_features_types and for which all filter(f) pass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">f</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">fl</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">fl</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features_filters</span><span class="p">])</span>
+            <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_features_types</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_label"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_label">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the label of the feature.&quot;&quot;&quot;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">label_fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">[</span><span class="n">key</span><span class="p">]):</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">qualifiers</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">label</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_linewidth"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_linewidth">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_linewidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute the edge width of the feature&#39;s arrow/rectangle.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="BiopythonTranslator.compute_feature_html"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_html">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Gets the &#39;label&#39; of the feature.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_feature_label</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>
