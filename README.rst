@@ -20,7 +20,7 @@ DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.
 .. raw:: html
 
     <p align="center">
-    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
     </p>
 
 Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.
@@ -75,7 +75,7 @@ In this first example we define features "by hand":
 .. raw:: html
 
     <p align="center">
-    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand.png" width="500">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
     </p>
 
 
@@ -85,7 +85,7 @@ a circular plot of the construct:
 .. raw:: html
 
     <p align="center">
-    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/by_hand_circular.png" width="443">
+    <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand_circular.png" width="443">
     </p>
 
 It is also possible to generate interactive (browser-based) plots by using ``plot_with_bokeh`` instead of ``plot``:
