@@ -57,6 +57,7 @@ class MatplotlibPlottableMixin:
         annotations_max_level,
         auto_figure_height=False,
         ideal_yspan=None,
+        annotations_are_elevated=True
     ):
         """Prettify the figure with some last changes.
         
@@ -87,7 +88,10 @@ class MatplotlibPlottableMixin:
         annotation_height = self.determine_annotation_height(None)
         features_ymax = self.feature_level_height * (features_levels + 1)
         annotations_ymax = annotation_height * annotations_max_level
-        ymax = features_ymax + annotations_ymax
+        if annotations_are_elevated:
+            ymax = features_ymax + annotations_ymax
+        else:
+            ymax = max(features_ymax, annotations_ymax) + 1
         ymin = -1
 
         # ymax could be even bigger if a "ideal_yspan" has been set.
@@ -501,11 +505,11 @@ class MatplotlibPlottableMixin:
                 feature.data["feature"].x_center, feature.data["feature_level"]
             )
 
-            # PLOT THE LABEL-TO
+            # PLOT THE LABEL-TO-FEATURE LINK
             link_color = feature.label_link_color
             if link_color == "auto":
                 link_color = change_luminosity(feature.color, luminosity=0.2)
-            ax.plot([x, fx], [new_y, fy], c=link_color, lw=0.5, zorder=1)
+            ax.plot([x, fx], [new_y, fy], c=link_color, lw=0.5, zorder=-10)
             labels_data[feature.data["feature"]] = dict(
                 feature_y=fy, annotation_y=new_y
             )
@@ -519,6 +523,7 @@ class MatplotlibPlottableMixin:
             annotations_max_level=max_annotations_level,
             auto_figure_height=auto_figure_height,
             ideal_yspan=ideal_yspan,
+            annotations_are_elevated=elevate_outline_annotations
         )
         return ax, (features_levels, labels_data)
 

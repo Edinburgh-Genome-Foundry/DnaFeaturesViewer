@@ -4,7 +4,7 @@ detail of a sub-segment on the right."""
 from dna_features_viewer import GraphicFeature, GraphicRecord
 import matplotlib.pyplot as plt
 
-record = GraphicRecord(sequence=250*"ATGC", features=[
+record = GraphicRecord(sequence=250 * "ATGC", features=[
     GraphicFeature(start=10, end=20, strand=+1, color="#ffd700",
                    label="Small feature"),
     GraphicFeature(start=20, end=500, strand=+1, color="#ffcccc",
@@ -14,10 +14,10 @@ record = GraphicRecord(sequence=250*"ATGC", features=[
     GraphicFeature(start=600, end=900, strand=+1, color="#ccccff",
                    label="Gene 3")
 ])
-zoom_start, zoom_end = 398, 428 # coordinates of the "detail"
+zoom_start, zoom_end = 398, 428  # coordinates of the "detail"
 cropped_record = record.crop((zoom_start, zoom_end))
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 3))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 2))
 
 # PLOT THE WHOLE SEQUENCE
 

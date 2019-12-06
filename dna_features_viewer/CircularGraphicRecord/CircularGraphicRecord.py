@@ -90,6 +90,7 @@ class CircularGraphicRecord(GraphicRecord):
         annotations_max_level,
         auto_figure_height=False,
         ideal_yspan=None,
+        annotations_are_elevated=True
     ):
         """Final display range and figure dimension tweakings."""
         annotation_height = self.determine_annotation_height(
