@@ -4,6 +4,17 @@ from Bio.SeqFeature import SeqFeature, FeatureLocation
 from Bio.PDB.Polypeptide import aa1, aa3
 from Bio import SeqIO
 
+try:
+    from BCBio import GFF
+except ImportError:
+
+    class GFF:
+        def parse(*a):
+            """Not available. Please install bcbio-gff."""
+            raise ImportError(
+                "Please install the bcbio-gff library to parse GFF data"
+            )
+
 
 def complement(dna_sequence):
     """Return the complement of the DNA sequence.
@@ -83,7 +94,19 @@ def extract_graphical_translation(sequence, location, long_form=False):
 
 def load_record(path):
     """Load a Genbank file """
-    return SeqIO.read(path, "genbank")
+    if isinstance(path, str):
+        # Input is a file path
+        if path.lower().endswith('.gff'):
+            return list(GFF.parse(path))[0]
+        else:
+            return SeqIO.read(path, "genbank")
+    else:
+        # Input is a file-like object
+        try:
+            return SeqIO.read(path, "genbank")
+        except:
+            path.seek(0)
+            return list(GFF.parse(path))[0]
 
 
 def annotate_biopython_record(

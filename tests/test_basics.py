@@ -20,7 +20,7 @@ import numpy as np
 matplotlib.use("Agg")
 
 example_genbank = os.path.join("tests", "data", "example_sequence.gb")
-
+example_gff = os.path.join("tests", "data", "example_record.gff")
 
 def test_by_hand(tmpdir):
     """Test building a GraphicRecord "by hand" """
@@ -249,3 +249,8 @@ def test_BlackBoxlessLabelTranslator(tmpdir):
     ax.figure.tight_layout()
     target_file = os.path.join(str(tmpdir), "from_genbank.png")
     ax.figure.savefig(target_file)
+
+def test_gff():
+    translator = BlackBoxlessLabelTranslator()
+    graphic_record = translator.translate_record(example_gff)
+    assert len(graphic_record.features) == 3

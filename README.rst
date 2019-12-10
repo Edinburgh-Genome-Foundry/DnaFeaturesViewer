@@ -260,6 +260,24 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
 
+Use with GFF files
+------------------
+
+GFF files can be parsed to Biopython records using BCBio (``pip install bcbio-gff``)
+
+.. code:: python
+    
+    from BCBio import GFF
+    records = list(GFF.parse("my_record.gff"))
+
+A GFF file containing a single record can also be directly converted by a Biopython translator (this requires BCBio installed).
+
+.. code:: python
+
+    translator = BiopythonTranslator()
+    graphic_record = translator.translate_record("P0A7B8.gff")
+    
+
 
 Examples in other librairies:
 ------------------------------

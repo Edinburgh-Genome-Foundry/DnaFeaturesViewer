@@ -57,7 +57,7 @@ class MatplotlibPlottableMixin:
         annotations_max_level,
         auto_figure_height=False,
         ideal_yspan=None,
-        annotations_are_elevated=True
+        annotations_are_elevated=True,
     ):
         """Prettify the figure with some last changes.
         
@@ -142,7 +142,9 @@ class MatplotlibPlottableMixin:
             head_length = 0.001
         else:
             width_pixel = self._get_ax_width(ax, unit="pixel")
-            head_length = 0.5 * width_pixel * feature.length / self.sequence_length
+            head_length = (
+                0.5 * width_pixel * feature.length / self.sequence_length
+            )
             head_length = min(head_length, 0.6 * feature.thickness)
 
         arrowstyle = mpatches.ArrowStyle.Simple(
@@ -226,7 +228,7 @@ class MatplotlibPlottableMixin:
             box_color = self.default_box_color
         bbox = None
         if (box_color is not None) and not inline:
-            bg_color = change_luminosity(feature.color, luminosity=0.95)
+            bg_color = change_luminosity(feature.color, min_luminosity=0.95)
             bbox = dict(
                 boxstyle="round",
                 fc=bg_color if box_color == "auto" else box_color,
@@ -302,7 +304,7 @@ class MatplotlibPlottableMixin:
                 max_line_length=max_line_length,
                 indicate_strand_in_label=indicate_strand_in_label,
             )
-            
+
             # IF OVERFLOW, REMOVE THE TEXT AND PLACE IT AGAIN, OUTLINE.
             if overflowing:
                 text.remove()
@@ -334,7 +336,7 @@ class MatplotlibPlottableMixin:
         max_label_length=50,
         max_line_length=30,
         level_offset=0,
-        strand_in_label_threshold='default',
+        strand_in_label_threshold="default",
         elevate_outline_annotations="default",
         x_lim=None,
         figure_height=None,
@@ -422,7 +424,7 @@ class MatplotlibPlottableMixin:
         bbox = ax.get_window_extent(renderer)
         ax_height = bbox.height
         ideal_yspan = 0
-        
+
         # sorting features from larger to smaller to make smaller features
         # appear "on top" of smaller ones, in case it happens. May be useless
         # now.
@@ -469,12 +471,16 @@ class MatplotlibPlottableMixin:
                         label_link_color=feature.label_link_color,
                     )
                 )
-        
+
         # There are two ways to plot annotations: evelated, all above all the
         # graphic feature. Or at the same levels as the graphic features (
         # every annotation above its respective feature, but some annotations
         # can be below some features).
+        
+        
         if elevate_outline_annotations:
+            base_feature = GraphicFeature(start=0, end=self.sequence_length, level=-2, nlines=1, is_base=True)
+            overflowing_annotations.append(base_feature)
             annotations_levels = compute_features_levels(
                 overflowing_annotations
             )
@@ -492,6 +498,8 @@ class MatplotlibPlottableMixin:
         annotation_height = self.determine_annotation_height(max_level)
         labels_data = {}
         for feature, level in annotations_levels.items():
+            if "is_base" in feature.data:
+                continue
             text = feature.data["text"]
             x, y = text.get_position()
             if elevate_outline_annotations:
@@ -523,7 +531,7 @@ class MatplotlibPlottableMixin:
             annotations_max_level=max_annotations_level,
             auto_figure_height=auto_figure_height,
             ideal_yspan=ideal_yspan,
-            annotations_are_elevated=elevate_outline_annotations
+            annotations_are_elevated=elevate_outline_annotations,
         )
         return ax, (features_levels, labels_data)
 
@@ -672,7 +680,9 @@ class MatplotlibPlottableMixin:
                 )
 
 
-def change_luminosity(color, luminosity=None, factor=None):
+def change_luminosity(
+    color, luminosity=None, min_luminosity=None, factor=None
+):
     """Return a version of the color with different luminosity.
 
     Parameters
@@ -693,6 +703,8 @@ def change_luminosity(color, luminosity=None, factor=None):
     h, l, s = colorsys.rgb_to_hls(r, g, b)
     if luminosity is not None:
         new_l = luminosity
+    if min_luminosity is not None:
+        new_l = max(l, min_luminosity)
     else:
         new_l = l ** (-factor)
     return colorsys.hls_to_rgb(h, new_l, s)

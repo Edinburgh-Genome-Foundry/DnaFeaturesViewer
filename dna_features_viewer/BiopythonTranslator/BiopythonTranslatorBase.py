@@ -61,7 +61,7 @@ class BiopythonTranslatorBase:
         ----------
 
         record
-          A BioPython Record object or the path to a Genbank file.
+          A BioPython Record object or the path to a Genbank or a GFF file.
 
         record_class
           The graphic record class to use, e.g. GraphicRecord (default) or
@@ -76,7 +76,7 @@ class BiopythonTranslatorBase:
         if record_class in classes:
             record_class = classes[record_class]
 
-        if isinstance(record, str):
+        if isinstance(record, str) or hasattr(record, 'read'):
             record = load_record(record)
         filtered_features = self.compute_filtered_features(record.features)
         return record_class(
@@ -91,7 +91,7 @@ class BiopythonTranslatorBase:
         )
     
     @classmethod
-    def quick_plot(cls, record, figure_width=12):
+    def quick_class_plot(cls, record, figure_width=12, **kwargs):
         """Allows super quick and dirty plotting of Biopython records.
 
         This is really meant for use in a Jupyter/Ipython notebook with
@@ -100,5 +100,19 @@ class BiopythonTranslatorBase:
         >>> from dna_features_viewer import BiopythonTranslator
         >>> BiopythonTranslator.quick_plot(my_record)
         """
-        ax, _ = cls().translate_record(record).plot(figure_width=figure_width)
+        graphic_record = cls().translate_record(record)
+        ax, _ = graphic_record.plot(figure_width=figure_width, **kwargs)
+        return ax
+    
+    def quick_plot(self, record, figure_width=12, **kwargs):
+        """Allows super quick and dirty plotting of Biopython records.
+
+        This is really meant for use in a Jupyter/Ipython notebook with
+        the "%matplotlib inline" setting.
+
+        >>> from dna_features_viewer import BiopythonTranslator
+        >>> BiopythonTranslator.quick_plot(my_record)
+        """
+        graphic_record = self.translate_record(record)
+        ax, _ = graphic_record.plot(figure_width=figure_width, **kwargs)
         return ax

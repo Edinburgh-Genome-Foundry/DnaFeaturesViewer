@@ -1,0 +1,5 @@
+##gff-version 3
+##sequence-region P12345 1 176
+P12345	ZulkoProt	Chain	1	1	.	.	.	Note=Removed	
+P12345	ZulkoProt	Chain	2	176	.	.	.	ID=PRO_0000148105;Note=bla bla bla bla		
+P12345	ZulkoProt	Chain	157	157	.	.	.	Note=bla bla bla	
