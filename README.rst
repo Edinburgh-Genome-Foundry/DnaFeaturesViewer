@@ -158,14 +158,14 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
     </p>
 
-Note 1: here the use of ``strand_in_label_threshold=5`` to indicate the strand with
-an arrow in the annotation text for every feature less than ~5 pixels in width.
+Note 1: the script uses ``strand_in_label_threshold=7`` to indicate the strand with
+an arrow in the annotation text for every feature less than ~7 pixels in width.
 
 Note 2: The ``BiopythonTranslator`` class determines how the genbank information is
 transformed into graphical features. It enables to chose which categories of
 features to plot, the color of the different features.
 
-Note 3: Note that parsing GFF files requires the BCBio library
+Note 3: parsing GFF files requires the BCBio library
 (``pip install bcbio-gff``). This library also enables to extract Biopython
 records from GFF files containing several records (using ``GFF.parse("records.gff")``).
 
