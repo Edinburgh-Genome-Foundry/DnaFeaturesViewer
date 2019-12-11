@@ -476,10 +476,15 @@ class MatplotlibPlottableMixin:
         # graphic feature. Or at the same levels as the graphic features (
         # every annotation above its respective feature, but some annotations
         # can be below some features).
-        
-        
+
         if elevate_outline_annotations:
-            base_feature = GraphicFeature(start=0, end=self.sequence_length, level=-2, nlines=1, is_base=True)
+            base_feature = GraphicFeature(
+                start=0,
+                end=self.sequence_length,
+                fixed_level=0,
+                nlines=1,
+                is_base=True,
+            )
             overflowing_annotations.append(base_feature)
             annotations_levels = compute_features_levels(
                 overflowing_annotations
@@ -503,7 +508,7 @@ class MatplotlibPlottableMixin:
             text = feature.data["text"]
             x, y = text.get_position()
             if elevate_outline_annotations:
-                new_y = (max_level + 1) * self.feature_level_height + (
+                new_y = (max_level) * self.feature_level_height + (
                     level
                 ) * annotation_height
             else:
@@ -701,12 +706,14 @@ def change_luminosity(
     """
     r, g, b = colorConverter.to_rgb(color)
     h, l, s = colorsys.rgb_to_hls(r, g, b)
+    new_l = l
     if luminosity is not None:
         new_l = luminosity
-    if min_luminosity is not None:
-        new_l = max(l, min_luminosity)
-    else:
+    if factor is not None:
         new_l = l ** (-factor)
+    if min_luminosity is not None:
+        new_l = max(new_l, min_luminosity)
+    
     return colorsys.hls_to_rgb(h, new_l, s)
 
 

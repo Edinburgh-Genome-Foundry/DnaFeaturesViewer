@@ -167,4 +167,4 @@ class CircularGraphicRecord(GraphicRecord):
         ""
         ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
         xmin, xmax = ax.get_xlim()
-        return 2 * self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)
+        return 3 * self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)

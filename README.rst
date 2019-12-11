@@ -161,7 +161,7 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
 Note 1: the script uses ``strand_in_label_threshold=7`` to indicate the strand with
 an arrow in the annotation text for every feature less than ~7 pixels in width.
 
-Note 2: The ``BiopythonTranslator`` class determines how the genbank information is
+Note 2: the ``BiopythonTranslator`` class determines how the genbank information is
 transformed into graphical features. It enables to chose which categories of
 features to plot, the color of the different features.
 

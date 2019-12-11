@@ -47,33 +47,35 @@ def compute_features_levels(features):
     ]
     graph = Graph(features, edges)
     levels = {
-        n: None if "fixed_level" not in n.data else n.data["fixed_level"]
+        n: n.data.get("fixed_level", None)
         for n in graph.nodes
     }
 
     def collision(base_level, node):
         """Return whether the node placed at base_level collides with its
         neighbors in the graph."""
+        line_factor = 0.5
+        nlines = node.data.get("nlines", 1) 
+        node_top = base_level + line_factor * nlines
+        node_bottom = base_level - line_factor * nlines
         for neighbor in graph.neighbors[node]:
             level = levels[neighbor]
             if level is None:
                 continue
-            if "nlines" in neighbor.data:
-                top = math.ceil(level + 0.5 * neighbor.data["nlines"])
-                if level <= base_level < top:
-                    return True
-
-                top = math.ceil(base_level + 0.5 * node.data["nlines"])
-                if base_level <= level < top:
-                    return True
-            else:
-                if level == base_level:
-                    return True
+            nlines = neighbor.data.get("nlines", 1) 
+            neighbor_top = level + line_factor * nlines
+            neighbor_bottom = level - line_factor * nlines
+            up_collision = node_bottom <= neighbor_bottom < node_top
+            down_collision = neighbor_bottom <= node_bottom < neighbor_top
+            if up_collision or down_collision:
+                return True
         return False
 
     for node in sorted(graph.nodes, key=lambda f: -f.length):
+        if levels[node] is not None:
+            continue
         base_level = 0
         while collision(base_level, node):
-            base_level += 1
+            base_level += 0.5
         levels[node] = base_level
     return levels
