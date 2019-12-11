@@ -15,7 +15,7 @@ DNA Features Viewer
    :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
 
 
-DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:
+DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files, or Biopython SeqRecords:
 
 .. raw:: html
 
@@ -23,7 +23,7 @@ DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
     </p>
 
-Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.
+Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation, article figures, or LIMS interfaces.
 
 Installation
 --------------
@@ -141,10 +141,10 @@ This enables for instance to plot an overview of a sequence along with a detaile
     </p>
 
 
-Reading the features from a GenBank file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Reading the features from a GenBank or GFF file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:
+DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record, or directly a GenBank (or GFF) file:
 
 .. code:: python
 
@@ -158,12 +158,18 @@ DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plo
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
     </p>
 
-The class ``BiopythonTranslator`` determines how the genbank information is
+Note 1: here the use of ``strand_in_label_threshold=5`` to indicate the strand with
+an arrow in the annotation text for every feature less than ~5 pixels in width.
+
+Note 2: The ``BiopythonTranslator`` class determines how the genbank information is
 transformed into graphical features. It enables to chose which categories of
 features to plot, the color of the different features.
 
-Note here the use of ``strand_in_label_threshold=5`` to indicate the strand with
-an arrow in the annotation text for every feature less than ~5 pixels in width.
+Note 3: Note that parsing GFF files requires the BCBio library
+(``pip install bcbio-gff``). This library also enables to extract Biopython
+records from GFF files containing several records (using ``GFF.parse("records.gff")``).
+
+
 
 Displaying the features along with other plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -259,24 +265,6 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
-
-Use with GFF files
-------------------
-
-GFF files can be parsed to Biopython records using BCBio (``pip install bcbio-gff``)
-
-.. code:: python
-    
-    from BCBio import GFF
-    records = list(GFF.parse("my_record.gff"))
-
-A GFF file containing a single record can also be directly converted by a Biopython translator (this requires BCBio installed).
-
-.. code:: python
-
-    translator = BiopythonTranslator()
-    graphic_record = translator.translate_record("P0A7B8.gff")
-    
 
 
 Examples in other librairies:
