@@ -51,7 +51,7 @@ class BokehPlottableMixin:
         result.update(kwargs)
         return result
 
-    def plot_with_bokeh(self, figure_width=5):
+    def plot_with_bokeh(self, figure_width=5, figure_height="auto"):
         """Plot the graphic record using Bokeh.
 
         Examples
@@ -70,7 +70,10 @@ class BokehPlottableMixin:
         ax, (features_levels, plot_data) = self.plot(figure_width=figure_width)
         width, height = [int(100 * e) for e in ax.figure.get_size_inches()]
         plt.close(ax.figure)
-        height = int(0.5 * height)
+        if figure_height == "auto":
+            height = int(0.5 * height)
+        else:
+            height = 100 * figure_height
         max_y = max(
             [data["annotation_y"] for f, data in plot_data.items()]
             + list(features_levels.values())

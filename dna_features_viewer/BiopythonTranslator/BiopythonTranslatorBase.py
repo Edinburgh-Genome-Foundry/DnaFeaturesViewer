@@ -39,7 +39,8 @@ class BiopythonTranslatorBase:
             box_linewidth=self.compute_feature_box_linewidth(feature),
             box_color=self.compute_feature_box_color(feature),
             linewidth=self.compute_feature_linewidth(feature),
-            label_link_color=self.compute_feature_label_link_color(feature)
+            label_link_color=self.compute_feature_label_link_color(feature),
+            legend_text=self.compute_feature_legend_text(feature)
         )
         if self.features_properties is not None:
             other_properties = self.features_properties

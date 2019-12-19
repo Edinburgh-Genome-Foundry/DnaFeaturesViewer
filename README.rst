@@ -184,28 +184,22 @@ other sequences statistics, such as the local GC content:
     from Bio import SeqIO
     import numpy as np
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 4), sharex=True)
+    fig, (ax1, ax2) = plt.subplots(
+        2, 1, figsize=(12, 3), sharex=True, gridspec_kw={"height_ratios": [4, 1]}
+    )
 
-    # Parse the genbank file, plot annotations
+    # PLOT THE RECORD MAP
     record = SeqIO.read("example_sequence.gb", "genbank")
     graphic_record = BiopythonTranslator().translate_record(record)
-    ax, levels = graphic_record.plot(strand_in_label_threshold=5)
-    graphic_record.plot(ax=ax1, with_ruler=False)
+    graphic_record.plot(ax=ax1, with_ruler=False, strand_in_label_threshold=4)
 
-    # Plot the local GC content
-    def plot_local_gc_content(record, window_size, ax):
-        gc_content = lambda s: 100.0*len([c for c in s if c in "GC"]) / len(s)
-        yy = [gc_content(record.seq[i:i+window_size])
-              for i in range(len(record.seq)-window_size)]
-        xx = np.arange(len(record.seq)-window_size)+25
-        ax.fill_between(xx, yy, alpha=0.3)
-        ax.set_ylabel("GC(%)")
-
-    plot_local_gc_content(record, window_size=50, ax=ax2)
-
-    # Resize the figure
-    fig.savefig("with_plot.png")
-
+    # PLOT THE LOCAL GC CONTENT (we use 50bp windows)
+    gc = lambda s: 100.0 * len([c for c in s if c in "GC"]) / 50
+    xx = np.arange(len(record.seq) - 50)
+    yy = [gc(record.seq[x : x + 50]) for x in xx]
+    ax2.fill_between(xx + 25, yy, alpha=0.3)
+    ax2.set_ylim(bottom=0)
+    ax2.set_ylabel("GC(%)")
 
 .. raw:: html
 

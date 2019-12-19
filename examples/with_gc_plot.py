@@ -26,8 +26,9 @@ record = SeqIO.read("example_sequence.gb", "genbank")
 translator = BiopythonTranslator()
 graphic_record = translator.translate_record(record)
 
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
-ax, levels = graphic_record.plot()
+fig, (ax1, ax2) = plt.subplots(
+    2, 1, figsize=(10, 3), sharex=True, gridspec_kw={"height_ratios": [4, 1]}
+)
 graphic_record.plot(ax=ax1, with_ruler=False, strand_in_label_threshold=4)
 plot_local_gc_content(record, window_size=50, ax=ax2)
 

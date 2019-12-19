@@ -6,6 +6,7 @@ import numpy
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.ticker import MaxNLocator
+from matplotlib.patches import Patch
 
 from ..biotools import extract_graphical_translation
 from ..compute_features_levels import compute_features_levels
@@ -451,7 +452,9 @@ class MatplotlibPlottableMixin:
                 indicate_strand_in_label=strand_in_label(feature),
             )
             line_height = height / nlines
-            feature_ideal_span = 0.4 * (ax_height / line_height)
+            n_text_lines_in_axis = ax_height / line_height
+            min_y_height = self.min_y_height_of_text_line
+            feature_ideal_span = min_y_height * n_text_lines_in_axis
             ideal_yspan = max(ideal_yspan, feature_ideal_span)
             if overflowing or not annotate_inline:
                 # trick here: we are representing text annotations as
@@ -476,10 +479,10 @@ class MatplotlibPlottableMixin:
         # graphic feature. Or at the same levels as the graphic features (
         # every annotation above its respective feature, but some annotations
         # can be below some features).
-
         if elevate_outline_annotations:
+            
             base_feature = GraphicFeature(
-                start=0,
+                start=-self.sequence_length,
                 end=self.sequence_length,
                 fixed_level=0,
                 nlines=1,
@@ -501,6 +504,7 @@ class MatplotlibPlottableMixin:
 
         max_annotations_level = max([0] + list(annotations_levels.values()))
         annotation_height = self.determine_annotation_height(max_level)
+        annotation_height = max(self.min_y_height_of_text_line, annotation_height)
         labels_data = {}
         for feature, level in annotations_levels.items():
             if "is_base" in feature.data:
@@ -684,6 +688,41 @@ class MatplotlibPlottableMixin:
                     facecolor=background[i % 2],
                 )
 
+    def plot_legend(
+        self, ax, allow_ambiguity=False, include_edge=True, **legend_kwargs
+    ):
+        handles = []
+        features_parameters = {}
+        for feature in self.features:
+            text = feature.legend_text
+            if text is None:
+                continue
+            parameters = dict(
+                label=text, facecolor=feature.color, edgecolor="black",
+            )
+            if include_edge:
+                parameters.update(
+                    dict(
+                        linewidth=feature.linewidth,
+                        edgecolor=feature.linecolor,
+                    )
+                )
+            if text in features_parameters:
+                previous_parameters = features_parameters[text]
+                if (not allow_ambiguity) and any(
+                    [
+                        parameters[k] != previous_parameters[k]
+                        for k in parameters
+                    ]
+                ):
+                    raise ValueError(
+                        "Cannot generate an unambiguous legend as two"
+                    )
+                continue
+            features_parameters[text] = parameters
+            handles.append(Patch(**parameters))
+        ax.legend(handles=handles, **legend_kwargs)
+
 
 def change_luminosity(
     color, luminosity=None, min_luminosity=None, factor=None
@@ -713,7 +752,7 @@ def change_luminosity(
         new_l = l ** (-factor)
     if min_luminosity is not None:
         new_l = max(new_l, min_luminosity)
-    
+
     return colorsys.hls_to_rgb(h, new_l, s)
 
 
@@ -729,5 +768,5 @@ def get_text_box(text, margin=0):
     bbox = text.get_window_extent(renderer)  # bounding box
     __x1, y1, __x2, y2 = bbox.get_points().flatten()
     bbox = bbox.transformed(text.axes.transData.inverted())
-    x1, _, x2, _ = bbox.get_points().flatten()
+    x1, __y1, x2, __y2 = bbox.get_points().flatten()
     return [x1, y1, x2, y2]

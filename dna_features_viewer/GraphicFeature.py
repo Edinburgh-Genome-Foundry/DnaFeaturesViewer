@@ -78,6 +78,7 @@ class GraphicFeature:
         open_right=False,
         box_linewidth=1,
         box_color="auto",
+        legend_text=None,
         label_link_color="black",
         **data
     ):
@@ -99,6 +100,7 @@ class GraphicFeature:
         self.html = html
         self.open_left = open_left
         self.open_right = open_right
+        self.legend_text = legend_text
 
     def split_in_two(self, x_coord=0):
         """Return two features by cutting this feature at x_coord."""

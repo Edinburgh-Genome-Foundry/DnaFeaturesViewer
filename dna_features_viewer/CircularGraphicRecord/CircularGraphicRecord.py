@@ -40,6 +40,7 @@ class CircularGraphicRecord(GraphicRecord):
     """
 
     default_elevate_outline_annotations = True
+    min_y_height_of_text_line = 0.1
 
     def __init__(
         self,

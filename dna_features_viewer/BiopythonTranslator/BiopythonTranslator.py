@@ -113,6 +113,9 @@ class BiopythonTranslator(BiopythonTranslatorBase):
     def compute_feature_linewidth(self, feature):
         """Compute the edge width of the feature's arrow/rectangle."""
         return 1.0
+    
+    def compute_feature_legend_text(self, feature):
+        return None
 
     def compute_feature_html(self, feature):
         """Gets the 'label' of the feature."""

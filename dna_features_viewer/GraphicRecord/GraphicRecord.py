@@ -66,6 +66,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     default_font_family = None
     default_ruler_color = 'grey'
     default_box_color = 'auto'
+    min_y_height_of_text_line = 0.5
 
     
     def __init__(
