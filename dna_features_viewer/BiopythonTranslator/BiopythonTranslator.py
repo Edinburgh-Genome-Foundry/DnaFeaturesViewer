@@ -46,7 +46,15 @@ class BiopythonTranslator(BiopythonTranslatorBase):
 
     default_feature_color = "#7245dc"
     ignored_features_types = ()
-    label_fields = ["label", "source", "locus_tag", "note", "gene", "product"]
+    label_fields = [
+        "label",
+        "name",
+        "gene",
+        "product",
+        "source",
+        "locus_tag",
+        "note",
+    ]
 
     def __init__(self, features_filters=(), features_properties=None):
         self.features_filters = features_filters
@@ -113,7 +121,7 @@ class BiopythonTranslator(BiopythonTranslatorBase):
     def compute_feature_linewidth(self, feature):
         """Compute the edge width of the feature's arrow/rectangle."""
         return 1.0
-    
+
     def compute_feature_legend_text(self, feature):
         return None
 

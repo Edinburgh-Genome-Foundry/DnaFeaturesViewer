@@ -27,10 +27,10 @@ ax1.fill_between((zoom_start, zoom_end), +1000, -1000, alpha=0.15)
 
 # PLOT THE SEQUENCE DETAILS
 
-cropped_record.plot(ax=ax2)
-cropped_record.plot_sequence(ax=ax2)
+
 cropped_record.plot_translation(ax=ax2, location=(408, 423),
                                 fontdict={'weight': 'bold'})
+cropped_record.plot(ax=ax2, plot_sequence=True)
 ax2.set_title("Sequence detail", loc='left', weight='bold')
 
 fig.savefig('overview_and_detail.png', bbox_inches='tight')

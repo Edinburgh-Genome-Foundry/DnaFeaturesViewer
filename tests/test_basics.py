@@ -22,6 +22,7 @@ matplotlib.use("Agg")
 example_genbank = os.path.join("tests", "data", "example_sequence.gb")
 example_gff = os.path.join("tests", "data", "example_record.gff")
 
+
 def test_by_hand(tmpdir):
     """Test building a GraphicRecord "by hand" """
     features = [
@@ -250,7 +251,41 @@ def test_BlackBoxlessLabelTranslator(tmpdir):
     target_file = os.path.join(str(tmpdir), "from_genbank.png")
     ax.figure.savefig(target_file)
 
+
 def test_gff():
     translator = BlackBoxlessLabelTranslator()
     graphic_record = translator.translate_record(example_gff)
     assert len(graphic_record.features) == 3
+
+
+def test_multiline_plot():
+
+    translator = BiopythonTranslator()
+    graphic_record = translator.translate_record(example_genbank)
+    subrecord = graphic_record.crop((1700, 2200))
+    fig, axes = subrecord.plot_on_multiple_lines(
+        nucl_per_line=100,
+        figure_width=12,
+        plot_sequence=True,
+        sequence_parameters={"background": None},
+    )
+    assert 9.5 < fig.get_figheight() < 10
+
+
+def test_legend():
+    class CustomTranslator(BiopythonTranslator):
+        def compute_feature_legend_text(self, feature):
+            return feature.type
+
+        def compute_feature_color(self, feature):
+            return {
+                "CDS": "#ffd383",
+                "promoter": "red",
+                "restriction_site": "#fbf3f6",
+                "terminator": "#d1e9f1",
+            }[feature.type]
+
+    translator = CustomTranslator()
+    graphic_record = translator.translate_record(example_genbank)
+    ax, _ = graphic_record.plot()
+    graphic_record.plot_legend(ax=ax)

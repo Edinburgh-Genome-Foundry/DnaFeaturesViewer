@@ -93,7 +93,7 @@ class MatplotlibPlottableMixin:
             ymax = features_ymax + annotations_ymax
         else:
             ymax = max(features_ymax, annotations_ymax) + 1
-        ymin = -1
+        ymin = min(ax.get_ylim()[0], -0.5)
 
         # ymax could be even bigger if a "ideal_yspan" has been set.
         if (ideal_yspan is not None) and not (auto_figure_height):
@@ -341,6 +341,7 @@ class MatplotlibPlottableMixin:
         elevate_outline_annotations="default",
         x_lim=None,
         figure_height=None,
+        sequence_parameters=None,
     ):
         """Plot all the features in the same Matplotlib ax
 
@@ -386,6 +387,9 @@ class MatplotlibPlottableMixin:
 
         x_lim
           Horizontal axis limits to be set at the end.
+        
+        sequence_parameters
+          parameters for plot_sequence
         """
 
         if elevate_outline_annotations == "default":
@@ -480,7 +484,7 @@ class MatplotlibPlottableMixin:
         # every annotation above its respective feature, but some annotations
         # can be below some features).
         if elevate_outline_annotations:
-            
+
             base_feature = GraphicFeature(
                 start=-self.sequence_length,
                 end=self.sequence_length,
@@ -504,7 +508,9 @@ class MatplotlibPlottableMixin:
 
         max_annotations_level = max([0] + list(annotations_levels.values()))
         annotation_height = self.determine_annotation_height(max_level)
-        annotation_height = max(self.min_y_height_of_text_line, annotation_height)
+        annotation_height = max(
+            self.min_y_height_of_text_line, annotation_height
+        )
         labels_data = {}
         for feature, level in annotations_levels.items():
             if "is_base" in feature.data:
@@ -532,7 +538,7 @@ class MatplotlibPlottableMixin:
             )
 
         if plot_sequence:
-            self.plot_sequence(ax)
+            self.plot_sequence(ax, **(sequence_parameters or {}))
 
         self.finalize_ax(
             ax=ax,
@@ -609,6 +615,8 @@ class MatplotlibPlottableMixin:
                     facecolor=background[i % 2],
                 )
         ymin = ax.get_ylim()[0]
+        if ymin < -500:
+            ymin = 0
         ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
 
     def plot_translation(
@@ -722,6 +730,77 @@ class MatplotlibPlottableMixin:
             features_parameters[text] = parameters
             handles.append(Patch(**parameters))
         ax.legend(handles=handles, **legend_kwargs)
+
+    def plot_on_multiple_lines(
+        self, n_lines=None, nucl_per_line=None, figure_width=9, **plot_params
+    ):
+        """Plothe features on different lines (one Matplotlib ax per line)
+
+        Parameters
+        ----------
+
+        n_lines
+          Number of lines on which the record will be plotted. A number of
+          nucleotides can be provided instead (see below).
+        
+        nucl_per_line
+          Number of nucleotides to be represented on every line (determines
+          the number of lines ``n_lines``).
+
+        figure_width
+          Width of the figure (only if no ax was provided and a new figure is
+          created) in inches.
+
+        **plot_params
+          Parameters from ``graphic_record.plot()`` to be used in the plotting
+          of the individual lines. This includes ``draw_line``, ``with_ruler``,
+          ``annotate_inline``, ``plot_sequence``,
+          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``
+        
+        Returns
+        -------
+
+        figure, axes
+          The matplotlib figure and axes generated.
+        """
+
+        if n_lines is None:
+            n_lines = int(numpy.ceil(self.sequence_length / nucl_per_line))
+        else:
+            nucl_per_line = self.sequence_length // n_lines + 1
+
+        figures_heights = []
+
+        def plot_line(line_index, ax=None):
+            first, last = self.first_index, self.last_index
+            line_start = first + line_index * nucl_per_line
+            line_virtual_stop = first + (line_index + 1) * nucl_per_line
+            line_stop = min(last, line_virtual_stop)
+            line_self = self.crop((line_start, line_stop))
+            line_ax, _ = line_self.plot(
+                figure_width=figure_width,
+                x_lim=(line_start, line_virtual_stop),
+                ax=ax,
+                **plot_params
+            )
+            return line_ax
+
+        for line_index in range(n_lines):
+            line_ax = plot_line(line_index)
+            figures_heights.append(line_ax.figure.get_figheight())
+            plt.close(line_ax.figure)
+
+        fig, axes = plt.subplots(
+            n_lines,
+            1,
+            gridspec_kw={"height_ratios": figures_heights},
+            figsize=(figure_width, 0.9 * sum(figures_heights)),
+        )
+        for line_index, ax in enumerate(axes):
+            plot_line(line_index, ax=ax)
+        fig.tight_layout()
+        fig.subplots_adjust(hspace=0)
+        return fig, axes
 
 
 def change_luminosity(

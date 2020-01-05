@@ -62,13 +62,12 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         given at ``graphic_record.plot(...)`` time. Set to true to have all
         text annotations appears above all features, or false else.
     """
-    
+
     default_font_family = None
-    default_ruler_color = 'grey'
-    default_box_color = 'auto'
+    default_ruler_color = "grey"
+    default_box_color = "auto"
     min_y_height_of_text_line = 0.5
 
-    
     def __init__(
         self,
         sequence_length=None,
@@ -90,9 +89,13 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         self.labels_spacing = labels_spacing
 
     @property
+    def last_index(self):
+        return self.first_index + self.sequence_length
+
+    @property
     def span(self):
         """Return the display span (start, end) accounting for first_index."""
-        return self.first_index, self.first_index + self.sequence_length
+        return self.first_index, self.last_index
 
     def to_biopython_record(self, sequence):
         """
@@ -118,8 +121,9 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         return SeqRecord(seq=sequence, features=features)
 
     def crop(self, window):
-        s, e = window
-        if (s < 0) or (e > self.sequence_length):
+        start, end = window
+        first_index = self.first_index
+        if (start < first_index) or (end > self.last_index):
             raise ValueError("out-of-bound cropping")
         new_features = []
         for f in self.features:
@@ -128,17 +132,21 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
                 new_features.append(cropped_feature)
 
         return GraphicRecord(
-            sequence=self.sequence[s:e] if self.sequence is not None else None,
-            sequence_length=e - s,
+            sequence=self.sequence[start - first_index : end - first_index]
+            if self.sequence is not None
+            else None,
+            sequence_length=end - start,
             features=new_features,
             feature_level_height=self.feature_level_height,
-            first_index=self.first_index + s,
+            first_index=start,
+            plots_indexing=self.plots_indexing,
+            labels_spacing=self.labels_spacing,
         )
 
     def determine_annotation_height(self, levels):
         """By default the ideal annotation level height is the same as the
         feature_level_height."""
-        # TODO: Improve me! ideally, annotation width would be linked to the 
+        # TODO: Improve me! ideally, annotation width would be linked to the
         # height of one line of text, so dependent on font size and ax
         # height/span.
         return self.feature_level_height
@@ -177,7 +185,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         if len(label) > max_line_length:
             label = find_narrowest_text_wrap(label, max_line_length)
         return label
-    
+
     def compute_padding(self, ax):
         ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
         xmin, xmax = ax.get_xlim()
