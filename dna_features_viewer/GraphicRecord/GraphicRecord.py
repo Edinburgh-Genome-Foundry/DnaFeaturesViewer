@@ -40,7 +40,11 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
     
     labels_spacing
       Number of pixels that will "pad" every labels to force some horizontal
-      space between two labels or between a label and the borders of a feature. 
+      space between two labels or between a label and the borders of a feature.
+    
+    ticks_resolution
+      Leave to "auto" for an auto-selected number of ticks on the ruler, or set
+      to e.g. 50 for a tick every 50 nucleotide. 
 
     Attributes
     ----------
@@ -77,6 +81,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         first_index=0,
         plots_indexing="biopython",
         labels_spacing=8,
+        ticks_resolution='auto'
     ):
         if sequence_length is None:
             sequence_length = len(sequence)
@@ -87,6 +92,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
         self.first_index = first_index
         self.plots_indexing = plots_indexing
         self.labels_spacing = labels_spacing
+        self.ticks_resolution = ticks_resolution
 
     @property
     def last_index(self):
@@ -141,6 +147,7 @@ class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
             first_index=start,
             plots_indexing=self.plots_indexing,
             labels_spacing=self.labels_spacing,
+            ticks_resolution=self.ticks_resolution
         )
 
     def determine_annotation_height(self, levels):

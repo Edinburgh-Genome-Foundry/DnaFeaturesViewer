@@ -5,8 +5,8 @@ import colorsys
 import numpy
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.ticker import MaxNLocator
 from matplotlib.patches import Patch
+import matplotlib.ticker as ticker
 
 from ..biotools import extract_graphical_translation
 from ..compute_features_levels import compute_features_levels
@@ -49,7 +49,15 @@ class MatplotlibPlottableMixin:
             ax.axis("off")
 
         ax.set_xlim(plot_start, plot_end)
-        ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+        if self.first_index != 0:
+            ax.ticklabel_format(useOffset=False, style='plain')
+        fmt = lambda x, p: "{:,}".format(int(x))
+        ax.xaxis.set_major_formatter(ticker.FuncFormatter(fmt))
+        if self.ticks_resolution == "auto":
+            ax.xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+        else:
+            locator = ticker.MultipleLocator(self.ticks_resolution)
+            ax.xaxis.set_major_locator(locator)
 
     def finalize_ax(
         self,
@@ -104,6 +112,7 @@ class MatplotlibPlottableMixin:
             ax.figure.set_size_inches(figure_width, 1 + 0.4 * ymax)
         if self.plots_indexing == "genbank":
             ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
+        ax.set_xticks([t for t in ax.get_xticks() if t <= self.last_index and t>= self.first_index])
         return ideal_yspan / (ymax - ymin)
 
     @staticmethod
