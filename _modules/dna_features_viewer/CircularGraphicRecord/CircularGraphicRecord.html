@@ -177,6 +177,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">default_elevate_outline_annotations</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">min_y_height_of_text_line</span> <span class="o">=</span> <span class="mf">0.1</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -227,6 +228,7 @@
         <span class="n">annotations_max_level</span><span class="p">,</span>
         <span class="n">auto_figure_height</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">ideal_yspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">annotations_are_elevated</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Final display range and figure dimension tweakings.&quot;&quot;&quot;</span>
         <span class="n">annotation_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_annotation_height</span><span class="p">(</span>
@@ -303,7 +305,7 @@
         <span class="s2">&quot;&quot;</span>
         <span class="n">ax_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">())</span><span class="o">.</span><span class="n">width</span>
         <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
-        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">ax_width</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

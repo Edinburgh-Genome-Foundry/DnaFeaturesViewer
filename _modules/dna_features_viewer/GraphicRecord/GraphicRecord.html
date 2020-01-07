@@ -177,7 +177,11 @@
 <span class="sd">    </span>
 <span class="sd">    labels_spacing</span>
 <span class="sd">      Number of pixels that will &quot;pad&quot; every labels to force some horizontal</span>
-<span class="sd">      space between two labels or between a label and the borders of a feature. </span>
+<span class="sd">      space between two labels or between a label and the borders of a feature.</span>
+<span class="sd">    </span>
+<span class="sd">    ticks_resolution</span>
+<span class="sd">      Leave to &quot;auto&quot; for an auto-selected number of ticks on the ruler, or set</span>
+<span class="sd">      to e.g. 50 for a tick every 50 nucleotide. </span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -199,12 +203,12 @@
 <span class="sd">        given at ``graphic_record.plot(...)`` time. Set to true to have all</span>
 <span class="sd">        text annotations appears above all features, or false else.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="n">default_font_family</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">default_ruler_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
-    <span class="n">default_box_color</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
 
-    
+    <span class="n">default_font_family</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">default_ruler_color</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
+    <span class="n">default_box_color</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+    <span class="n">min_y_height_of_text_line</span> <span class="o">=</span> <span class="mf">0.5</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">sequence_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -214,6 +218,7 @@
         <span class="n">first_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">plots_indexing</span><span class="o">=</span><span class="s2">&quot;biopython&quot;</span><span class="p">,</span>
         <span class="n">labels_spacing</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+        <span class="n">ticks_resolution</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">sequence_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">sequence_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
@@ -224,11 +229,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">=</span> <span class="n">first_index</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plots_indexing</span> <span class="o">=</span> <span class="n">plots_indexing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span> <span class="o">=</span> <span class="n">labels_spacing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ticks_resolution</span> <span class="o">=</span> <span class="n">ticks_resolution</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">span</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the display span (start, end) accounting for first_index.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span>
 
 <div class="viewcode-block" id="GraphicRecord.to_biopython_record"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.GraphicRecord.to_biopython_record">[docs]</a>    <span class="k">def</span> <span class="nf">to_biopython_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -254,8 +264,9 @@
         <span class="k">return</span> <span class="n">SeqRecord</span><span class="p">(</span><span class="n">seq</span><span class="o">=</span><span class="n">sequence</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
-        <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">window</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">e</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence_length</span><span class="p">):</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="n">first_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">first_index</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">end</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;out-of-bound cropping&quot;</span><span class="p">)</span>
         <span class="n">new_features</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
@@ -264,17 +275,22 @@
                 <span class="n">new_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cropped_feature</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">GraphicRecord</span><span class="p">(</span>
-            <span class="n">sequence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">e</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">sequence_length</span><span class="o">=</span><span class="n">e</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span>
+            <span class="n">sequence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">[</span><span class="n">start</span> <span class="o">-</span> <span class="n">first_index</span> <span class="p">:</span> <span class="n">end</span> <span class="o">-</span> <span class="n">first_index</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">sequence_length</span><span class="o">=</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">,</span>
             <span class="n">features</span><span class="o">=</span><span class="n">new_features</span><span class="p">,</span>
             <span class="n">feature_level_height</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span><span class="p">,</span>
-            <span class="n">first_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">first_index</span> <span class="o">+</span> <span class="n">s</span><span class="p">,</span>
+            <span class="n">first_index</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+            <span class="n">plots_indexing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plots_indexing</span><span class="p">,</span>
+            <span class="n">labels_spacing</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">labels_spacing</span><span class="p">,</span>
+            <span class="n">ticks_resolution</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ticks_resolution</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="GraphicRecord.determine_annotation_height"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.GraphicRecord.determine_annotation_height">[docs]</a>    <span class="k">def</span> <span class="nf">determine_annotation_height</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;By default the ideal annotation level height is the same as the</span>
 <span class="sd">        feature_level_height.&quot;&quot;&quot;</span>
-        <span class="c1"># TODO: Improve me! ideally, annotation width would be linked to the </span>
+        <span class="c1"># TODO: Improve me! ideally, annotation width would be linked to the</span>
         <span class="c1"># height of one line of text, so dependent on font size and ax</span>
         <span class="c1"># height/span.</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span></div>
@@ -313,7 +329,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_line_length</span><span class="p">:</span>
             <span class="n">label</span> <span class="o">=</span> <span class="n">find_narrowest_text_wrap</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">max_line_length</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
-    
+
     <span class="k">def</span> <span class="nf">compute_padding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
         <span class="n">ax_width</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">())</span><span class="o">.</span><span class="n">width</span>
         <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>

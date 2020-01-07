@@ -271,7 +271,7 @@ ignored_features_types and for which all filter(f) pass</p>
 <h2>GraphicRecord<a class="headerlink" href="#graphicrecord" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dna_features_viewer.GraphicRecord">
-<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicRecord</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=None</em>, <em class="sig-param">sequence=None</em>, <em class="sig-param">features=()</em>, <em class="sig-param">feature_level_height=1</em>, <em class="sig-param">first_index=0</em>, <em class="sig-param">plots_indexing='biopython'</em>, <em class="sig-param">labels_spacing=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicRecord</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=None</em>, <em class="sig-param">sequence=None</em>, <em class="sig-param">features=()</em>, <em class="sig-param">feature_level_height=1</em>, <em class="sig-param">first_index=0</em>, <em class="sig-param">plots_indexing='biopython'</em>, <em class="sig-param">labels_spacing=8</em>, <em class="sig-param">ticks_resolution='auto'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicRecord/GraphicRecord.html#GraphicRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set of Genetic Features of a same DNA sequence, to be plotted together.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -308,6 +308,11 @@ If ‘genbank’, the indexing follows the Genbank standard (starting at 1).</p>
 <blockquote>
 <div><p>Number of pixels that will “pad” every labels to force some horizontal
 space between two labels or between a label and the borders of a feature.</p>
+</div></blockquote>
+<p><strong>ticks_resolution</strong></p>
+<blockquote>
+<div><p>Leave to “auto” for an auto-selected number of ticks on the ruler, or set
+to e.g. 50 for a tick every 50 nucleotide.</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -371,7 +376,7 @@ feature_level_height.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.finalize_ax">
-<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">ideal_yspan=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">ideal_yspan=None</em>, <em class="sig-param">annotations_are_elevated=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prettify the figure with some last changes.</p>
 <p>Changes include redefining y-bounds and figure height.</p>
 <dl class="field-list">
@@ -462,7 +467,7 @@ be cut with an ellipsis (…).</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">figure_width=8</em>, <em class="sig-param">draw_line=True</em>, <em class="sig-param">with_ruler=True</em>, <em class="sig-param">ruler_color=None</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">annotate_inline=True</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">level_offset=0</em>, <em class="sig-param">strand_in_label_threshold='default'</em>, <em class="sig-param">elevate_outline_annotations='default'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">figure_height=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">ax=None</em>, <em class="sig-param">figure_width=8</em>, <em class="sig-param">draw_line=True</em>, <em class="sig-param">with_ruler=True</em>, <em class="sig-param">ruler_color=None</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">annotate_inline=True</em>, <em class="sig-param">max_label_length=50</em>, <em class="sig-param">max_line_length=30</em>, <em class="sig-param">level_offset=0</em>, <em class="sig-param">strand_in_label_threshold='default'</em>, <em class="sig-param">elevate_outline_annotations='default'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">figure_height=None</em>, <em class="sig-param">sequence_params=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot all the features in the same Matplotlib ax</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -516,6 +521,10 @@ by an a left/right arrow</p>
 <blockquote>
 <div><p>Horizontal axis limits to be set at the end.</p>
 </div></blockquote>
+<p><strong>sequence_params</strong></p>
+<blockquote>
+<div><p>parameters for plot_sequence</p>
+</div></blockquote>
 </dd>
 </dl>
 </dd></dl>
@@ -532,8 +541,97 @@ simply be a rectangle.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.plot_on_multiple_lines">
+<code class="sig-name descname">plot_on_multiple_lines</code><span class="sig-paren">(</span><em class="sig-param">n_lines=None</em>, <em class="sig-param">nucl_per_line=None</em>, <em class="sig-param">plot_sequence=False</em>, <em class="sig-param">figure_width='auto'</em>, <em class="sig-param">**plot_params</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_on_multiple_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the features on different lines (one Matplotlib ax per line)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>n_lines</strong></p>
+<blockquote>
+<div><p>Number of lines on which the record will be plotted. A number of
+nucleotides per line can be provided instead (see below).</p>
+</div></blockquote>
+<p><strong>nucl_per_line</strong></p>
+<blockquote>
+<div><p>Number of nucleotides to be represented on every line (determines
+the number of lines <code class="docutils literal notranslate"><span class="pre">n_lines</span></code>).</p>
+</div></blockquote>
+<p><strong>plot_sequence</strong></p>
+<blockquote>
+<div><p>Whether to plot the nucleotide sequence on each line</p>
+</div></blockquote>
+<p><strong>figure_width</strong></p>
+<blockquote>
+<div><p>Width of the figure in inches. Leave to auto for a width of either 10
+(if not sequence is plotted) or 0.15*nucl_per_line inches
+(if a sequence is plotted).</p>
+</div></blockquote>
+<p><strong>**plot_params</strong></p>
+<blockquote>
+<div><p>Parameters from <code class="docutils literal notranslate"><span class="pre">graphic_record.plot()</span></code> to be used in the plotting
+of the individual lines. This includes <code class="docutils literal notranslate"><span class="pre">draw_line</span></code>, <code class="docutils literal notranslate"><span class="pre">with_ruler</span></code>,
+<code class="docutils literal notranslate"><span class="pre">annotate_inline</span></code>, <code class="docutils literal notranslate"><span class="pre">plot_sequence</span></code>,
+<code class="docutils literal notranslate"><span class="pre">evelate_outline_annotations</span></code>, <code class="docutils literal notranslate"><span class="pre">strand_in_label_pixel_threshold</span></code></p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>figure, axes</p>
+<blockquote>
+<div><p>The matplotlib figure and axes generated.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dna_features_viewer.GraphicRecord.plot_on_multiple_pages">
+<code class="sig-name descname">plot_on_multiple_pages</code><span class="sig-paren">(</span><em class="sig-param">pdf_target</em>, <em class="sig-param">n_lines=None</em>, <em class="sig-param">nucl_per_line=None</em>, <em class="sig-param">lines_per_page=5</em>, <em class="sig-param">figure_width='auto'</em>, <em class="sig-param">**plot_params</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_on_multiple_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the features on different lines on different pages of a PDF.</p>
+<p>This function returns None</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pdf_target</strong></p>
+<blockquote>
+<div><p>Either a path to a PDF, or a file(-like) handle.</p>
+</div></blockquote>
+<p><strong>n_lines</strong></p>
+<blockquote>
+<div><p>Number of lines on which the record will be plotted. A number of
+nucleotides per line can be provided instead (see below).</p>
+</div></blockquote>
+<p><strong>nucl_per_line</strong></p>
+<blockquote>
+<div><p>Number of nucleotides to be represented on every line (determines
+the number of lines <code class="docutils literal notranslate"><span class="pre">n_lines</span></code>).</p>
+</div></blockquote>
+<p><strong>lines_per_page</strong></p>
+<blockquote>
+<div><p>Number of lines on each page</p>
+</div></blockquote>
+<p><strong>plot_sequence</strong></p>
+<blockquote>
+<div><p>Whether to plot the nucleotide sequence on each line</p>
+</div></blockquote>
+<p><strong>figure_width</strong></p>
+<blockquote>
+<div><p>Width of the figure in inches. Leave to auto for a width of either 10
+(if not sequence is plotted) or 0.15*nucl_per_line inches
+(if a sequence is plotted).</p>
+</div></blockquote>
+<p><strong>**plot_params</strong></p>
+<blockquote>
+<div><p>Parameters from <code class="docutils literal notranslate"><span class="pre">graphic_record.plot()</span></code> to be used in the plotting
+of the individual lines. This includes <code class="docutils literal notranslate"><span class="pre">draw_line</span></code>, <code class="docutils literal notranslate"><span class="pre">with_ruler</span></code>,
+<code class="docutils literal notranslate"><span class="pre">annotate_inline</span></code>, <code class="docutils literal notranslate"><span class="pre">plot_sequence</span></code>,
+<code class="docutils literal notranslate"><span class="pre">evelate_outline_annotations</span></code>, <code class="docutils literal notranslate"><span class="pre">strand_in_label_pixel_threshold</span></code></p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.plot_sequence">
-<code class="sig-name descname">plot_sequence</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=1</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">background=('#f7fbff'</em>, <em class="sig-param">'#fffcf0')</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_sequence" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot_sequence</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=1</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">guides_intensity=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a sequence of nucleotides at the bottom of the plot.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -562,10 +660,10 @@ directly under the main line.</p>
 <div><p>tuple (color1, color2) of alternate colors to plot behind each
 nucleotide position to guide vision. Leave to None for no background.</p>
 </div></blockquote>
-<p><strong>translation</strong></p>
+<p><strong>guides_intensity</strong></p>
 <blockquote>
-<div><p>Sequence of amino acids either as a string <code class="docutils literal notranslate"><span class="pre">'MAKG...'</span></code> or as a list
-<code class="docutils literal notranslate"><span class="pre">['Met',</span> <span class="pre">'Ala',</span> <span class="pre">...]</span></code></p>
+<div><p>Intensity of the vertical guides marking the different nucleotides
+(0 = no guides)</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -573,7 +671,7 @@ nucleotide position to guide vision. Leave to None for no background.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.plot_translation">
-<code class="sig-name descname">plot_translation</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=2</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">background=('#f5fff0'</em>, <em class="sig-param">'#fff7fd')</em>, <em class="sig-param">translation=None</em>, <em class="sig-param">long_form_translation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_translation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot_translation</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">location=None</em>, <em class="sig-param">y_offset=2</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">guides_intensity=0.5</em>, <em class="sig-param">translation=None</em>, <em class="sig-param">long_form_translation=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_translation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a sequence of amino-acids at the bottom of the plot.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -612,7 +710,7 @@ amino acid position to guide vision. Leave to None for no background.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.GraphicRecord.plot_with_bokeh">
-<code class="sig-name descname">plot_with_bokeh</code><span class="sig-paren">(</span><em class="sig-param">figure_width=5</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_with_bokeh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot_with_bokeh</code><span class="sig-paren">(</span><em class="sig-param">figure_width=5</em>, <em class="sig-param">figure_height='auto'</em><span class="sig-paren">)</span><a class="headerlink" href="#dna_features_viewer.GraphicRecord.plot_with_bokeh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the graphic record using Bokeh.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
@@ -698,7 +796,7 @@ occupies the bottom-2 5th and the annotations occupy the top-3 5th.</p>
 
 <dl class="method">
 <dt id="dna_features_viewer.CircularGraphicRecord.finalize_ax">
-<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">ideal_yspan=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.finalize_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">finalize_ax</code><span class="sig-paren">(</span><em class="sig-param">ax</em>, <em class="sig-param">features_levels</em>, <em class="sig-param">annotations_max_level</em>, <em class="sig-param">auto_figure_height=False</em>, <em class="sig-param">ideal_yspan=None</em>, <em class="sig-param">annotations_are_elevated=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/CircularGraphicRecord/CircularGraphicRecord.html#CircularGraphicRecord.finalize_ax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.CircularGraphicRecord.finalize_ax" title="Permalink to this definition">¶</a></dt>
 <dd><p>Final display range and figure dimension tweakings.</p>
 </dd></dl>
 
@@ -728,7 +826,7 @@ level.</p>
 <h2>GraphicFeature<a class="headerlink" href="#graphicfeature" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dna_features_viewer.GraphicFeature">
-<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicFeature</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">strand=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">color='#000080'</em>, <em class="sig-param">thickness=14</em>, <em class="sig-param">linewidth=1.0</em>, <em class="sig-param">linecolor='#000000'</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">open_left=False</em>, <em class="sig-param">open_right=False</em>, <em class="sig-param">box_linewidth=1</em>, <em class="sig-param">box_color='auto'</em>, <em class="sig-param">label_link_color='black'</em>, <em class="sig-param">**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dna_features_viewer.</code><code class="sig-name descname">GraphicFeature</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em>, <em class="sig-param">strand=None</em>, <em class="sig-param">label=None</em>, <em class="sig-param">color='#000080'</em>, <em class="sig-param">thickness=14</em>, <em class="sig-param">linewidth=1.0</em>, <em class="sig-param">linecolor='#000000'</em>, <em class="sig-param">fontdict=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">open_left=False</em>, <em class="sig-param">open_right=False</em>, <em class="sig-param">box_linewidth=1</em>, <em class="sig-param">box_color='auto'</em>, <em class="sig-param">legend_text=None</em>, <em class="sig-param">label_link_color='black'</em>, <em class="sig-param">**data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dna_features_viewer/GraphicFeature.html#GraphicFeature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dna_features_viewer.GraphicFeature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Genetic Feature to be plotted.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>

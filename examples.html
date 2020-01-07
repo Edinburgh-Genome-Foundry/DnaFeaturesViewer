@@ -157,11 +157,57 @@
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="define-a-graphic-record-by-hand">
 <h2>Define a graphic record “by hand”<a class="headerlink" href="#define-a-graphic-record-by-hand" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-center">
-<img alt="../examples/by_hand.png" src="../examples/by_hand.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Simple example where a few features are defined &quot;by hand&quot; and are displayed</span>
+<span class="sd">and exported as PNG, first with a linear view, then with a circular</span>
+<span class="sd">view.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">GraphicFeature</span><span class="p">,</span>
+    <span class="n">GraphicRecord</span><span class="p">,</span>
+    <span class="n">CircularGraphicRecord</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffd700&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Small feature&quot;</span>
+    <span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">end</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ffcccc&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 1 with a very long name&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">strand</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#cffccc&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 2&quot;</span>
+    <span class="p">),</span>
+    <span class="n">GraphicFeature</span><span class="p">(</span>
+        <span class="n">start</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#ccccff&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gene 3&quot;</span>
+    <span class="p">),</span>
+<span class="p">]</span>
+
+
+<span class="c1"># PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT</span>
+<span class="n">record</span> <span class="o">=</span> <span class="n">GraphicRecord</span><span class="p">(</span><span class="n">sequence_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;graphic_record_defined_by_hand.png&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># PLOT AND EXPORT A CIRCULAR VIEW OF THE CONSTRUCT</span>
+<span class="n">circular_rec</span> <span class="o">=</span> <span class="n">CircularGraphicRecord</span><span class="p">(</span><span class="n">sequence_length</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">circular_rec</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="s2">&quot;graphic_record_defined_by_hand_circular.png&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span>
+<span class="p">)</span>
+</pre></div>
 </div>
 <div class="figure align-center">
-<img alt="../examples/by_hand_circular.png" src="../examples/by_hand_circular.png" />
+<img alt="_images/graphic_record_defined_by_hand.png" src="_images/graphic_record_defined_by_hand.png" />
+</div>
+<div class="figure align-center">
+<img alt="_images/graphic_record_defined_by_hand_circular.png" src="_images/graphic_record_defined_by_hand_circular.png" />
 </div>
 </div>
 <div class="section" id="custom-biopython-record-translator">
@@ -257,8 +303,9 @@
 <span class="n">translator</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">translator</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<span class="p">)</span>
 <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
 
@@ -279,9 +326,10 @@
     <span class="n">GraphicFeature</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">strand</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#ccccff&#39;</span><span class="p">)</span>
 <span class="p">])</span>
 
-<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">record</span><span class="o">.</span><span class="n">plot_sequence</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-<span class="n">record</span><span class="o">.</span><span class="n">plot_translation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">})</span>
+<span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot_sequence</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">guides_intensity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;weight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">}</span>
+<span class="n">record</span><span class="o">.</span><span class="n">plot_translation</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">fontdict</span><span class="o">=</span><span class="n">fontdict</span><span class="p">,</span> <span class="n">guides_intensity</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;sequence_and_translation.png&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

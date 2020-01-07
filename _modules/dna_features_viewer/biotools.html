@@ -141,6 +141,17 @@
 <span class="kn">from</span> <span class="nn">Bio.PDB.Polypeptide</span> <span class="k">import</span> <span class="n">aa1</span><span class="p">,</span> <span class="n">aa3</span>
 <span class="kn">from</span> <span class="nn">Bio</span> <span class="k">import</span> <span class="n">SeqIO</span>
 
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">BCBio</span> <span class="k">import</span> <span class="n">GFF</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+
+    <span class="k">class</span> <span class="nc">GFF</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Not available. Please install bcbio-gff.&quot;&quot;&quot;</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;Please install the bcbio-gff library to parse GFF data&quot;</span>
+            <span class="p">)</span>
+
 
 <div class="viewcode-block" id="complement"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.complement">[docs]</a><span class="k">def</span> <span class="nf">complement</span><span class="p">(</span><span class="n">dna_sequence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return the complement of the DNA sequence.</span>
@@ -220,7 +231,19 @@
 
 <div class="viewcode-block" id="load_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.load_record">[docs]</a><span class="k">def</span> <span class="nf">load_record</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a Genbank file &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Input is a file path</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.gff&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">GFF</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Input is a file-like object</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">GFF</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="annotate_biopython_record"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.biotools.annotate_biopython_record">[docs]</a><span class="k">def</span> <span class="nf">annotate_biopython_record</span><span class="p">(</span>

@@ -183,7 +183,15 @@
 
     <span class="n">default_feature_color</span> <span class="o">=</span> <span class="s2">&quot;#7245dc&quot;</span>
     <span class="n">ignored_features_types</span> <span class="o">=</span> <span class="p">()</span>
-    <span class="n">label_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;source&quot;</span><span class="p">,</span> <span class="s2">&quot;locus_tag&quot;</span><span class="p">,</span> <span class="s2">&quot;note&quot;</span><span class="p">,</span> <span class="s2">&quot;gene&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">]</span>
+    <span class="n">label_fields</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gene&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;product&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;source&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;locus_tag&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;note&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features_filters</span><span class="o">=</span><span class="p">(),</span> <span class="n">features_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">features_filters</span> <span class="o">=</span> <span class="n">features_filters</span>
@@ -250,6 +258,9 @@
 <div class="viewcode-block" id="BiopythonTranslator.compute_feature_linewidth"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_linewidth">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_linewidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Compute the edge width of the feature&#39;s arrow/rectangle.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mf">1.0</span></div>
+
+    <span class="k">def</span> <span class="nf">compute_feature_legend_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="BiopythonTranslator.compute_feature_html"><a class="viewcode-back" href="../../../ref.html#dna_features_viewer.BiopythonTranslator.compute_feature_html">[docs]</a>    <span class="k">def</span> <span class="nf">compute_feature_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Gets the &#39;label&#39; of the feature.&quot;&quot;&quot;</span>

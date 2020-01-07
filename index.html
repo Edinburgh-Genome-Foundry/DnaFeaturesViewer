@@ -143,10 +143,10 @@
 <h1>DNA Features Viewer<a class="headerlink" href="#dna-features-viewer" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer"><img alt="Travis CI build status" src="https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master" /></a>
 <a class="reference external image-reference" href="https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master"><img alt="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" src="https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master" /></a>
-<p>DNA Features Viewer (full documentation <a class="reference external" href="https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/">here</a>) is a Python library to visualize DNA features, e.g. from GenBank or Gff files:</p>
+<p>DNA Features Viewer (full documentation <a class="reference external" href="https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/">here</a>) is a Python library to visualize DNA features, e.g. from GenBank or Gff files, or Biopython SeqRecords:</p>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
-</p><p>Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation or LIMS interfaces.</p>
+</p><p>Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation, article figures, or LIMS interfaces.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>If you have PIP installed, just type in a terminal:</p>
@@ -224,9 +224,9 @@ the record plot:</p>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/overview_and_detail.png" width="900">
 </p></div>
-<div class="section" id="reading-the-features-from-a-genbank-file">
-<h3>Reading the features from a GenBank file<a class="headerlink" href="#reading-the-features-from-a-genbank-file" title="Permalink to this headline">¶</a></h3>
-<p>DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record or directly a GenBank file:</p>
+<div class="section" id="reading-the-features-from-a-genbank-or-gff-file">
+<h3>Reading the features from a GenBank or GFF file<a class="headerlink" href="#reading-the-features-from-a-genbank-or-gff-file" title="Permalink to this headline">¶</a></h3>
+<p>DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record, or directly a GenBank (or GFF) file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dna_features_viewer</span> <span class="kn">import</span> <span class="n">BiopythonTranslator</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="s2">&quot;my_sequence.gb&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figure_width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
@@ -234,11 +234,14 @@ the record plot:</p>
 </div>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/from_genbank.png" width="900">
-</p><p>The class <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code> determines how the genbank information is
+</p><p>Note 1: the script uses <code class="docutils literal notranslate"><span class="pre">strand_in_label_threshold=7</span></code> to indicate the strand with
+an arrow in the annotation text for every feature less than ~7 pixels in width.</p>
+<p>Note 2: the <code class="docutils literal notranslate"><span class="pre">BiopythonTranslator</span></code> class determines how the genbank information is
 transformed into graphical features. It enables to chose which categories of
 features to plot, the color of the different features.</p>
-<p>Note here the use of <code class="docutils literal notranslate"><span class="pre">strand_in_label_threshold=5</span></code> to indicate the strand with
-an arrow in the annotation text for every feature less than ~5 pixels in width.</p>
+<p>Note 3: parsing GFF files requires the BCBio library
+(<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bcbio-gff</span></code>). This library also enables to extract Biopython
+records from GFF files containing several records (using <code class="docutils literal notranslate"><span class="pre">GFF.parse(&quot;records.gff&quot;)</span></code>).</p>
 </div>
 <div class="section" id="displaying-the-features-along-with-other-plots">
 <h3>Displaying the features along with other plots<a class="headerlink" href="#displaying-the-features-along-with-other-plots" title="Permalink to this headline">¶</a></h3>
@@ -249,31 +252,40 @@ other sequences statistics, such as the local GC content:</p>
 <span class="kn">from</span> <span class="nn">Bio</span> <span class="kn">import</span> <span class="n">SeqIO</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;height_ratios&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]}</span>
+<span class="p">)</span>
 
-<span class="c1"># Parse the genbank file, plot annotations</span>
+<span class="c1"># PLOT THE RECORD MAP</span>
 <span class="n">record</span> <span class="o">=</span> <span class="n">SeqIO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;example_sequence.gb&quot;</span><span class="p">,</span> <span class="s2">&quot;genbank&quot;</span><span class="p">)</span>
 <span class="n">graphic_record</span> <span class="o">=</span> <span class="n">BiopythonTranslator</span><span class="p">()</span><span class="o">.</span><span class="n">translate_record</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">,</span> <span class="n">levels</span> <span class="o">=</span> <span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">graphic_record</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">with_ruler</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">strand_in_label_threshold</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
-<span class="c1"># Plot the local GC content</span>
-<span class="k">def</span> <span class="nf">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="p">,</span> <span class="n">ax</span><span class="p">):</span>
-    <span class="n">gc_content</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="mf">100.0</span><span class="o">*</span><span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;GC&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="n">yy</span> <span class="o">=</span> <span class="p">[</span><span class="n">gc_content</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">])</span>
-          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)]</span>
-    <span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">)</span><span class="o">+</span><span class="mi">25</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GC(%)&quot;</span><span class="p">)</span>
-
-<span class="n">plot_local_gc_content</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
-
-<span class="c1"># Resize the figure</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;with_plot.png&quot;</span><span class="p">)</span>
+<span class="c1"># PLOT THE LOCAL GC CONTENT (we use 50bp windows)</span>
+<span class="n">gc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="nb">len</span><span class="p">([</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;GC&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">50</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="p">[</span><span class="n">gc</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">seq</span><span class="p">[</span><span class="n">x</span> <span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">50</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx</span><span class="p">]</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">xx</span> <span class="o">+</span> <span class="mi">25</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;GC(%)&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p align="center">
 <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_gc_plot.png" width="800">
+</p></div>
+<div class="section" id="multi-line-and-multi-page-plots">
+<h3>Multi-line and multi-page plots<a class="headerlink" href="#multi-line-and-multi-page-plots" title="Permalink to this headline">¶</a></h3>
+<p>Since v3.0 it is possible to plot a sequence over multiple lines (using <code class="docutils literal notranslate"><span class="pre">record.plot_on_multiple_lines()</span></code>) or even on multiple pages (of a PDF):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graphic_record</span><span class="o">.</span><span class="n">plot_on_multiple_pages</span><span class="p">(</span>
+    <span class="s2">&quot;multipage_plot.pdf&quot;</span><span class="p">,</span>
+    <span class="n">nucl_per_line</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span>
+    <span class="n">lines_per_page</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+    <span class="n">plot_sequence</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p align="center">
+<img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/multiline_example.png" width="900">
 </p></div>
 </div>
 <div class="section" id="custom-biopython-translators">

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>dna_features_viewer.GraphicRecord.SequenceAndTranslationMixin</title>
+    
+      <link rel="stylesheet" href="../../../_static/pygments.css">
+      <link rel="stylesheet" href="../../../_static/theme.css">
+      <link rel="stylesheet" href="../../../_static/sphinx_press_theme.css">
+      
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+
+      <!-- sphinx script_files -->
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+
+      
+      <script src="../../../_static/theme-vendors.js"></script>
+      <script src="../../../_static/theme.js" defer></script>
+    
+      <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <link rel="index" title="Index" href="../../../genindex.html" />
+  <link rel="search" title="Search" href="../../../search.html" /> 
+  </head>
+
+  <body>
+    <div id="app" class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../../../index.html" class="home-link">
+    
+      <span class="site-name">DnaFeaturesViewer</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+  
+    <div class="nav-item">
+      <a href="https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer"
+        class="nav-link external">
+          Github <outboundlink/>
+      </a>
+    </div>
+  
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../../../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../../../index.html#more-biology-software">DNA Features Viewer</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 "><a href="../../../ref.html" class="reference internal ">API Reference</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../tips.html" class="reference internal ">Tips</a>
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 "><a href="../../../examples.html" class="reference internal ">Examples</a>
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="../../index.html">Module code</a> &raquo;</li>
+    
+    <li>dna_features_viewer.GraphicRecord.SequenceAndTranslationMixin</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main">
+            
+  <h1>Source code for dna_features_viewer.GraphicRecord.SequenceAndTranslationMixin</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">..biotools</span> <span class="k">import</span> <span class="n">extract_graphical_translation</span>
+
+
+<span class="k">class</span> <span class="nc">SequenceAndTranslationMixin</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">plot_sequence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">guides_intensity</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot a sequence of nucleotides at the bottom of the plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ax</span>
+<span class="sd">          Which axes the translation should be plotted to</span>
+
+<span class="sd">        location</span>
+<span class="sd">          location of the segment to translate, either (start, end) or</span>
+<span class="sd">          (start, end, strand)</span>
+
+<span class="sd">        y_offset</span>
+<span class="sd">          Number of text levels under the plot&#39;s base line where to draw the</span>
+<span class="sd">          nucleotides. Should be 1 if the nucleotide sequence is to be plotted</span>
+<span class="sd">          directly under the main line.</span>
+
+<span class="sd">        fontdict</span>
+<span class="sd">          Matplotlib fontdict for the text, e.g.</span>
+<span class="sd">          ``{&#39;size&#39;: 11, &#39;weight&#39;:&#39;bold&#39;}``</span>
+
+<span class="sd">        background</span>
+<span class="sd">          tuple (color1, color2) of alternate colors to plot behind each</span>
+<span class="sd">          nucleotide position to guide vision. Leave to None for no background.</span>
+
+<span class="sd">        guides_intensity</span>
+<span class="sd">          Intensity of the vertical guides marking the different nucleotides</span>
+<span class="sd">          (0 = no guides)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No sequence in the graphic record&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span</span>
+        <span class="n">location_start</span><span class="p">,</span> <span class="n">location_end</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="n">fontdict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">fontdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">fontdict</span> <span class="ow">or</span> <span class="p">{})</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nucleotide</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">location_start</span>
+            <span class="k">if</span> <span class="n">location_start</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&lt;=</span> <span class="n">location_end</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="n">index</span><span class="p">,</span>
+                    <span class="o">-</span><span class="mf">0.7</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span> <span class="o">*</span> <span class="n">y_offset</span><span class="p">,</span>
+                    <span class="n">nucleotide</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">fontdict</span><span class="o">=</span><span class="n">fontdict</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">guides_intensity</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">guides_intensity</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">location_start</span><span class="p">,</span> <span class="n">location_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10000</span><span class="p">)</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ymin</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">500</span><span class="p">:</span>
+            <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="o">-</span><span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">plot_translation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">y_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">fontdict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">guides_intensity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">translation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">long_form_translation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Plot a sequence of amino-acids at the bottom of the plot.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        ax</span>
+<span class="sd">          Which axes the translation should be plotted to</span>
+
+<span class="sd">        location</span>
+<span class="sd">          location of the segment to translate (start, end)</span>
+
+<span class="sd">        y_offset</span>
+<span class="sd">          Number of text levels under the plot&#39;s base line where to draw the</span>
+<span class="sd">          amino acid names. Should be 2 if the nucleotide sequence is also</span>
+<span class="sd">          plotted at level 1.</span>
+
+<span class="sd">        fontdict</span>
+<span class="sd">          Matplotlib fontdict for the text, e.g.</span>
+<span class="sd">          ``{&#39;size&#39;: 11, &#39;weight&#39;:&#39;bold&#39;}``</span>
+
+<span class="sd">        background</span>
+<span class="sd">          tuple (color1, color2) of alternate colors to plot behind each</span>
+<span class="sd">          amino acid position to guide vision. Leave to None for no background.</span>
+
+<span class="sd">        translation</span>
+<span class="sd">          Sequence of amino acids either as a string ``&#39;MAKG...&#39;`` or as a list</span>
+<span class="sd">          ``[&#39;Met&#39;, &#39;Ala&#39;, ...]``</span>
+<span class="sd">        </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">location</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">strand</span> <span class="o">=</span> <span class="n">location</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">location</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">span</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="p">((</span><span class="n">start</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">end</span><span class="p">,</span> <span class="n">e</span> <span class="o">-</span> <span class="p">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">e</span><span class="p">)</span> <span class="o">%</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_loc</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_index</span><span class="p">,</span> <span class="n">strand</span>
+            <span class="n">translation</span> <span class="o">=</span> <span class="n">extract_graphical_translation</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sequence</span><span class="p">,</span>
+                <span class="n">location</span><span class="o">=</span><span class="n">new_loc</span><span class="p">,</span>
+                <span class="n">long_form</span><span class="o">=</span><span class="n">long_form_translation</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">((</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">aa</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">aa</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">translation</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.7</span> <span class="o">*</span> <span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="o">-</span><span class="n">y_offset</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_level_height</span><span class="p">))</span>
+        <span class="n">fontdict</span> <span class="o">=</span> <span class="n">fontdict</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">guides_color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">guides_intensity</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">),</span> <span class="n">text</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">start</span> <span class="o">+</span> <span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">y</span><span class="p">,</span>
+                <span class="n">text</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">fontdict</span><span class="o">=</span><span class="n">fontdict</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">guides_intensity</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span>
+                    <span class="n">start</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">guides_color</span><span class="p">,</span>
+                    <span class="n">zorder</span><span class="o">=-</span><span class="mi">10000</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">guides_intensity</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span>
+                <span class="n">end</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">guides_color</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">10000</span>
+            <span class="p">)</span>
+</pre></div>
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2016, Edinburgh Genome Foundry.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>.
+</div>
+            </div>
+          </div>
+      </page>
+    </div>
+    
+    
+  </body>
+</html>

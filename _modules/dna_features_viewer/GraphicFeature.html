@@ -215,6 +215,7 @@
         <span class="n">open_right</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">box_linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">box_color</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">legend_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">label_link_color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">data</span>
     <span class="p">):</span>
@@ -236,6 +237,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="n">html</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">open_left</span> <span class="o">=</span> <span class="n">open_left</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">open_right</span> <span class="o">=</span> <span class="n">open_right</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legend_text</span> <span class="o">=</span> <span class="n">legend_text</span>
 
 <div class="viewcode-block" id="GraphicFeature.split_in_two"><a class="viewcode-back" href="../../ref.html#dna_features_viewer.GraphicFeature.split_in_two">[docs]</a>    <span class="k">def</span> <span class="nf">split_in_two</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_coord</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return two features by cutting this feature at x_coord.&quot;&quot;&quot;</span>
