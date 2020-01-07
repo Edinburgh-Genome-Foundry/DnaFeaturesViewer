@@ -2,19 +2,21 @@
 
 import colorsys
 
-import numpy
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.patches import Patch
 import matplotlib.ticker as ticker
 
-from ..biotools import extract_graphical_translation
 from ..compute_features_levels import compute_features_levels
 from ..GraphicFeature import GraphicFeature
 from matplotlib.colors import colorConverter
+from .MultilinePlottableMixin import MultilinePlottableMixin
+from .SequenceAndTranslationMixin import SequenceAndTranslationMixin
 
 
-class MatplotlibPlottableMixin:
+class MatplotlibPlottableMixin(
+    MultilinePlottableMixin, SequenceAndTranslationMixin
+):
     """Class mixin for matplotlib-related methods."""
 
     default_elevate_outline_annotations = False
@@ -50,7 +52,7 @@ class MatplotlibPlottableMixin:
 
         ax.set_xlim(plot_start, plot_end)
         if self.first_index != 0:
-            ax.ticklabel_format(useOffset=False, style='plain')
+            ax.ticklabel_format(useOffset=False, style="plain")
         fmt = lambda x, p: "{:,}".format(int(x))
         ax.xaxis.set_major_formatter(ticker.FuncFormatter(fmt))
         if self.ticks_resolution == "auto":
@@ -112,7 +114,13 @@ class MatplotlibPlottableMixin:
             ax.figure.set_size_inches(figure_width, 1 + 0.4 * ymax)
         if self.plots_indexing == "genbank":
             ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
-        ax.set_xticks([t for t in ax.get_xticks() if t <= self.last_index and t>= self.first_index])
+        ax.set_xticks(
+            [
+                t
+                for t in ax.get_xticks()
+                if t <= self.last_index and t >= self.first_index
+            ]
+        )
         return ideal_yspan / (ymax - ymin)
 
     @staticmethod
@@ -350,7 +358,7 @@ class MatplotlibPlottableMixin:
         elevate_outline_annotations="default",
         x_lim=None,
         figure_height=None,
-        sequence_parameters=None,
+        sequence_params=None,
     ):
         """Plot all the features in the same Matplotlib ax
 
@@ -397,7 +405,7 @@ class MatplotlibPlottableMixin:
         x_lim
           Horizontal axis limits to be set at the end.
         
-        sequence_parameters
+        sequence_params
           parameters for plot_sequence
         """
 
@@ -547,7 +555,7 @@ class MatplotlibPlottableMixin:
             )
 
         if plot_sequence:
-            self.plot_sequence(ax, **(sequence_parameters or {}))
+            self.plot_sequence(ax, **(sequence_params or {}))
 
         self.finalize_ax(
             ax=ax,
@@ -558,152 +566,6 @@ class MatplotlibPlottableMixin:
             annotations_are_elevated=elevate_outline_annotations,
         )
         return ax, (features_levels, labels_data)
-
-    def plot_sequence(
-        self,
-        ax,
-        location=None,
-        y_offset=1,
-        fontdict=None,
-        background=("#f7fbff", "#fffcf0"),
-    ):
-        """Plot a sequence of nucleotides at the bottom of the plot.
-
-        Parameters
-        ----------
-
-        ax
-          Which axes the translation should be plotted to
-
-        location
-          location of the segment to translate, either (start, end) or
-          (start, end, strand)
-
-        y_offset
-          Number of text levels under the plot's base line where to draw the
-          nucleotides. Should be 1 if the nucleotide sequence is to be plotted
-          directly under the main line.
-
-        fontdict
-          Matplotlib fontdict for the text, e.g.
-          ``{'size': 11, 'weight':'bold'}``
-
-        background
-          tuple (color1, color2) of alternate colors to plot behind each
-          nucleotide position to guide vision. Leave to None for no background.
-
-        translation
-          Sequence of amino acids either as a string ``'MAKG...'`` or as a list
-          ``['Met', 'Ala', ...]``
-        """
-        if self.sequence is None:
-            raise ValueError("No sequence in the graphic record")
-        if location is None:
-            location = self.span
-        location_start, location_end = location
-        fontdict = dict(size=11)
-        fontdict.update(fontdict or {})
-        for i, nucleotide in enumerate(self.sequence):
-            index = i + location_start
-            if location_start <= index <= location_end:
-                ax.text(
-                    index,
-                    -0.7 * self.feature_level_height * y_offset,
-                    nucleotide,
-                    ha="center",
-                    va="center",
-                    fontdict=fontdict,
-                )
-        if background is not None:
-            for i in range(location_start, location_end):
-                ax.fill_between(
-                    [i - 0.5, i + 0.5],
-                    y1=1000,
-                    y2=-1000,
-                    zorder=-2000,
-                    facecolor=background[i % 2],
-                )
-        ymin = ax.get_ylim()[0]
-        if ymin < -500:
-            ymin = 0
-        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
-
-    def plot_translation(
-        self,
-        ax,
-        location=None,
-        y_offset=2,
-        fontdict=None,
-        background=("#f5fff0", "#fff7fd"),
-        translation=None,
-        long_form_translation=True,
-    ):
-        """Plot a sequence of amino-acids at the bottom of the plot.
-
-        Parameters
-        ----------
-
-        ax
-          Which axes the translation should be plotted to
-
-        location
-          location of the segment to translate (start, end)
-
-        y_offset
-          Number of text levels under the plot's base line where to draw the
-          amino acid names. Should be 2 if the nucleotide sequence is also
-          plotted at level 1.
-
-        fontdict
-          Matplotlib fontdict for the text, e.g.
-          ``{'size': 11, 'weight':'bold'}``
-
-        background
-          tuple (color1, color2) of alternate colors to plot behind each
-          amino acid position to guide vision. Leave to None for no background.
-
-        translation
-          Sequence of amino acids either as a string ``'MAKG...'`` or as a list
-          ``['Met', 'Ala', ...]``
-        """
-        start, end = location[0], location[1]
-        strand = location[2] if (len(location) == 3) else 1
-        s, e = self.span
-        start = max(start, s + ((start - s) % 3))
-        end = min(end, e - ((end - e) % 3))
-        if translation is None:
-            new_loc = start - self.first_index, end - self.first_index, strand
-            translation = extract_graphical_translation(
-                self.sequence,
-                location=new_loc,
-                long_form=long_form_translation,
-            )
-        texts = [
-            ((start + 3 * i, start + 3 * (i + 1)), aa)
-            for i, aa in enumerate(translation)
-        ]
-
-        y = -0.7 * y_offset * self.feature_level_height
-        ymin = ax.get_ylim()[0]
-        ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
-        fontdict = fontdict or {}
-        for i, ((start, end), text) in enumerate(texts):
-            ax.text(
-                0.5 * (start + end - 1),
-                y,
-                text,
-                ha="center",
-                va="center",
-                fontdict=fontdict,
-            )
-            if background:
-                ax.fill_between(
-                    [start - 0.5, end - 0.5],
-                    y1=1000,
-                    y2=-1000,
-                    zorder=-1000,
-                    facecolor=background[i % 2],
-                )
 
     def plot_legend(
         self, ax, allow_ambiguity=False, include_edge=True, **legend_kwargs
@@ -739,77 +601,6 @@ class MatplotlibPlottableMixin:
             features_parameters[text] = parameters
             handles.append(Patch(**parameters))
         ax.legend(handles=handles, **legend_kwargs)
-
-    def plot_on_multiple_lines(
-        self, n_lines=None, nucl_per_line=None, figure_width=9, **plot_params
-    ):
-        """Plothe features on different lines (one Matplotlib ax per line)
-
-        Parameters
-        ----------
-
-        n_lines
-          Number of lines on which the record will be plotted. A number of
-          nucleotides can be provided instead (see below).
-        
-        nucl_per_line
-          Number of nucleotides to be represented on every line (determines
-          the number of lines ``n_lines``).
-
-        figure_width
-          Width of the figure (only if no ax was provided and a new figure is
-          created) in inches.
-
-        **plot_params
-          Parameters from ``graphic_record.plot()`` to be used in the plotting
-          of the individual lines. This includes ``draw_line``, ``with_ruler``,
-          ``annotate_inline``, ``plot_sequence``,
-          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``
-        
-        Returns
-        -------
-
-        figure, axes
-          The matplotlib figure and axes generated.
-        """
-
-        if n_lines is None:
-            n_lines = int(numpy.ceil(self.sequence_length / nucl_per_line))
-        else:
-            nucl_per_line = self.sequence_length // n_lines + 1
-
-        figures_heights = []
-
-        def plot_line(line_index, ax=None):
-            first, last = self.first_index, self.last_index
-            line_start = first + line_index * nucl_per_line
-            line_virtual_stop = first + (line_index + 1) * nucl_per_line
-            line_stop = min(last, line_virtual_stop)
-            line_self = self.crop((line_start, line_stop))
-            line_ax, _ = line_self.plot(
-                figure_width=figure_width,
-                x_lim=(line_start, line_virtual_stop),
-                ax=ax,
-                **plot_params
-            )
-            return line_ax
-
-        for line_index in range(n_lines):
-            line_ax = plot_line(line_index)
-            figures_heights.append(line_ax.figure.get_figheight())
-            plt.close(line_ax.figure)
-
-        fig, axes = plt.subplots(
-            n_lines,
-            1,
-            gridspec_kw={"height_ratios": figures_heights},
-            figsize=(figure_width, 0.9 * sum(figures_heights)),
-        )
-        for line_index, ax in enumerate(axes):
-            plot_line(line_index, ax=ax)
-        fig.tight_layout()
-        fig.subplots_adjust(hspace=0)
-        return fig, axes
 
 
 def change_luminosity(

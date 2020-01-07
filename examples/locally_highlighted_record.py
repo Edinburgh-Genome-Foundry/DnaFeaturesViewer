@@ -11,7 +11,7 @@ def feature_properties(f):
 
 
 translator = BiopythonTranslator(features_properties=feature_properties)
-graphic_record = translator.translate_record("./example_sequence.gb")
+graphic_record = translator.translate_record("example_sequence.gb")
 ax, _ = graphic_record.plot(figure_width=12, elevate_outline_annotations=True)
 ax.fill_between(
     [start, end], -10, 10, facecolor="peachpuff", alpha=0.2, zorder=-1

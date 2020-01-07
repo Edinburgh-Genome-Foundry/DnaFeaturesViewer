@@ -3,12 +3,10 @@
 from dna_features_viewer import BiopythonTranslator
 
 translator = BiopythonTranslator()
-graphic_record = translator.translate_record("./example_sequence.gb")
-subrecord = graphic_record.crop((1700, 2200))
+graphic_record = translator.translate_record("example_sequence.gb")
+subrecord = graphic_record.crop((1700, 2000))
 fig, axes = subrecord.plot_on_multiple_lines(
-    nucl_per_line=100,
-    figure_width=12,
-    plot_sequence=True,
-    sequence_parameters={"background": None},
+    nucl_per_line=70,
+    plot_sequence=True
 )
 fig.savefig('multiline_plot.png')

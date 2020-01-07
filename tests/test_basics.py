@@ -266,10 +266,20 @@ def test_multiline_plot():
     fig, axes = subrecord.plot_on_multiple_lines(
         nucl_per_line=100,
         figure_width=12,
-        plot_sequence=True,
-        sequence_parameters={"background": None},
+        plot_sequence=True
     )
     assert 9.5 < fig.get_figheight() < 10
+
+def test_multipage_plot(tmpdir):
+    translator = BiopythonTranslator()
+    graphic_record = translator.translate_record(example_genbank)
+    subrecord = graphic_record.crop((1800, 2750))
+    subrecord.plot_on_multiple_pages(
+        pdf_target=os.path.join(str(tmpdir), 'test.pdf'),
+        nucl_per_line=70,
+        lines_per_page=7,
+        plot_sequence=True
+    )
 
 
 def test_legend():

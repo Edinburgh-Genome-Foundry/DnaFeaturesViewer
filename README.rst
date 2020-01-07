@@ -207,6 +207,27 @@ other sequences statistics, such as the local GC content:
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/with_gc_plot.png" width="800">
     </p>
 
+Multi-line and multi-page plots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since v3.0 it is possible to plot a sequence over multiple lines (using ``record.plot_on_multiple_lines()``) or even on multiple pages (of a PDF):
+
+.. code:: python
+
+    graphic_record.plot_on_multiple_pages(
+        "multipage_plot.pdf",
+        nucl_per_line=70,
+        lines_per_page=7,
+        plot_sequence=True
+    )
+
+    
+.. raw:: html
+
+    <p align="center">
+    <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/multiline_example.png" width="900">
+    </p>
+
 Custom biopython translators
 ----------------------------
 
@@ -259,7 +280,6 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
-
 
 Examples in other librairies:
 ------------------------------
