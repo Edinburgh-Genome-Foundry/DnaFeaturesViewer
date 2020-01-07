@@ -4,12 +4,12 @@ Examples
 Define a graphic record "by hand"
 ----------------------------------
 
-.. literalinclude:: ../examples/by_hand.py
+.. literalinclude:: ../examples/graphic_record_defined_by_hand.py
 
-.. figure:: ../examples/by_hand.png
+.. figure:: ../examples/graphic_record_defined_by_hand.png
     :align: center
 
-.. figure:: ../examples/by_hand_circular.png
+.. figure:: ../examples/graphic_record_defined_by_hand_circular.png
     :align: center
 
 Custom Biopython record translator

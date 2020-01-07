@@ -20,5 +20,5 @@ subrecord.plot_on_multiple_pages(
     "multipage_plot.pdf",
     nucl_per_line=70,
     lines_per_page=7,
-    plot_sequence=True
+    plot_sequence=True,
 )
