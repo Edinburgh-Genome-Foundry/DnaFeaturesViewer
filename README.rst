@@ -46,6 +46,11 @@ If you intend to use the bokeh features, you need to also install Bokeh and Pand
 
     (sudo) pip install bokeh pandas
 
+To parse GFF files, install the ``bcbio-gff`` library:
+
+.. code::
+    (sudo) pip install bcbio-gff
+
 
 Examples of use
 ---------------
