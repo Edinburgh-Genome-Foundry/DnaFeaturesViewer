@@ -112,8 +112,6 @@ class MatplotlibPlottableMixin(
         if auto_figure_height:
             figure_width = ax.figure.get_size_inches()[0]
             ax.figure.set_size_inches(figure_width, 1 + 0.4 * ymax)
-        if self.plots_indexing == "genbank":
-            ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
         ax.set_xticks(
             [
                 t
@@ -121,6 +119,8 @@ class MatplotlibPlottableMixin(
                 if t <= self.last_index and t >= self.first_index
             ]
         )
+        if self.plots_indexing == "genbank":
+            ax.set_xticklabels([int(i + 1) for i in ax.get_xticks()])
         return ideal_yspan / (ymax - ymin)
 
     @staticmethod
