@@ -51,7 +51,7 @@ class BokehPlottableMixin:
         result.update(kwargs)
         return result
 
-    def plot_with_bokeh(self, figure_width=5, figure_height="auto"):
+    def plot_with_bokeh(self, figure_width=5, figure_height="auto", tools="auto"):
         """Plot the graphic record using Bokeh.
 
         Examples
@@ -66,6 +66,10 @@ class BokehPlottableMixin:
         if not PANDAS_AVAILABLE:
             raise ImportError("``plot_with_bokeh`` requires Pandas installed.")
 
+        # Set up default tools
+        if tools == "auto":
+            tools = [HoverTool(tooltips="@hover_html"), "xpan,xwheel_zoom,reset,tap"]
+
         # FIRST PLOT WITH MATPLOTLIB AND GATHER INFOS ON THE PLOT
         ax, (features_levels, plot_data) = self.plot(figure_width=figure_width)
         width, height = [int(100 * e) for e in ax.figure.get_size_inches()]
@@ -75,18 +79,17 @@ class BokehPlottableMixin:
         else:
             height = 100 * figure_height
         height = max(height, 185) # Minimal height to see all icons
-        print (height)
+
         max_y = max(
             [data["annotation_y"] for f, data in plot_data.items()]
             + list(features_levels.values())
         )
 
         # BUILD THE PLOT ()
-        hover = HoverTool(tooltips="@hover_html")
         plot = figure(
             plot_width=width,
             plot_height=height,
-            tools=[hover, "xpan,xwheel_zoom,reset,tap"],
+            tools=tools,
             x_range=Range1d(0, self.sequence_length),
             y_range=Range1d(-1, max_y + 1),
         )
