@@ -14,9 +14,7 @@ from .MultilinePlottableMixin import MultilinePlottableMixin
 from .SequenceAndTranslationMixin import SequenceAndTranslationMixin
 
 
-class MatplotlibPlottableMixin(
-    MultilinePlottableMixin, SequenceAndTranslationMixin
-):
+class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMixin):
     """Class mixin for matplotlib-related methods."""
 
     default_elevate_outline_annotations = False
@@ -71,19 +69,19 @@ class MatplotlibPlottableMixin(
         annotations_are_elevated=True,
     ):
         """Prettify the figure with some last changes.
-        
+
         Changes include redefining y-bounds and figure height.
 
         Parameters
         ==========
         ax
-          ax on which the record was plotted
-        
+          ax on which the record was plotted.
+
         features_levels
-          
+    
         annotations_max_level
           Number indicating to the method the maximum height for an
-          annotation, so the method can set ymax accordingly
+          annotation, so the method can set ymax accordingly.
 
         auto_figure_height
           If true, the figure'height will be automatically re-set to a nice
@@ -141,7 +139,7 @@ class MatplotlibPlottableMixin(
         simply be a rectangle.
 
         The x-coordinates of the patch are determined by the feature's
-        `start` and `end` while the y-coordinates are determined by the `level`
+        `start` and `end` while the y-coordinates are determined by the `level`.
         """
         x1, x2 = feature.start, feature.end
         if feature.open_left:
@@ -160,9 +158,7 @@ class MatplotlibPlottableMixin(
             head_length = 0.001
         else:
             width_pixel = self._get_ax_width(ax, unit="pixel")
-            head_length = (
-                0.5 * width_pixel * feature.length / self.sequence_length
-            )
+            head_length = 0.5 * width_pixel * feature.length / self.sequence_length
             head_length = min(head_length, 0.6 * feature.thickness)
 
         arrowstyle = mpatches.ArrowStyle.Simple(
@@ -218,7 +214,7 @@ class MatplotlibPlottableMixin(
         simply be a rectangle.
 
         The x-coordinates of the patch are determined by the feature's
-        `start` and `end` while the y-coordinates are determined by the `level`
+        `start` and `end` while the y-coordinates are determined by the `level`.
         """
         x, y = self.coordinates_in_plot(feature.x_center, level)
         label = feature.label
@@ -285,13 +281,13 @@ class MatplotlibPlottableMixin(
         ----------
 
         feature
-          Graphic feature to place in the figure
+          Graphic feature to place in the figure.
         
         ax
           Matplotlib ax in which to place the feature.
         
         level
-          level at which the annotation should be placed
+          level at which the annotation should be placed.
           
         annotate_inline
           If true, the plotter will attempt to annotate inline, and fall back
@@ -360,7 +356,7 @@ class MatplotlibPlottableMixin(
         figure_height=None,
         sequence_params=None,
     ):
-        """Plot all the features in the same Matplotlib ax
+        """Plot all the features in the same Matplotlib ax.
 
         Parameters
         ----------
@@ -392,21 +388,21 @@ class MatplotlibPlottableMixin(
           All features and annotations will be pushed up by "level_offset". Can
           be useful when plotting several sets of features successively on a
           same ax.
-        
+
         elevate_outline_annotations
           If true, every text annotation will be above every feature. If false,
           text annotations will be as close as possible to the features.
-        
+
         strand_in_label_pixel_threshold
           Number N such that, when provided, every feature with a graphical
           width in pixels below N will have its strand indicated in the label
-          by an a left/right arrow
+          by an a left/right arrow.
 
         x_lim
           Horizontal axis limits to be set at the end.
-        
+
         sequence_params
-          parameters for plot_sequence
+          parameters for plot_sequence.
         """
 
         if elevate_outline_annotations == "default":
@@ -421,9 +417,7 @@ class MatplotlibPlottableMixin(
         for f in features_levels:
             features_levels[f] += level_offset
         max_level = (
-            1
-            if (features_levels == {})
-            else max(1, max(features_levels.values()))
+            1 if (features_levels == {}) else max(1, max(features_levels.values()))
         )
         auto_figure_height = (ax is None) and (figure_height is None)
         if ax is None:
@@ -431,7 +425,7 @@ class MatplotlibPlottableMixin(
             fig, ax = plt.subplots(1, figsize=(figure_width, height))
 
         def strand_in_label(f):
-            """Anything under 0.1 inches in the figure"""
+            """Anything under 0.1 inches in the figure."""
             if strand_in_label_threshold is None:
                 return False
             width_pixel = self._get_ax_width(ax, unit="pixel")
@@ -457,13 +451,7 @@ class MatplotlibPlottableMixin(
             self.plot_feature(ax=ax, feature=feature, level=level)
             if feature.label is None:
                 continue
-            (
-                text,
-                overflowing,
-                nlines,
-                (x1, x2,),
-                height,
-            ) = self.place_annotation(
+            (text, overflowing, nlines, (x1, x2,), height,) = self.place_annotation(
                 feature=feature,
                 ax=ax,
                 level=level,
@@ -510,9 +498,7 @@ class MatplotlibPlottableMixin(
                 is_base=True,
             )
             overflowing_annotations.append(base_feature)
-            annotations_levels = compute_features_levels(
-                overflowing_annotations
-            )
+            annotations_levels = compute_features_levels(overflowing_annotations)
         else:
             for f in self.features:
                 f.data.update(dict(nlines=1, fixed_level=features_levels[f]))
@@ -525,9 +511,7 @@ class MatplotlibPlottableMixin(
 
         max_annotations_level = max([0] + list(annotations_levels.values()))
         annotation_height = self.determine_annotation_height(max_level)
-        annotation_height = max(
-            self.min_y_height_of_text_line, annotation_height
-        )
+        annotation_height = max(self.min_y_height_of_text_line, annotation_height)
         labels_data = {}
         for feature, level in annotations_levels.items():
             if "is_base" in feature.data:
@@ -576,36 +560,24 @@ class MatplotlibPlottableMixin(
             text = feature.legend_text
             if text is None:
                 continue
-            parameters = dict(
-                label=text, facecolor=feature.color, edgecolor="black",
-            )
+            parameters = dict(label=text, facecolor=feature.color, edgecolor="black",)
             if include_edge:
                 parameters.update(
-                    dict(
-                        linewidth=feature.linewidth,
-                        edgecolor=feature.linecolor,
-                    )
+                    dict(linewidth=feature.linewidth, edgecolor=feature.linecolor,)
                 )
             if text in features_parameters:
                 previous_parameters = features_parameters[text]
                 if (not allow_ambiguity) and any(
-                    [
-                        parameters[k] != previous_parameters[k]
-                        for k in parameters
-                    ]
+                    [parameters[k] != previous_parameters[k] for k in parameters]
                 ):
-                    raise ValueError(
-                        "Cannot generate an unambiguous legend as two"
-                    )
+                    raise ValueError("Cannot generate an unambiguous legend as two")
                 continue
             features_parameters[text] = parameters
             handles.append(Patch(**parameters))
         ax.legend(handles=handles, **legend_kwargs)
 
 
-def change_luminosity(
-    color, luminosity=None, min_luminosity=None, factor=None
-):
+def change_luminosity(color, luminosity=None, min_luminosity=None, factor=None):
     """Return a version of the color with different luminosity.
 
     Parameters
@@ -613,14 +585,16 @@ def change_luminosity(
     color
       A color in any Matplotlib-compatible format such as "white", "w",
       (1,1,1), "#ffffff", etc.
+
     luminosity
       A float in 0-1. If provided, the returned color has this level of
       luminosity.
+
     factor
       Only used if `luminosity` is not set. Positive factors increase
       luminosity and negative factors decrease it. More precisely, the
       luminosity of the new color is L^(-factor), where L is the current
-      luminosity, between 0 and 1. 
+      luminosity, between 0 and 1.
     """
     r, g, b = colorConverter.to_rgb(color)
     h, l, s = colorsys.rgb_to_hls(r, g, b)
@@ -641,7 +615,7 @@ def get_text_box(text, margin=0):
     `text` is a Matplotlib text obtained with ax.text().
     This returns `(x1,y1, x2, y2)` where (x1,y1) is the lower left corner
     and (x2, y2) is the upper right corner of the text, in data coordinates.
-    If a margin m is supplied, the returned result is (x1-m, y1-m, x2+m, y2+m)
+    If a margin m is supplied, the returned result is (x1-m, y1-m, x2+m, y2+m).
     """
     renderer = text.axes.figure.canvas.get_renderer()
     bbox = text.get_window_extent(renderer)  # bounding box

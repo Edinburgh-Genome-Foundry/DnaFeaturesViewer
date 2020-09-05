@@ -20,9 +20,9 @@ class BiopythonTranslatorBase:
       This only works if you haven't redefined ``compute_filtered_features``
 
     features_properties
-      A function (feature)=> properties_dict
-
+      A function (feature)=> properties_dict.
     """
+
     graphic_record_parameters = {}
 
     def __init__(self, features_filters=(), features_properties=None):
@@ -40,11 +40,11 @@ class BiopythonTranslatorBase:
             box_color=self.compute_feature_box_color(feature),
             linewidth=self.compute_feature_linewidth(feature),
             label_link_color=self.compute_feature_label_link_color(feature),
-            legend_text=self.compute_feature_legend_text(feature)
+            legend_text=self.compute_feature_legend_text(feature),
         )
         if self.features_properties is not None:
             other_properties = self.features_properties
-            if hasattr(other_properties, '__call__'):
+            if hasattr(other_properties, "__call__"):
                 other_properties = other_properties(feature)
             properties.update(other_properties)
 
@@ -77,7 +77,7 @@ class BiopythonTranslatorBase:
         if record_class in classes:
             record_class = classes[record_class]
 
-        if isinstance(record, str) or hasattr(record, 'read'):
+        if isinstance(record, str) or hasattr(record, "read"):
             record = load_record(record)
         filtered_features = self.compute_filtered_features(record.features)
         return record_class(
@@ -90,7 +90,7 @@ class BiopythonTranslatorBase:
             ],
             **self.graphic_record_parameters
         )
-    
+
     @classmethod
     def quick_class_plot(cls, record, figure_width=12, **kwargs):
         """Allows super quick and dirty plotting of Biopython records.
@@ -104,7 +104,7 @@ class BiopythonTranslatorBase:
         graphic_record = cls().translate_record(record)
         ax, _ = graphic_record.plot(figure_width=figure_width, **kwargs)
         return ax
-    
+
     def quick_plot(self, record, figure_width=12, **kwargs):
         """Allows super quick and dirty plotting of Biopython records.
 

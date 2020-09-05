@@ -15,13 +15,13 @@ class CircularGraphicRecord(GraphicRecord):
     ----------
 
     sequence_length
-      Length of the DNA sequence, in number of nucleotides
+      Length of the DNA sequence, in number of nucleotides.
 
     features
       list of GraphicalFeature objects.
 
     top_position
-      The index in the sequence that will end up at the top of the circle
+      The index in the sequence that will end up at the top of the circle.
 
     feature_level_height
       Width in inches of one "level" for feature arrows.
@@ -30,13 +30,12 @@ class CircularGraphicRecord(GraphicRecord):
       Width in inches of one "level" for feature annotations.
 
     labels_spacing
-      Distance in basepairs to keep between labels to avoid "quasi-collisions"
+      Distance in basepairs to keep between labels to avoid "quasi-collisions".
 
     **kw
       Other keyword arguments - do not use, these parameters are allowed for
       making it easier to use GraphicRecord and CircularGraphicRecord
       interchangeably.
-
     """
 
     default_elevate_outline_annotations = True
@@ -91,18 +90,13 @@ class CircularGraphicRecord(GraphicRecord):
         annotations_max_level,
         auto_figure_height=False,
         ideal_yspan=None,
-        annotations_are_elevated=True
+        annotations_are_elevated=True,
     ):
         """Final display range and figure dimension tweakings."""
-        annotation_height = self.determine_annotation_height(
-            annotations_max_level
-        )
-        ymin = -2 * self.radius - self.feature_level_height * (
-            features_levels + 1
-        )
-        ymax = (
-            self.feature_level_height * (features_levels + 1)
-            + annotation_height * (annotations_max_level + 1)
+        annotation_height = self.determine_annotation_height(annotations_max_level)
+        ymin = -2 * self.radius - self.feature_level_height * (features_levels + 1)
+        ymax = self.feature_level_height * (features_levels + 1) + annotation_height * (
+            annotations_max_level + 1
         )
         if ideal_yspan is not None:
             ymax = max(annotation_height * ideal_yspan + ymin, ymax)
@@ -117,7 +111,7 @@ class CircularGraphicRecord(GraphicRecord):
             ax.figure.set_size_inches(figure_width, figure_width * ratio)
 
     def plot_feature(self, ax, feature, level):
-        """Plot an ArrowWedge representing the feature at the giben height
+        """Plot an ArrowWedge representing the feature at the given height
         level.
 
 
@@ -151,9 +145,7 @@ class CircularGraphicRecord(GraphicRecord):
         r = self.radius + level * self.feature_level_height
         angle = self.position_to_angle(position)
         rad_angle = np.deg2rad(angle)
-        return np.array(
-            [r * np.cos(rad_angle), r * np.sin(rad_angle) - self.radius]
-        )
+        return np.array([r * np.cos(rad_angle), r * np.sin(rad_angle) - self.radius])
 
     def determine_annotation_height(self, max_annotations_level):
         """Auto-select the annotations height.

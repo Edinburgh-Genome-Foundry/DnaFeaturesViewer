@@ -11,9 +11,7 @@ except ImportError:
     class GFF:
         def parse(*a):
             """Not available. Please install bcbio-gff."""
-            raise ImportError(
-                "Please install the bcbio-gff library to parse GFF data"
-            )
+            raise ImportError("Please install the bcbio-gff library to parse GFF data")
 
 
 def complement(dna_sequence):
@@ -37,8 +35,7 @@ def reverse_complement(sequence):
 
 
 aa_short_to_long_form_dict = {
-    _aa1: _aa3[0] + _aa3[1:].lower()
-    for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
+    _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
 }
 
 
@@ -93,10 +90,10 @@ def extract_graphical_translation(sequence, location, long_form=False):
 
 
 def load_record(path):
-    """Load a Genbank file """
+    """Load a Genbank file."""
     if isinstance(path, str):
         # Input is a file path
-        if path.lower().endswith('.gff'):
+        if path.lower().endswith(".gff"):
             return list(GFF.parse(path))[0]
         else:
             return SeqIO.read(path, "genbank")
@@ -110,11 +107,7 @@ def load_record(path):
 
 
 def annotate_biopython_record(
-    seqrecord,
-    location="full",
-    feature_type="misc_feature",
-    margin=0,
-    **qualifiers
+    seqrecord, location="full", feature_type="misc_feature", margin=0, **qualifiers
 ):
     """Add a feature to a Biopython SeqRecord.
 
@@ -128,13 +121,13 @@ def annotate_biopython_record(
       Either (start, end) or (start, end, strand). (strand defaults to +1)
 
     feature_type
-      The type associated with the feature
+      The type associated with the feature.
 
     margin
       Number of extra bases added on each side of the given location.
 
     qualifiers
-      Dictionnary that will be the Biopython feature's `qualifiers` attribute.
+      Dictionary that will be the Biopython feature's `qualifiers` attribute.
     """
     if location == "full":
         location = (margin, len(seqrecord) - margin)

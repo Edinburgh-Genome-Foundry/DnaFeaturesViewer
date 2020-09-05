@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 class GraphicFeature:
     """Genetic Feature to be plotted.
 
@@ -14,7 +15,7 @@ class GraphicFeature:
       anti-sense, or no directionality.
 
     label
-      Short descriptive text associated and plotted with the feature
+      Short descriptive text associated and plotted with the feature.
 
     color
       Color of the feature, any Matplotlib-compatible format is accepted,
@@ -28,7 +29,7 @@ class GraphicFeature:
       Width of the line (=edge) surrounding the graphic feature, in pixels.
 
     thickness
-      Vertical span of the feature
+      Vertical span of the feature.
 
     box_color
       Color of the label box. Set to None for no box around the label.
@@ -48,7 +49,7 @@ class GraphicFeature:
 
     box_linewidth
       Width of the line delimiting the text box when the annotation is outside
-      the graphic feature. Set to 0 for no box borders
+      the graphic feature. Set to 0 for no box borders.
 
     box_color
       Background color of the annotation's text box. If left to "auto" the
@@ -94,9 +95,7 @@ class GraphicFeature:
         self.box_linewidth = box_linewidth
         self.box_color = box_color
         self.label_link_color = label_link_color
-        self.fontdict = dict(
-            [("fontsize", 11)] + list((fontdict or {}).items())
-        )
+        self.fontdict = dict([("fontsize", 11)] + list((fontdict or {}).items()))
         self.html = html
         self.open_left = open_left
         self.open_right = open_right
@@ -129,7 +128,7 @@ class GraphicFeature:
         return copy
 
     def overlaps_with(self, other):
-        """Return whether the feature's location overlaps with feature `other`
+        """Return whether the feature's location overlaps with feature `other`.
         """
         loc1, loc2 = (self.start, self.end), (other.start, other.end)
         loc1, loc2 = sorted(loc1), sorted(loc2)

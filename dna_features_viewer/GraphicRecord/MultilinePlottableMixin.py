@@ -12,7 +12,7 @@ class MultilinePlottableMixin:
         figure_width="auto",
         **plot_params
     ):
-        """Plot the features on different lines (one Matplotlib ax per line)
+        """Plot the features on different lines (one Matplotlib ax per line).
 
         Parameters
         ----------
@@ -20,13 +20,13 @@ class MultilinePlottableMixin:
         n_lines
           Number of lines on which the record will be plotted. A number of
           nucleotides per line can be provided instead (see below).
-        
+
         nucl_per_line
           Number of nucleotides to be represented on every line (determines
           the number of lines ``n_lines``).
-        
+
         plot_sequence
-          Whether to plot the nucleotide sequence on each line
+          Whether to plot the nucleotide sequence on each line.
 
         figure_width
           Width of the figure in inches. Leave to auto for a width of either 10
@@ -37,8 +37,8 @@ class MultilinePlottableMixin:
           Parameters from ``graphic_record.plot()`` to be used in the plotting
           of the individual lines. This includes ``draw_line``, ``with_ruler``,
           ``annotate_inline``, ``plot_sequence``,
-          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``
-        
+          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``.
+
         Returns
         -------
 
@@ -103,7 +103,7 @@ class MultilinePlottableMixin:
         """Plot the features on different lines on different pages of a PDF.
 
         This function returns None
-        
+
         Parameters
         ----------
 
@@ -113,16 +113,16 @@ class MultilinePlottableMixin:
         n_lines
           Number of lines on which the record will be plotted. A number of
           nucleotides per line can be provided instead (see below).
-        
+
         nucl_per_line
           Number of nucleotides to be represented on every line (determines
           the number of lines ``n_lines``).
-        
+
         lines_per_page
-          Number of lines on each page
-        
+          Number of lines on each page.
+
         plot_sequence
-          Whether to plot the nucleotide sequence on each line
+          Whether to plot the nucleotide sequence on each line.
 
         figure_width
           Width of the figure in inches. Leave to auto for a width of either 10
@@ -133,7 +133,7 @@ class MultilinePlottableMixin:
           Parameters from ``graphic_record.plot()`` to be used in the plotting
           of the individual lines. This includes ``draw_line``, ``with_ruler``,
           ``annotate_inline``, ``plot_sequence``,
-          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``
+          ``evelate_outline_annotations``, ``strand_in_label_pixel_threshold``.
         """
         nucl_per_page = nucl_per_line * lines_per_page
         number_of_pages = int(numpy.ceil(self.sequence_length / nucl_per_page))

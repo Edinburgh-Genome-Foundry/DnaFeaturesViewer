@@ -11,11 +11,11 @@ class SequenceAndTranslationMixin:
         ----------
 
         ax
-          Which axes the translation should be plotted to
+          Which axes the translation should be plotted to.
 
         location
           location of the segment to translate, either (start, end) or
-          (start, end, strand)
+          (start, end, strand).
 
         y_offset
           Number of text levels under the plot's base line where to draw the
@@ -32,7 +32,7 @@ class SequenceAndTranslationMixin:
 
         guides_intensity
           Intensity of the vertical guides marking the different nucleotides
-          (0 = no guides)
+          (0 = no guides).
         """
         if self.sequence is None:
             raise ValueError("No sequence in the graphic record")
@@ -77,10 +77,10 @@ class SequenceAndTranslationMixin:
         ----------
 
         ax
-          Which axes the translation should be plotted to
+          Which axes the translation should be plotted to.
 
         location
-          location of the segment to translate (start, end)
+          location of the segment to translate (start, end).
 
         y_offset
           Number of text levels under the plot's base line where to draw the
@@ -98,8 +98,6 @@ class SequenceAndTranslationMixin:
         translation
           Sequence of amino acids either as a string ``'MAKG...'`` or as a list
           ``['Met', 'Ala', ...]``
-        
-
         """
         start, end = location[0], location[1]
         strand = location[2] if (len(location) == 3) else 1
@@ -109,9 +107,7 @@ class SequenceAndTranslationMixin:
         if translation is None:
             new_loc = start - self.first_index, end - self.first_index, strand
             translation = extract_graphical_translation(
-                self.sequence,
-                location=new_loc,
-                long_form=long_form_translation,
+                self.sequence, location=new_loc, long_form=long_form_translation,
             )
         texts = [
             ((start + 3 * i, start + 3 * (i + 1)), aa)
@@ -134,12 +130,7 @@ class SequenceAndTranslationMixin:
             )
             if guides_intensity:
                 ax.axvline(
-                    start - 0.5,
-                    linewidth=0.1,
-                    color=guides_color,
-                    zorder=-10000,
+                    start - 0.5, linewidth=0.1, color=guides_color, zorder=-10000,
                 )
         if guides_intensity:
-            ax.axvline(
-                end - 0.5, linewidth=0.1, color=guides_color, zorder=-10000
-            )
+            ax.axvline(end - 0.5, linewidth=0.1, color=guides_color, zorder=-10000)

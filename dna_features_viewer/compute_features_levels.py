@@ -12,10 +12,11 @@ class Graph:
     ----------
 
     nodes
-      A list of objects. They must be hashable
+      A list of objects. They must be hashable.
+
     edges
       A list of the form [(n1,n2), (n3,n4)...] where (n1, n2) represents
-      an edge between nodes n1 and n2
+      an edge between nodes n1 and n2.
     """
 
     def __init__(self, nodes, edges):
@@ -33,8 +34,8 @@ def compute_features_levels(features):
     `features` must be a list of `dna_features_viewer.GraphicFeature`.
 
     The method used is basically a graph coloring:
-    - The nodes of the graph are features and they will be colored with a level
-    - Two nodes are neighbors if and only if their features's locations overlap
+    - The nodes of the graph are features and they will be colored with a level.
+    - Two nodes are neighbors if and only if their features's locations overlap.
     - Levels are attributed to nodes iteratively starting with the nodes
       corresponding to the largest features.
     - A node receives the lowest level (starting at 0) that is not already
@@ -46,16 +47,13 @@ def compute_features_levels(features):
         if f1.overlaps_with(f2)
     ]
     graph = Graph(features, edges)
-    levels = {
-        n: n.data.get("fixed_level", None)
-        for n in graph.nodes
-    }
+    levels = {n: n.data.get("fixed_level", None) for n in graph.nodes}
 
     def collision(node, level):
         """Return whether the node placed at base_level collides with its
         neighbors in the graph."""
         line_factor = 0.5
-        nlines = node.data.get("nlines", 1) 
+        nlines = node.data.get("nlines", 1)
         for neighbor in graph.neighbors[node]:
             neighbor_level = levels[neighbor]
             if neighbor_level is None:

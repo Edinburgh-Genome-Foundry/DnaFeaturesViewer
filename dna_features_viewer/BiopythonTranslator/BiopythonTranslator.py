@@ -16,13 +16,13 @@ class BiopythonTranslator(BiopythonTranslatorBase):
 
     default_feature_color = "#7245dc"
     graphic_record_parameters
-      Dictionnary containing keyword arguments that will be passed to the
-      (Circular)GraphicRecord constructor
+      Dictionary containing keyword arguments that will be passed to the
+      (Circular)GraphicRecord constructor.
 
     ignored_features_types
       A list or tuple of strings indicating all the feature types that should
       always be ignored (i.e. not included in the graphic record) by the
-      translator
+      translator.
 
     label_fields
       This list of strings provides the order in which the different
@@ -37,11 +37,10 @@ class BiopythonTranslator(BiopythonTranslatorBase):
     features_filters
       List of filters (some_biopython_feature) => True/False.
       Only features passing all the filters are kept.
-      This only works if you haven't redefined ``compute_filtered_features``
+      This only works if you haven't redefined ``compute_filtered_features``.
 
     features_properties
-      A function (feature)=> properties_dict
-
+      A function (feature)=> properties_dict.
     """
 
     default_feature_color = "#7245dc"
@@ -96,9 +95,9 @@ class BiopythonTranslator(BiopythonTranslatorBase):
 
     def compute_filtered_features(self, features):
         """Return the list of features minus the ignored ones.
-        
+
         By the method keeps any feature whose type is not in
-        ignored_features_types and for which all filter(f) pass
+        ignored_features_types and for which all filter(f) pass.
         """
         return [
             f
