@@ -33,6 +33,7 @@ class BiopythonTranslatorBase:
         """Translate a Biopython feature into a Dna Features Viewer feature."""
         properties = dict(
             label=self.compute_feature_label(feature),
+            locus_tag=self.compute_locus_tag(feature),
             color=self.compute_feature_color(feature),
             html=self.compute_feature_html(feature),
             fontdict=self.compute_feature_fontdict(feature),
@@ -54,6 +55,13 @@ class BiopythonTranslatorBase:
             strand=feature.location.strand,
             **properties
         )
+
+    def compute_locus_tag(self, feature):
+        """Compute the locus tag of the feature."""
+        if 'locus_tag' in feature.qualifiers and len(feature.qualifiers['locus_tag']):
+            return feature.qualifiers['locus_tag']
+        else:
+            return None
 
     def translate_record(self, record, record_class=None):
         """Create a new GraphicRecord from a BioPython Record object.

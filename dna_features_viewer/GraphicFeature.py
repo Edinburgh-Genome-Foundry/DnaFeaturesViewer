@@ -17,6 +17,9 @@ class GraphicFeature:
     label
       Short descriptive text associated and plotted with the feature.
 
+    locus_tag
+      Locus tag of the feature
+
     color
       Color of the feature, any Matplotlib-compatible format is accepted,
       such as "white", "w", "#ffffff", (1,1,1), etc.
@@ -69,6 +72,7 @@ class GraphicFeature:
         end=None,
         strand=None,
         label=None,
+        locus_tag=None,
         color="#000080",
         thickness=14,
         linewidth=1.0,
@@ -87,6 +91,7 @@ class GraphicFeature:
         self.end = end
         self.strand = strand
         self.label = label
+        self.locus_tag = locus_tag
         self.color = color
         self.linecolor = linecolor
         self.data = data
