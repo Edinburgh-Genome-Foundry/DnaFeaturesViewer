@@ -59,9 +59,7 @@ class BiopythonTranslatorBase:
     def compute_locus_tag(self, feature):
         """Compute the locus tag of the feature."""
         if 'locus_tag' in feature.qualifiers and len(feature.qualifiers['locus_tag']):
-            locus_tag = feature.qualifiers['locus_tag']
-            if type(locus_tag) is list:
-                locus_tag = locus_tag[0]
+            locus_tag = feature.qualifiers['locus_tag'][0]
             return locus_tag
         else:
             return None
