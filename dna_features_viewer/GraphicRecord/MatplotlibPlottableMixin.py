@@ -31,7 +31,6 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
 
         with_ruler
           True/False to draw the indices indicators along the line.
-
         """
         ruler_color = ruler_color or self.default_ruler_color
         start, end = self.span
@@ -73,24 +72,24 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
         Changes include redefining y-bounds and figure height.
 
         Parameters
-        ==========
+        ----------
+
         ax
           ax on which the record was plotted.
 
         features_levels
-    
+
         annotations_max_level
           Number indicating to the method the maximum height for an
           annotation, so the method can set ymax accordingly.
 
         auto_figure_height
-          If true, the figure'height will be automatically re-set to a nice
-          value (counting ~0.4inch per level in the figure).
+          If true, the figure height will be automatically re-set to a nice
+          value (counting ~0.4 inch per level in the figure).
 
         ideal_yspan
           if provided, can help the method select a better ymax to make sure
           all constraints fit.
-
         """
 
         # Compute the "natural" ymax
@@ -276,19 +275,19 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
         indicate_strand_in_label=False,
     ):
         """"Place an annotation in the figure. Decide on inline vs. outline.
-        
+
         Parameters
         ----------
 
         feature
           Graphic feature to place in the figure.
-        
+
         ax
           Matplotlib ax in which to place the feature.
-        
+
         level
           level at which the annotation should be placed.
-          
+
         annotate_inline
           If true, the plotter will attempt to annotate inline, and fall back
           to outline annotation.
@@ -376,6 +375,9 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
         with_ruler
           If true, the sequence indices will be indicated at regular intervals.
 
+        ruler_color
+          Ruler color.
+
         plot_sequence
           If True and the graphic record has a "sequence" attribute set, the
           sequence will be displayed below the base line.
@@ -384,22 +386,33 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
           If true, some feature labels will be displayed inside their
           corresponding feature if there is sufficient space.
 
+        max_label_length
+          If an annotation label's length exceeds this number the label will
+          be cut with an ellipsis (...).
+
+        max_line_length
+          If an annotation label's length exceeds this number the label will
+          wrap over several lines.
+
         level_offset
           All features and annotations will be pushed up by "level_offset". Can
           be useful when plotting several sets of features successively on a
           same ax.
-
-        elevate_outline_annotations
-          If true, every text annotation will be above every feature. If false,
-          text annotations will be as close as possible to the features.
 
         strand_in_label_pixel_threshold
           Number N such that, when provided, every feature with a graphical
           width in pixels below N will have its strand indicated in the label
           by an a left/right arrow.
 
+        elevate_outline_annotations
+          If true, every text annotation will be above every feature. If false,
+          text annotations will be as close as possible to the features.
+
         x_lim
           Horizontal axis limits to be set at the end.
+
+        figure_height
+          Figure height.
 
         sequence_params
           parameters for plot_sequence.
@@ -582,6 +595,7 @@ def change_luminosity(color, luminosity=None, min_luminosity=None, factor=None):
 
     Parameters
     ----------
+
     color
       A color in any Matplotlib-compatible format such as "white", "w",
       (1,1,1), "#ffffff", etc.
