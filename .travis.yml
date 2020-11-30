@@ -5,6 +5,7 @@ python:
 install:
   - pip install coveralls pytest-cov==2.6 pytest==3.2.3 Biopython bcbio-gff
   - pip install bokeh pandas
+  - pip install plotly
   - pip install -e .
 # command to run tests
 script:
