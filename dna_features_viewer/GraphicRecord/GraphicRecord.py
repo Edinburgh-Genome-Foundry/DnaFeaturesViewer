@@ -15,9 +15,10 @@ except ImportError:
 
 from .MatplotlibPlottableMixin import MatplotlibPlottableMixin
 from .BokehPlottableMixin import BokehPlottableMixin
+from .PlotlyPlottableMixin import PlotlyPlottableMixin
 
 
-class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin):
+class GraphicRecord(MatplotlibPlottableMixin, BokehPlottableMixin, PlotlyPlottableMixin):
     """Set of Genetic Features of a same DNA sequence, to be plotted together.
 
     Parameters
