@@ -46,6 +46,12 @@ If you intend to use the bokeh features, you need to also install Bokeh and Pand
 
     (sudo) pip install bokeh pandas
 
+If you intend to use the plotly features, you need to also install Plotly and Pandas:
+
+.. code:: python
+
+    (sudo) pip install plotly pandas
+
 To parse GFF files, install the ``bcbio-gff`` library:
 
 .. code::
