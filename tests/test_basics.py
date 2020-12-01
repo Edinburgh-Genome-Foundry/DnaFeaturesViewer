@@ -144,6 +144,56 @@ def test_plot_with_bokeh_no_labels(tmpdir):
         assert len(f.read()) > 5000
 
 
+def test_plot_with_plotly(tmpdir):
+    gb_record = SeqIO.read(example_genbank, "genbank")
+    record = BiopythonTranslator().translate_record(record=gb_record)
+    plot = record.plot_with_plotly(figure_width=8)
+    target_file = os.path.join(str(tmpdir), "plot_with_plotly.html")
+    plot.write_html(target_file, include_plotlyjs="cdn")
+    with open(target_file, "r") as f:
+        assert len(f.read()) > 5000
+
+
+def test_plotly_feature_patch():
+    record = GraphicRecord(sequence_length=50, sequence="ATGCATGCAT")
+    patch = record.plotly_feature_patch(
+        start=10,
+        end=20,
+        strand=+1,
+        figure_width=8,
+        width=0.4,
+        level=1.0,
+        arrow_width_inches=0.05
+    )
+    assert patch == dict(xs=[10, 10, 19.6875, 20, 19.6875, 10], ys=[0.8, 1.2, 1.2, 1.0, 0.8, 0.8])
+
+
+def test_bokeh_feature_patch():
+    record = GraphicRecord(sequence_length=50, sequence="ATGCATGCAT")
+    patch = record.bokeh_feature_patch(
+        start=10,
+        end=20,
+        strand=+1,
+        figure_width=8,
+        width=0.4,
+        level=1.0,
+        arrow_width_inches=0.05
+    )
+    assert patch == dict(xs=[10, 10, 19.6875, 20, 19.6875, 10], ys=[0.8, 1.2, 1.2, 1.0, 0.8, 0.8])
+
+
+def test_plot_with_plotly_no_labels(tmpdir):
+    gb_record = SeqIO.read(example_genbank, "genbank")
+    record = BiopythonTranslator().translate_record(record=gb_record)
+    for feature in record.features:
+        feature.label = None
+    plot = record.plot_with_plotly(figure_width=8)
+    target_file = os.path.join(str(tmpdir), "plot_with_plotly.html")
+    plot.write_html(target_file, include_plotlyjs="cdn")
+    with open(target_file, "r") as f:
+        assert len(f.read()) > 5000
+
+
 def test_split_overflowing_features():
     features = [
         GraphicFeature(start=10, end=20, strand=+1, label="a"),
