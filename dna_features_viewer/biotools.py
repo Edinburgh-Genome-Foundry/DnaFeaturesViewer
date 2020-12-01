@@ -93,7 +93,7 @@ def load_record(path):
     """Load a Genbank file."""
     if isinstance(path, str):
         # Input is a file path
-        if path.lower().endswith(".gff"):
+        if path.lower().endswith(".gff") or path.lower().endswith(".gff3"):
             return list(GFF.parse(path))[0]
         else:
             return SeqIO.read(path, "genbank")
