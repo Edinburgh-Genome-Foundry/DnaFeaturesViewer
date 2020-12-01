@@ -85,26 +85,6 @@ class PlotlyPlottableMixin:
             + list(features_levels.values())
         )
 
-        patches_df = pd.DataFrame.from_records(
-            [
-                self.plotly_feature_patch(
-                    feature.start,
-                    feature.end,
-                    feature.strand,
-                    figure_width=figure_width,
-                    level=level,
-                    color=feature.color,
-                    label=feature.label,
-                    hover_html=(
-                        feature.html
-                        if feature.html is not None
-                        else feature.label
-                    ),
-                )
-                for feature, level in features_levels.items()
-            ]
-        )
-
         fig = go.Figure()
 
         # Update plot width and height
@@ -130,7 +110,21 @@ class PlotlyPlottableMixin:
         )
 
         # Add patches
-        for patch in patches_df.to_dict(orient="records"):
+        for feature, level in features_levels.items():
+            patch = self.plotly_feature_patch(
+                feature.start,
+                feature.end,
+                feature.strand,
+                figure_width=figure_width,
+                level=level,
+                color=feature.color,
+                label=feature.label,
+                hover_html=(
+                    feature.html
+                    if feature.html is not None
+                    else feature.label
+                ),
+            )
             fig.add_trace(
                 go.Scatter(
                     x=patch["xs"],
@@ -158,18 +152,6 @@ class PlotlyPlottableMixin:
                 ]
             )
 
-            segments_df = pd.DataFrame.from_records(
-                [
-                    dict(
-                        x0=feature.x_center,
-                        x1=feature.x_center,
-                        y0=pdata["annotation_y"],
-                        y1=pdata["feature_y"],
-                    )
-                    for feature, pdata in plot_data.items()
-                ]
-            )
-
             # Scatter trace of text labels
             fig.add_trace(go.Scatter(
                 x=text_df["x"],
@@ -182,9 +164,13 @@ class PlotlyPlottableMixin:
             ))
 
             # Add segments
-            for seg in segments_df.to_dict(orient="records"):
-                fig.add_shape(type="line",
-                    x0=seg["x0"], y0=seg["y0"], x1=seg["x1"], y1=seg["y1"],
+            for feature, pdata in plot_data.items():
+                fig.add_shape(
+                    type="line",
+                    x0=feature.x_center,
+                    y0=pdata["annotation_y"],
+                    x1=feature.x_center,
+                    y1=pdata["feature_y"],
                     line=dict(color="#000000", width=0.5)
                 )
 
