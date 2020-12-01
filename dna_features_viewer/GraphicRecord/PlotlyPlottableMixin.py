@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 
 class PlotlyPlottableMixin:
-    def bokeh_feature_patch(
+    def plotly_feature_patch(
             self,
             start,
             end,
@@ -27,7 +27,7 @@ class PlotlyPlottableMixin:
             arrow_width_inches=0.05,
             **kwargs
     ):
-        """Return a dict with points coordinates of a Bokeh Feature arrow.
+        """Return a dict with points coordinates of a plotly shape. Same as bokeh feature arrow
 
         Parameters
         ----------
@@ -87,7 +87,7 @@ class PlotlyPlottableMixin:
 
         patches_df = pd.DataFrame.from_records(
             [
-                self.bokeh_feature_patch(
+                self.plotly_feature_patch(
                     feature.start,
                     feature.end,
                     feature.strand,
