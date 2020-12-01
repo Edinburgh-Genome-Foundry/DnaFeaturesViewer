@@ -154,6 +154,34 @@ def test_plot_with_plotly(tmpdir):
         assert len(f.read()) > 5000
 
 
+def test_plotly_feature_patch():
+    record = GraphicRecord(sequence_length=50, sequence="ATGCATGCAT")
+    patch = record.plotly_feature_patch(
+        start=10,
+        end=20,
+        strand=+1,
+        figure_width=8,
+        width=0.4,
+        level=1.0,
+        arrow_width_inches=0.05
+    )
+    assert patch == dict(xs=[10, 10, 19.6875, 20, 19.6875, 10], ys=[0.8, 1.2, 1.2, 1.0, 0.8, 0.8])
+
+
+def test_bokeh_feature_patch():
+    record = GraphicRecord(sequence_length=50, sequence="ATGCATGCAT")
+    patch = record.bokeh_feature_patch(
+        start=10,
+        end=20,
+        strand=+1,
+        figure_width=8,
+        width=0.4,
+        level=1.0,
+        arrow_width_inches=0.05
+    )
+    assert patch == dict(xs=[10, 10, 19.6875, 20, 19.6875, 10], ys=[0.8, 1.2, 1.2, 1.0, 0.8, 0.8])
+
+
 def test_plot_with_plotly_no_labels(tmpdir):
     gb_record = SeqIO.read(example_genbank, "genbank")
     record = BiopythonTranslator().translate_record(record=gb_record)
