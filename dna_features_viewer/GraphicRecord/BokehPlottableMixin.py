@@ -40,10 +40,12 @@ class BokehPlottableMixin:
         x1, x2 = (start, end) if (strand >= 0) else (end, start)
         bp_per_width = figure_width / self.sequence_length
         delta = arrow_width_inches / bp_per_width
-        if strand >= 0:
+        if strand > 0:
             head_base = max(x1, x2 - delta)
-        else:
+        elif strand < 0:
             head_base = min(x1, x2 + delta)
+        else:
+            head_base = x2
         result = dict(
             xs=[x1, x1, head_base, x2, head_base, x1],
             ys=[e + level for e in [-hw, hw, hw, 0, -hw, -hw]],
@@ -78,7 +80,7 @@ class BokehPlottableMixin:
             height = int(0.5 * height)
         else:
             height = 100 * figure_height
-        height = max(height, 185) # Minimal height to see all icons
+        height = max(height, 185)  # Minimal height to see all icons
 
         max_y = max(
             [data["annotation_y"] for f, data in plot_data.items()]
