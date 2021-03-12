@@ -1,6 +1,8 @@
 try:
+    import bokeh
     from bokeh.plotting import figure, ColumnDataSource
     from bokeh.models import Range1d, HoverTool
+    from bokeh.core.properties import value
 
     BOKEH_AVAILABLE = True
 except ImportError:
@@ -13,6 +15,7 @@ try:
 except ImportError:
     PANDAS_AVAILABLE = False
 
+from packaging import version
 import matplotlib.pyplot as plt
 
 
@@ -124,13 +127,17 @@ class BokehPlottableMixin:
         )
 
         if plot_data != {}:
+            if version.parse(bokeh.__version__) < version.parse("2.3"):
+                value_arial = "arial"
+            else:  # >= 2.3
+                value_arial = value("arial")
             plot.text(
                 x="x",
                 y="y",
                 text="text",
                 text_align="center",
                 text_font_size="12px",
-                text_font="arial",
+                text_font=value_arial,
                 text_font_style="normal",
                 source=ColumnDataSource(
                     pd.DataFrame.from_records(
