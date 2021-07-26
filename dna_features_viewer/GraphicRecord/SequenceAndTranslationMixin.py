@@ -39,8 +39,7 @@ class SequenceAndTranslationMixin:
         if location is None:
             location = self.span
         location_start, location_end = location
-        fontdict = dict(size=11)
-        fontdict.update(fontdict or {})
+        fontdict = fontdict or {}
         for i, nucleotide in enumerate(self.sequence):
             index = i + location_start
             if location_start <= index <= location_end:
