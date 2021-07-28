@@ -39,7 +39,7 @@ class SequenceAndTranslationMixin:
         if location is None:
             location = self.span
         location_start, location_end = location
-        fontdict = fontdict or {}
+        fontdict = {"size": 11, **(fontdict or {})} 
         for i, nucleotide in enumerate(self.sequence):
             index = i + location_start
             if location_start <= index <= location_end:
@@ -116,7 +116,7 @@ class SequenceAndTranslationMixin:
         y = -0.7 * y_offset * self.feature_level_height
         ymin = ax.get_ylim()[0]
         ax.set_ylim(bottom=min(ymin, -y_offset * self.feature_level_height))
-        fontdict = fontdict or {}
+        fontdict = {"size": 11, **(fontdict or {})} 
         guides_color = (0, 0, 0, guides_intensity)
         for i, ((start, end), text) in enumerate(texts):
             ax.text(
