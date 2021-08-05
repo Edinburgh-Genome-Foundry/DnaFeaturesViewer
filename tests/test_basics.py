@@ -282,6 +282,22 @@ def test_multipage_plot(tmpdir):
     )
 
 
+def test_multipage_plot_with_translation(tmpdir):
+    translator = BiopythonTranslator()
+    graphic_record = translator.translate_record(example_genbank)
+    subrecord = graphic_record.crop((1800, 2750))
+    translation_params= {'location': (1830, 1890),
+                         'fontdict': {"weight": "bold"},
+                         'long_form_translation' : False}
+    subrecord.plot_on_multiple_pages(
+        pdf_target=os.path.join(str(tmpdir), 'test_translation.pdf'),
+        nucl_per_line=70,
+        lines_per_page=7,
+        plot_sequence=True,
+        translation_params=translation_params
+    )
+
+
 def test_legend():
     class CustomTranslator(BiopythonTranslator):
         def compute_feature_legend_text(self, feature):
