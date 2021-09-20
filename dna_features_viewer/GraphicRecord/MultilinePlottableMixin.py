@@ -10,7 +10,7 @@ class MultilinePlottableMixin:
         nucl_per_line=None,
         plot_sequence=False,
         figure_width="auto",
-        translation_params= None,
+        translation_params=None,
         **plot_params
     ):
         """Plot the features on different lines (one Matplotlib ax per line).
@@ -33,6 +33,10 @@ class MultilinePlottableMixin:
           Width of the figure in inches. Leave to auto for a width of either 10
           (if not sequence is plotted) or 0.15*nucl_per_line inches
           (if a sequence is plotted).
+
+        translation_params
+          Parameters for sequence translation. By default (``None``), it does
+          not plot a translated sequence.
 
         **plot_params
           Parameters from ``graphic_record.plot()`` to be used in the plotting
@@ -60,7 +64,7 @@ class MultilinePlottableMixin:
 
         figures_heights = []
 
-        def plot_line(line_index, ax=None, translation_params= None):
+        def plot_line(line_index, ax=None, translation_params=None):
             first, last = self.first_index, self.last_index
             line_start = first + line_index * nucl_per_line
             line_virtual_end = first + (line_index + 1) * nucl_per_line
@@ -75,10 +79,7 @@ class MultilinePlottableMixin:
             )
 
             if translation_params is not None:
-                line_record.plot_translation(
-                    ax=line_ax,
-                    **translation_params
-                )
+                line_record.plot_translation(ax=line_ax, **translation_params)
 
             return line_ax
 
@@ -137,6 +138,10 @@ class MultilinePlottableMixin:
           Width of the figure in inches. Leave to auto for a width of either 10
           (if not sequence is plotted) or 0.15*nucl_per_line inches
           (if a sequence is plotted).
+
+        translation_params
+          Parameters for sequence translation. By default (``None``), it does
+          not plot a translated sequence.
 
         **plot_params
           Parameters from ``graphic_record.plot()`` to be used in the plotting
