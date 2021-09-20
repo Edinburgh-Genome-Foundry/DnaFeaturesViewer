@@ -36,12 +36,8 @@ def test_by_hand(tmpdir):
             color="#ffcccc",
             label="Gene 1 with a very long name",
         ),
-        GraphicFeature(
-            start=400, end=700, strand=-1, color="#cffccc", label="Gene 2"
-        ),
-        GraphicFeature(
-            start=600, end=900, strand=+1, color="#ccccff", label="Gene 3"
-        ),
+        GraphicFeature(start=400, end=700, strand=-1, color="#cffccc", label="Gene 2"),
+        GraphicFeature(start=600, end=900, strand=+1, color="#ccccff", label="Gene 3"),
     ]
 
     # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
@@ -52,9 +48,7 @@ def test_by_hand(tmpdir):
     ax.figure.savefig(target_file)
 
     # PLOT AND EXPORT A CIRCULAR VIEW OF THE CONSTRUCT
-    circular_rec = CircularGraphicRecord(
-        sequence_length=1000, features=features
-    )
+    circular_rec = CircularGraphicRecord(sequence_length=1000, features=features)
     ax2, _ = circular_rec.plot(figure_width=4)
     ax2.figure.tight_layout()
     target_file = os.path.join(str(tmpdir), "by_hand_circular.png")
@@ -178,12 +172,8 @@ def test_cropping():
             color="#ffcccc",
             label="Gene 1 with a very long name",
         ),
-        GraphicFeature(
-            start=400, end=700, strand=-1, color="#cffccc", label="Gene 2"
-        ),
-        GraphicFeature(
-            start=600, end=900, strand=+1, color="#ccccff", label="Gene 3"
-        ),
+        GraphicFeature(start=400, end=700, strand=-1, color="#cffccc", label="Gene 2"),
+        GraphicFeature(start=600, end=900, strand=+1, color="#ccccff", label="Gene 3"),
     ]
 
     # PLOT AND EXPORT A LINEAR VIEW OF THE CONSTRUCT
@@ -228,12 +218,8 @@ def test_sequence_and_translation_plotting():
     )
 
     features = [
-        GraphicFeature(
-            start=5, end=10, strand=+1, color="#ffd700", label="bbS-1"
-        ),
-        GraphicFeature(
-            start=8, end=15, strand=+1, color="#ffcccc", label="CrC"
-        ),
+        GraphicFeature(start=5, end=10, strand=+1, color="#ffd700", label="bbS-1"),
+        GraphicFeature(start=8, end=15, strand=+1, color="#ffcccc", label="CrC"),
     ]
 
     record = GraphicRecord(sequence=7 * "ATGC", features=features)
@@ -264,37 +250,39 @@ def test_multiline_plot():
     graphic_record = translator.translate_record(example_genbank)
     subrecord = graphic_record.crop((1700, 2200))
     fig, axes = subrecord.plot_on_multiple_lines(
-        nucl_per_line=100,
-        figure_width=12,
-        plot_sequence=True
+        nucl_per_line=100, figure_width=12, plot_sequence=True
     )
     assert 9.5 < fig.get_figheight() < 10
+
 
 def test_multipage_plot(tmpdir):
     translator = BiopythonTranslator()
     graphic_record = translator.translate_record(example_genbank)
     subrecord = graphic_record.crop((1800, 2750))
     subrecord.plot_on_multiple_pages(
-        pdf_target=os.path.join(str(tmpdir), 'test.pdf'),
+        pdf_target=os.path.join(str(tmpdir), "test.pdf"),
         nucl_per_line=70,
         lines_per_page=7,
-        plot_sequence=True
+        plot_sequence=True,
     )
 
 
 def test_multipage_plot_with_translation(tmpdir):
+    # Github issue 61
     translator = BiopythonTranslator()
     graphic_record = translator.translate_record(example_genbank)
     subrecord = graphic_record.crop((1800, 2750))
-    translation_params= {'location': (1830, 1890),
-                         'fontdict': {"weight": "bold"},
-                         'long_form_translation' : False}
+    translation_params = {
+        "location": (1830, 1890),
+        "fontdict": {"weight": "bold"},
+        "long_form_translation": False,
+    }
     subrecord.plot_on_multiple_pages(
-        pdf_target=os.path.join(str(tmpdir), 'test_translation.pdf'),
-        nucl_per_line=70,
+        pdf_target=os.path.join(str(tmpdir), "test_translation.pdf"),
+        nucl_per_line=66,
         lines_per_page=7,
         plot_sequence=True,
-        translation_params=translation_params
+        translation_params=translation_params,
     )
 
 
