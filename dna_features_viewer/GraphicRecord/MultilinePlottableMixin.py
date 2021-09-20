@@ -10,6 +10,7 @@ class MultilinePlottableMixin:
         nucl_per_line=None,
         plot_sequence=False,
         figure_width="auto",
+        translation_params=None,
         **plot_params
     ):
         """Plot the features on different lines (one Matplotlib ax per line).
@@ -32,6 +33,10 @@ class MultilinePlottableMixin:
           Width of the figure in inches. Leave to auto for a width of either 10
           (if not sequence is plotted) or 0.15*nucl_per_line inches
           (if a sequence is plotted).
+
+        translation_params
+          Parameters for sequence translation. By default (``None``), it does
+          not plot a translated sequence.
 
         **plot_params
           Parameters from ``graphic_record.plot()`` to be used in the plotting
@@ -59,7 +64,7 @@ class MultilinePlottableMixin:
 
         figures_heights = []
 
-        def plot_line(line_index, ax=None):
+        def plot_line(line_index, ax=None, translation_params=None):
             first, last = self.first_index, self.last_index
             line_start = first + line_index * nucl_per_line
             line_virtual_end = first + (line_index + 1) * nucl_per_line
@@ -72,10 +77,14 @@ class MultilinePlottableMixin:
                 plot_sequence=plot_sequence,
                 **plot_params
             )
+
+            if translation_params is not None:
+                line_record.plot_translation(ax=line_ax, **translation_params)
+
             return line_ax
 
         for line_index in range(n_lines):
-            line_ax = plot_line(line_index)
+            line_ax = plot_line(line_index, translation_params=translation_params)
             figures_heights.append(line_ax.figure.get_figheight())
             plt.close(line_ax.figure)
         fig, axes = plt.subplots(
@@ -87,7 +96,7 @@ class MultilinePlottableMixin:
         if n_lines == 1:
             axes = [axes]
         for line_index, ax in enumerate(axes):
-            plot_line(line_index, ax=ax)
+            plot_line(line_index, ax=ax, translation_params=translation_params)
         fig.tight_layout()
         return fig, axes
 
@@ -98,6 +107,7 @@ class MultilinePlottableMixin:
         nucl_per_line=None,
         lines_per_page=5,
         figure_width="auto",
+        translation_params=None,
         **plot_params
     ):
         """Plot the features on different lines on different pages of a PDF.
@@ -129,6 +139,10 @@ class MultilinePlottableMixin:
           (if not sequence is plotted) or 0.15*nucl_per_line inches
           (if a sequence is plotted).
 
+        translation_params
+          Parameters for sequence translation. By default (``None``), it does
+          not plot a translated sequence.
+
         **plot_params
           Parameters from ``graphic_record.plot()`` to be used in the plotting
           of the individual lines. This includes ``draw_line``, ``with_ruler``,
@@ -147,6 +161,7 @@ class MultilinePlottableMixin:
                 fig, axes = page_record.plot_on_multiple_lines(
                     nucl_per_line=nucl_per_line,
                     figure_width=figure_width,
+                    translation_params=translation_params,
                     **plot_params
                 )
                 pdf.savefig(fig)
