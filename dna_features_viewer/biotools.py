@@ -89,21 +89,37 @@ def extract_graphical_translation(sequence, location, long_form=False):
     return translation
 
 
-def load_record(path):
-    """Load a Genbank file."""
-    if isinstance(path, str):
-        # Input is a file path
-        if path.lower().endswith(".gff"):
-            return list(GFF.parse(path))[0]
+def load_record(path, filetype=None):
+    """Load a Genbank file.
+
+    Parameters
+    ----------
+    path
+      Path to record.
+
+    filetype
+      Filetype; one of "genbank" or "gff". Default None infers from extension.
+    """
+    if filetype is None:
+        if isinstance(path, str):
+            # Input is a file path
+            if path.lower().endswith(".gff"):
+                return list(GFF.parse(path))[0]
+            else:
+                return SeqIO.read(path, "genbank")
         else:
-            return SeqIO.read(path, "genbank")
+            # Input is a file-like object
+            try:
+                return SeqIO.read(path, "genbank")
+            except:
+                path.seek(0)
+                return list(GFF.parse(path))[0]
+    elif filetype == "genbank":
+        return SeqIO.read(path, "genbank")
+    elif filetype == "gff":
+        return list(GFF.parse(path))[0]
     else:
-        # Input is a file-like object
-        try:
-            return SeqIO.read(path, "genbank")
-        except:
-            path.seek(0)
-            return list(GFF.parse(path))[0]
+        raise ValueError("'Filetype' must be one of 'genbank' or 'gff'.")
 
 
 def annotate_biopython_record(
