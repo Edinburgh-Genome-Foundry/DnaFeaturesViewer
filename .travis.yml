@@ -3,8 +3,8 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install coveralls pytest-cov==2.6 pytest==3.2.3 Biopython bcbio-gff
-  - pip install bokeh pandas
+  - pip install --upgrade pytest coveralls pytest-cov
+  - pip install bokeh pandas Biopython bcbio-gff
   - pip install -e .
 # command to run tests
 script:

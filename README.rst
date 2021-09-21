@@ -7,8 +7,8 @@
 DNA Features Viewer
 ===================
 
-.. image:: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
-   :target: https://travis-ci.org/Edinburgh-Genome-Foundry/DnaFeaturesViewer
+.. image:: https://app.travis-ci.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
+   :target: https://app.travis-ci.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer
    :alt: Travis CI build status
 
 .. image:: https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master
@@ -23,7 +23,7 @@ DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.
     <img src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/graphic_record_defined_by_hand.png" width="500">
     </p>
 
-Dna Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation, article figures, or LIMS interfaces.
+DNA Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation, article figures, or LIMS interfaces.
 
 Installation
 --------------
@@ -32,24 +32,24 @@ If you have PIP installed, just type in a terminal:
 
 .. code:: python
 
-    (sudo) pip install dna_features_viewer
+    pip install dna_features_viewer
 
-Dna Features Viewer can be installed by unzipping the source code in one directory and using this command:
+DNA Features Viewer can be installed by unzipping the source code in one directory and using this command:
 
 .. code:: python
 
-    sudo python setup.py install
+    python setup.py install
 
 If you intend to use the bokeh features, you need to also install Bokeh and Pandas:
 
 .. code:: python
 
-    (sudo) pip install bokeh pandas
+    pip install bokeh pandas
 
 To parse GFF files, install the ``bcbio-gff`` library:
 
 .. code::
-    (sudo) pip install bcbio-gff
+    pip install bcbio-gff
 
 
 Examples of use
@@ -104,7 +104,7 @@ It is also possible to generate interactive (browser-based) plots by using ``plo
 Nucleotide sequences, translations, and cropping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-DNA features viewer allows to plot nucleotide or amino acid sequences under
+DNA Features Viewer allows to plot nucleotide or amino acid sequences under
 the record plot:
 
 .. code:: python
@@ -179,7 +179,7 @@ records from GFF files containing several records (using ``GFF.parse("records.gf
 Displaying the features along with other plots
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As it uses Matplotlib, Dna Features Viewer can display the features on top of
+As it uses Matplotlib, DNA Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
 
 .. code:: python
@@ -233,10 +233,10 @@ Since v3.0 it is possible to plot a sequence over multiple lines (using ``record
     <img alt="DNA Features Viewer Logo" title="DNA Features Viewer Logo" src="https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/docs/_static/images/multiline_example.png" width="900">
     </p>
 
-Custom biopython translators
+Custom Biopython translators
 ----------------------------
 
-Dna Features Viewer allows to define "themes" by using custom record translators
+DNA Features Viewer allows to define "themes" by using custom record translators
 instead of the default ``BiopythonTranslator``. Here is an example:
 
 .. code:: python
@@ -286,8 +286,8 @@ instead of the default ``BiopythonTranslator``. Here is an example:
 .. figure:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/master/examples/custom_biopython_translator.png
     :align: center
 
-Examples in other librairies:
-------------------------------
+Examples in other packages:
+---------------------------
 
 DNA Chisel
 ~~~~~~~~~~~
@@ -317,7 +317,7 @@ GeneBlocks
 License=MIT
 -----------
 
-Dna Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
+DNA Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
 <http://genomefoundry.org>`_ by `Zulko <https://github.com/Zulko>`_
 and `released on Github <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer>`_ under the MIT licence.
 Everyone is welcome to contribute !
@@ -328,4 +328,4 @@ More biology software
 .. image:: https://raw.githubusercontent.com/Edinburgh-Genome-Foundry/Edinburgh-Genome-Foundry.github.io/master/static/imgs/logos/egf-codon-horizontal.png
   :target: https://edinburgh-genome-foundry.github.io/
 
-Dna Features Viewer is part of the `EGF Codons <https://edinburgh-genome-foundry.github.io/>`_ synthetic biology software suite for DNA design, manufacturing and validation.
+DNA Features Viewer is part of the `EGF Codons <https://edinburgh-genome-foundry.github.io/>`_ synthetic biology software suite for DNA design, manufacturing and validation.
