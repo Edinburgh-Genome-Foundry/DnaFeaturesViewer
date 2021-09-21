@@ -1,6 +1,6 @@
 import urllib
 from io import StringIO
-from dna_features_viewer import BiopythonTranslator, load_record
+from dna_features_viewer import BiopythonTranslator
 
 # DEFINE FEATURES ASPECTS
 
