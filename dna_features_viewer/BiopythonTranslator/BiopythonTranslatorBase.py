@@ -55,7 +55,7 @@ class BiopythonTranslatorBase:
             **properties
         )
 
-    def translate_record(self, record, record_class=None):
+    def translate_record(self, record, record_class=None, filetype=None):
         """Create a new GraphicRecord from a BioPython Record object.
 
         Parameters
@@ -68,6 +68,10 @@ class BiopythonTranslatorBase:
           The graphic record class to use, e.g. GraphicRecord (default) or
           CircularGraphicRecord. Strings 'circular' and 'linear' can also be
           provided.
+
+        filetype
+          Used only when a Genbank or a GFF file is provided; one of "genbank"
+          or "gff" to be used. Default None infers from file extension.
         """
         classes = {
             "linear": GraphicRecord,
@@ -78,7 +82,7 @@ class BiopythonTranslatorBase:
             record_class = classes[record_class]
 
         if isinstance(record, str) or hasattr(record, "read"):
-            record = load_record(record)
+            record = load_record(record, filetype=filetype)
         filtered_features = self.compute_filtered_features(record.features)
         return record_class(
             sequence_length=len(record),
