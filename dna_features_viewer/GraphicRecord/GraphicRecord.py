@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from ..biotools import find_narrowest_text_wrap
 
 from Bio.Seq import Seq
