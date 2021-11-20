@@ -48,10 +48,12 @@ class BiopythonTranslatorBase:
                 other_properties = other_properties(feature)
             properties.update(other_properties)
 
+        location = feature.location if feature.location_operator != 'join' else feature.location.parts[0]
+
         return GraphicFeature(
-            start=feature.location.start,
-            end=feature.location.end,
-            strand=feature.location.strand,
+            start=location.start,
+            end=location.end,
+            strand=location.strand,
             **properties
         )
 

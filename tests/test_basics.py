@@ -20,6 +20,7 @@ import numpy as np
 matplotlib.use("Agg")
 
 example_genbank = os.path.join("tests", "data", "example_sequence.gb")
+example_bad_first_gene = os.path.join("tests", "data", "bad_first_gene_example.gb")
 example_gff = os.path.join("tests", "data", "example_record.gff")
 
 
@@ -83,7 +84,6 @@ def test_from_genbank_to_circular(tmpdir):
 
 
 def test_plot_with_gc_content(tmpdir):
-
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 4), sharex=True)
 
     # Parse the genbank file, plot annotations
@@ -98,7 +98,7 @@ def test_plot_with_gc_content(tmpdir):
             return 100.0 * len([c for c in seq if c in "GC"]) / len(seq)
 
         yy = [
-            gc_content(record.seq[i : i + window_size])
+            gc_content(record.seq[i: i + window_size])
             for i in range(len(record.seq) - window_size)
         ]
         xx = np.arange(len(record.seq) - window_size) + 25
@@ -245,7 +245,6 @@ def test_gff():
 
 
 def test_multiline_plot():
-
     translator = BiopythonTranslator()
     graphic_record = translator.translate_record(example_genbank)
     subrecord = graphic_record.crop((1700, 2200))
@@ -303,3 +302,14 @@ def test_legend():
     graphic_record = translator.translate_record(example_genbank)
     ax, _ = graphic_record.plot()
     graphic_record.plot_legend(ax=ax)
+
+
+def test_first_gene(tmpdir):
+    # Github issue 63
+    # first gene spans from end to start of a circular genome
+    graphic_record = BiopythonTranslator().translate_record(example_bad_first_gene)
+    assert len(graphic_record.features) == 4
+    ax, _ = graphic_record.plot(figure_width=10)
+    ax.figure.tight_layout()
+    target_file = os.path.join(str(tmpdir), "first_gene.png")
+    ax.figure.savefig(target_file)
