@@ -16,5 +16,5 @@ setup(
     license="MIT",
     keywords="DNA Sequence Feature Genbank Biopython Matplotlib",
     packages=find_packages(exclude="docs"),
-    install_requires=["matplotlib>=3", "Biopython"],
+    install_requires=["matplotlib>=3", "Biopython", "packaging"],
 )
