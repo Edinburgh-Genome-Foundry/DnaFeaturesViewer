@@ -15,7 +15,7 @@ DNA Features Viewer
    :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
 
 
-DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or Gff files, or Biopython SeqRecords:
+DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or GFF files, or Biopython SeqRecords:
 
 .. raw:: html
 
@@ -30,25 +30,26 @@ Installation
 
 If you have PIP installed, just type in a terminal:
 
-.. code:: python
+.. code:: bash
 
     pip install dna_features_viewer
 
 DNA Features Viewer can be installed by unzipping the source code in one directory and using this command:
 
-.. code:: python
+.. code:: bash
 
     python setup.py install
 
 If you intend to use the bokeh features, you need to also install Bokeh and Pandas:
 
-.. code:: python
+.. code:: bash
 
     pip install bokeh pandas
 
 To parse GFF files, install the ``bcbio-gff`` library:
 
-.. code::
+.. code:: bash
+
     pip install bcbio-gff
 
 
@@ -314,8 +315,8 @@ GeneBlocks
 
 
 
-License=MIT
------------
+License = MIT
+-------------
 
 DNA Features Viewer is an open-source software originally written at the `Edinburgh Genome Foundry
 <http://genomefoundry.org>`_ by `Zulko <https://github.com/Zulko>`_

@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.6"
+  - "3.9"
 # command to install dependencies
 install:
   - pip install --upgrade pytest coveralls pytest-cov
