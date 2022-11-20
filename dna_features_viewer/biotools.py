@@ -34,9 +34,17 @@ def reverse_complement(sequence):
     return complement(sequence)[::-1]
 
 
-aa_short_to_long_form_dict = {
-    _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
-}
+if type(aa1) is str and type(aa3) is list:
+    # biopython before 1.8.0
+    aa_short_to_long_form_dict = {
+        _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
+    }
+else:
+    # biopython 1.8.0 and later
+    # relevant commit: https://github.com/biopython/biopython/commit/257143be9196b77619d3d8cadc22039212681e08
+    aa_short_to_long_form_dict = {
+        _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(aa1 + ('*',), aa3 + ('*',))
+    }
 
 
 def translate(dna_sequence, long_form=False):
@@ -123,7 +131,7 @@ def load_record(path, filetype=None):
 
 
 def annotate_biopython_record(
-    seqrecord, location="full", feature_type="misc_feature", margin=0, **qualifiers
+        seqrecord, location="full", feature_type="misc_feature", margin=0, **qualifiers
 ):
     """Add a feature to a Biopython SeqRecord.
 
