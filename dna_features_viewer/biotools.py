@@ -35,7 +35,7 @@ def reverse_complement(sequence):
 
 
 aa_short_to_long_form_dict = {
-    _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(aa1 + "*", aa3 + ["*"])
+    _aa1: _aa3[0] + _aa3[1:].lower() for (_aa1, _aa3) in zip(list(aa1) + ["*"], list(aa3) + ["*"])
 }
 
 
