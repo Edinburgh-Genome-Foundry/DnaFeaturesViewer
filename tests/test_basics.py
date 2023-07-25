@@ -21,6 +21,7 @@ matplotlib.use("Agg")
 
 example_genbank = os.path.join("tests", "data", "example_sequence.gb")
 example_gff = os.path.join("tests", "data", "example_record.gff")
+example_known_gff = os.path.join("tests", "data", "example_record_known.gff")
 
 
 def test_by_hand(tmpdir):
@@ -241,6 +242,13 @@ def test_BlackBoxlessLabelTranslator(tmpdir):
 def test_gff():
     translator = BlackBoxlessLabelTranslator()
     graphic_record = translator.translate_record(example_gff)
+    assert graphic_record.sequence == None
+    assert len(graphic_record.features) == 3
+
+def test_known_gff():
+    translator = BlackBoxlessLabelTranslator()
+    graphic_record = translator.translate_record(example_known_gff)
+    assert graphic_record.sequence.startswith("MADQLTEEQIAEF")
     assert len(graphic_record.features) == 3
 
 

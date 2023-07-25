@@ -2,6 +2,7 @@ from ..biotools import load_record
 from ..GraphicRecord import GraphicRecord
 from ..CircularGraphicRecord import CircularGraphicRecord
 from ..GraphicFeature import GraphicFeature
+from Bio.Seq import UndefinedSequenceError
 
 
 class BiopythonTranslatorBase:
@@ -86,7 +87,7 @@ class BiopythonTranslatorBase:
         filtered_features = self.compute_filtered_features(record.features)
         return record_class(
             sequence_length=len(record),
-            sequence=str(record.seq),
+            sequence=str(record.seq) if record.seq.defined else None,
             features=[
                 self.translate_feature(feature)
                 for feature in filtered_features
