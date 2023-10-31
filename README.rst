@@ -7,12 +7,12 @@
 DNA Features Viewer
 ===================
 
-.. image:: https://app.travis-ci.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer.svg?branch=master
-   :target: https://app.travis-ci.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer
-   :alt: Travis CI build status
+.. image:: https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/actions/workflows/build.yml/badge.svg
+    :target: https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/actions/workflows/build.yml
+    :alt: GitHub CI build status
 
 .. image:: https://coveralls.io/repos/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer/badge.svg?branch=master
-   :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
+    :target: https://coveralls.io/github/Edinburgh-Genome-Foundry/DnaFeaturesViewer?branch=master
 
 
 DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.github.io/DnaFeaturesViewer/>`_) is a Python library to visualize DNA features, e.g. from GenBank or GFF files, or Biopython SeqRecords:
