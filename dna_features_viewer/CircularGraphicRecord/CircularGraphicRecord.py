@@ -51,7 +51,6 @@ class CircularGraphicRecord(GraphicRecord):
         labels_spacing=12,
         **kw
     ):
-
         self.radius = 1.0
         self.sequence_length = sequence_length
         self.features = features
@@ -61,8 +60,7 @@ class CircularGraphicRecord(GraphicRecord):
         self.labels_spacing = labels_spacing
 
     def initialize_ax(self, ax, draw_line, with_ruler):
-        """Initialize the ax with a circular line, sets limits, aspect etc.
-        """
+        """Initialize the ax with a circular line, sets limits, aspect etc."""
 
         if draw_line:
             circle = mpatches.Circle(
@@ -111,11 +109,7 @@ class CircularGraphicRecord(GraphicRecord):
             ax.figure.set_size_inches(figure_width, figure_width * ratio)
 
     def plot_feature(self, ax, feature, level):
-        """Plot an ArrowWedge representing the feature at the given height
-        level.
-
-
-        """
+        """Plot an ArrowWedge representing the feature at the given height level."""
         a_start = self.position_to_angle(feature.start)
         a_end = self.position_to_angle(feature.end)
         a_start, a_end = sorted([a_start, a_end])
@@ -140,8 +134,7 @@ class CircularGraphicRecord(GraphicRecord):
         return 90 - a
 
     def coordinates_in_plot(self, position, level):
-        """Convert a sequence position and height level to (x, y) coordinates.
-        """
+        """Convert a sequence position and height level to (x, y) coordinates."""
         r = self.radius + level * self.feature_level_height
         angle = self.position_to_angle(position)
         rad_angle = np.deg2rad(angle)
@@ -157,7 +150,7 @@ class CircularGraphicRecord(GraphicRecord):
         return min(0.25, 3.0 * self.radius / (1.0 + max_annotations_level))
 
     def compute_padding(self, ax):
-        ""
+        """"""
         ax_width = ax.get_window_extent(ax.figure.canvas.get_renderer()).width
         xmin, xmax = ax.get_xlim()
         return 3 * self.labels_spacing * (xmax - xmin) / (1.0 * ax_width)

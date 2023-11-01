@@ -36,10 +36,11 @@ class ArrowWedge(mpatches.Wedge):
     """
 
     def __init__(self, center, radius, theta1, theta2, width, direction=+1, **kwargs):
-
         self.direction = direction
         self.radius = radius
-        mpatches.Wedge.__init__(self, center, radius, theta1, theta2, width, **kwargs)
+        mpatches.Wedge.__init__(
+            self, center, radius, theta1, theta2, width=width, **kwargs
+        )
         self._recompute_path()
 
     def _recompute_path(self):
