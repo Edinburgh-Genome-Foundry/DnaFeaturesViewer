@@ -59,6 +59,9 @@ class GraphicFeature:
       Color of the line linking the text annotation to its respective graphic
       feature. Set to auto for the line to automatically be a darker version
       of the feature's color.
+
+    label_position
+      Position of the label relative to the feature. Can be "auto", "above", or "below".
     """
 
     feature_type = "feature"
