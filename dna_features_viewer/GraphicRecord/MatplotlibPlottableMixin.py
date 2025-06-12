@@ -205,6 +205,7 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
         max_line_length=30,
         padding=0,
         indicate_strand_in_label=False,
+        position_below=False
     ):
         """Create a Matplotlib Text with the feature's label.
 
@@ -220,30 +221,63 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
         The x-coordinates of the patch are determined by the feature's
         `start` and `end` while the y-coordinates are determined by the `level`.
         """
-        x, y = self.coordinates_in_plot(feature.x_center, level)
+        # Get the label from the feature
         label = feature.label
+        
+        # Get base coordinates - this needs to match the original code exactly
+        x, y = self.coordinates_in_plot(feature.x_center, level)
+        
+        # print(f"Feature {label}: inline={inline}, position_below={position_below}, level={level}, initial y={y}")
+    
+
+        # Adjust y position based on inline/external and position_below
+        if inline:
+            # Inline labels stay centered in the feature
+            y = y  # No change needed, already at correct position
+            vertical_align = "center"
+        else:
+            # External labels
+            if position_below:
+                # Position below the feature
+                y = y - abs(level) - 0.5  # Use absolute value of level
+                vertical_align = "top"
+            else:
+                # Original positioning above the feature
+                y = y + abs(level) + 0.5
+                vertical_align = "bottom"
+        
+        # print(f"  -> Final y={y}, vertical_align={vertical_align}")
+
+        # Handle strand indicators
         if indicate_strand_in_label:
             if feature.strand == -1:
                 label = "⇦" + label
             if feature.strand == 1:
                 label = label + "⇨"
 
+        # Format label if external
         if not inline:
             label = self._format_label(
                 label,
                 max_label_length=max_label_length,
                 max_line_length=max_line_length,
             )
+        
         nlines = len(label.split("\n"))
-        fontdict = dict(**feature.fontdict)
+        
+        # Handle font settings
+        fontdict = dict(**feature.fontdict) if hasattr(feature, 'fontdict') else {}
         if "family" not in fontdict and (self.default_font_family is not None):
             fontdict["family"] = self.default_font_family
         if inline and ("color" not in fontdict):
             color = self.autoselect_label_color(background_color=feature.color)
             fontdict["color"] = color
-        box_color = feature.box_color
+        
+        # Handle box styling
+        box_color = feature.box_color if hasattr(feature, 'box_color') else "auto"
         if box_color == "auto":
-            box_color = self.default_box_color
+            box_color = self.default_box_color if hasattr(self, 'default_box_color') else None
+        
         bbox = None
         if (box_color is not None) and not inline:
             bg_color = change_luminosity(feature.color, min_luminosity=0.95)
@@ -251,23 +285,32 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
                 boxstyle="round",
                 fc=bg_color if box_color == "auto" else box_color,
                 ec="0.5",
-                lw=feature.box_linewidth,
+                lw=feature.box_linewidth if hasattr(feature, 'box_linewidth') else 1,
             )
+        
+        # Create the text
         text = ax.text(
             x,
             y,
             label,
             horizontalalignment="center",
-            verticalalignment="center",
+            verticalalignment=vertical_align,
             bbox=bbox,
             fontdict=fontdict,
             zorder=2,
         )
+        
+        # Calculate bounds
         x1, y1, x2, y2 = get_text_box(text)
         x1 -= padding
         x2 += padding
+        
+        # Check if overflowing
         overflowing = (x1 < feature.start) or (x2 > feature.end)
+        
+        # print(f"Feature {label}: inline={inline}, position_below={position_below}, y={y}")
         return text, overflowing, nlines, (x1, x2), (y2 - y1)
+
 
     def place_annotation(
         self,
@@ -305,37 +348,40 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
             "label =>" with an arrow representing the strand.
         """
         padding = self.compute_padding(ax)
+        force_below = hasattr(feature, 'label_position') and feature.label_position == "below"
+        force_above = hasattr(feature, 'label_position') and feature.label_position == "above"
+    
         if annotate_inline:
-            # FIRST ATTEMPT TO ANNOTATE INSIDE THE FEATURE. CHECK FOR OVERFLOW
+            # Try inline first
             text, overflowing, lines, (x1, x2), height = self.annotate_feature(
-                ax=ax,
-                feature=feature,
-                level=level,
-                inline=True,
-                padding=padding,
-                max_label_length=max_label_length,
+                ax=ax, feature=feature, level=level, inline=True,
+                padding=padding, max_label_length=max_label_length,
                 max_line_length=max_line_length,
                 indicate_strand_in_label=indicate_strand_in_label,
+                position_below=False  # Inline labels never go below
             )
-
-            # IF OVERFLOW, REMOVE THE TEXT AND PLACE IT AGAIN, OUTLINE.
+            
             if overflowing:
+                # Remove and place externally
                 text.remove()
-                text, _, lines, (x1, x2), height = self.annotate_feature(
-                    ax=ax,
-                    feature=feature,
-                    level=level,
-                    inline=False,
-                    padding=padding,
-                    max_label_length=max_label_length,
+                text, overflowing, lines, (x1, x2), height = self.annotate_feature(
+                    ax=ax, feature=feature, level=level, inline=False,
+                    padding=padding, max_label_length=max_label_length,
                     max_line_length=max_line_length,
                     indicate_strand_in_label=indicate_strand_in_label,
+                    position_below=force_below  # External labels can go below
                 )
-            return text, overflowing, lines, (x1, x2), height
         else:
-            return self.annotate_feature(
-                ax=ax, feature=feature, level=level, padding=padding
+            # Directly annotate externally
+            text, overflowing, lines, (x1, x2), height = self.annotate_feature(
+                ax=ax, feature=feature, level=level, inline=False,
+                padding=padding, max_label_length=max_label_length,
+                max_line_length=max_line_length,
+                indicate_strand_in_label=indicate_strand_in_label,
+                position_below=force_below
             )
+        
+        return text, overflowing, lines, (x1, x2), height
 
     def plot(
         self,
@@ -540,12 +586,24 @@ class MatplotlibPlottableMixin(MultilinePlottableMixin, SequenceAndTranslationMi
                 continue
             text = feature.data["text"]
             x, y = text.get_position()
-            if elevate_outline_annotations:
-                new_y = (max_level) * self.feature_level_height + (
-                    level
-                ) * annotation_height
+
+            # Check if this feature should have labels below
+            original_feature = feature.data["feature"]
+            position_below = hasattr(original_feature, 'label_position') and original_feature.label_position == "below"
+            
+            if position_below:
+                # For below positioning, use negative y and don't change what annotate_feature set
+                new_y = -abs(annotation_height * level) - 0.5  # Ensure it's negative
+                text.set_verticalalignment('top')  # Ensure correct alignment
             else:
-                new_y = annotation_height * level
+                # Original positioning logic for above labels
+                if elevate_outline_annotations:
+                    new_y = (max_level) * self.feature_level_height + (
+                        level
+                    ) * annotation_height
+                else:
+                    new_y = annotation_height * level
+            
             text.set_position((x, new_y))
             fx, fy = self.coordinates_in_plot(
                 feature.data["feature"].x_center, feature.data["feature_level"]
