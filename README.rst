@@ -25,8 +25,17 @@ DNA Features Viewer (full documentation `here <https://edinburgh-genome-foundry.
 
 DNA Features Viewer automatically produce simple and clear plots even for sequences with many overlapping features and long labels. The libray plays well with Matplotlib and Biopython, and the plots can be output to many different formats (PNG, JPEG, SVG, PDF), e.g. for report generation, article figures, or LIMS interfaces.
 
+
+Citation
+--------
+
+DNA Features Viewer: a sequence annotation formatting and plotting library for Python,
+*Valentin Zulkower , Susan Rosser.*
+`Bioinformatics <https://doi.org/10.1093/bioinformatics/btaa213>`_ (2020) 36, 15, 4350–4352,
+
+
 Installation
---------------
+------------
 
 If you have PIP installed, just type in a terminal:
 
@@ -56,9 +65,10 @@ To parse GFF files, install the ``bcbio-gff`` library:
 Examples of use
 ---------------
 
+Browse a list of `examples here <https://github.com/Edinburgh-Genome-Foundry/DnaFeaturesViewer/tree/master/examples>`_.
 
 Basic plots
-~~~~~~~~~~~~
+~~~~~~~~~~~
 
 In this first example we define features "by hand":
 
@@ -148,7 +158,7 @@ This enables for instance to plot an overview of a sequence along with a detaile
 
 
 Reading the features from a GenBank or GFF file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DnaFeaturesViewer plays nice with BioPython. As a result it is super easy to plot the content of a Biopython record, or directly a GenBank (or GFF) file:
 
@@ -178,7 +188,7 @@ records from GFF files containing several records (using ``GFF.parse("records.gf
 
 
 Displaying the features along with other plots
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As it uses Matplotlib, DNA Features Viewer can display the features on top of
 other sequences statistics, such as the local GC content:
@@ -291,7 +301,7 @@ Examples in other packages:
 ---------------------------
 
 DNA Chisel
-~~~~~~~~~~~
+~~~~~~~~~~
 
 This GIF uses DNA Features Viewer to plot the progress in the optimization of a DNA sequence with `DNA Chisel <https://github.com/Edinburgh-Genome-Foundry/DnaChisel>`_. It also uses `Proglog <https://github.com/Edinburgh-Genome-Foundry/Proglog>`_ to automatically generate a picture at different time points. See the not-so-great python code for this example `on Gist <https://gist.github.com/Zulko/f9aa781aaaab2c4d66ccd968ca85ca1d>`_.
 
