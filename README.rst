@@ -29,7 +29,7 @@ DNA Features Viewer automatically produce simple and clear plots even for sequen
 Citation
 --------
 
-DNA Features Viewer: a sequence annotation formatting and plotting library for Python, *Valentin Zulkower , Susan Rosser.* `Bioinformatics <https://doi.org/10.1093/bioinformatics/btaa213>`_ (2020) 36, 15, 4350–4352
+DNA Features Viewer: a sequence annotation formatting and plotting library for Python, *Valentin Zulkower, Susan Rosser.* `Bioinformatics <https://doi.org/10.1093/bioinformatics/btaa213>`_ (2020) 36, 15, 4350–4352
 
 
 Installation
